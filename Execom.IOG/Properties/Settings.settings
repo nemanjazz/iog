@@ -1,0 +1,72 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Execom.IOG.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="SaveGeneratedAssemblyToDisk" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="GeneratedAssemblyFileName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Execom.IOG.Runtime.dll</Value>
+    </Setting>
+    <Setting Name="IndexedFileGrowthRateBlocks" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">4096</Value>
+    </Setting>
+    <Setting Name="IndexedFileMagic" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">IdxFs</Value>
+    </Setting>
+    <Setting Name="IndexedFileVersion" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
+    <Setting Name="SnapshotIsolationEnabled" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="ConcurrencyAttributesEnabled" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="ConcurrencyAutoOverrideResolution" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="ObjectCacheMinimumCount" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">50000</Value>
+    </Setting>
+    <Setting Name="ObjectCacheMaximumCount" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">100000</Value>
+    </Setting>
+    <Setting Name="DataCacheMinimumCount" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">50000</Value>
+    </Setting>
+    <Setting Name="DataCacheMaximumCount" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">100000</Value>
+    </Setting>
+    <Setting Name="ParentMappingFileStorageUsed" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="ParentMappingFileName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">cache.dat</Value>
+    </Setting>
+    <Setting Name="ParentMappingMemoryMinimumCount" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">50000</Value>
+    </Setting>
+    <Setting Name="ParentMappingMemoryMaximumCount" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">100000</Value>
+    </Setting>
+    <Setting Name="ChangeSetHistoryFileStorageUsed" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="ChangeSetHistoryFileStorageFileName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">changes.dat</Value>
+    </Setting>
+    <Setting Name="ChangeSetHistoryWriteCacheMinimumCount" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">20000</Value>
+    </Setting>
+    <Setting Name="ChangeSetHistoryWriteCacheMaximumCount" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">40000</Value>
+    </Setting>
+    <Setting Name="DefaultWorkspaceTimeoutSeconds" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">900</Value>
+    </Setting>
+    <Setting Name="ParentMappingFileBlockSize" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">128</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

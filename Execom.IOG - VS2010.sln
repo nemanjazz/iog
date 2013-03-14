@@ -1,0 +1,376 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Execom.IOG.Test", "Execom.IOG.Test\Execom.IOG.Test.csproj", "{43F64571-6624-4F6D-A5AC-FB10E7C1D7D9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Execom.IOG", "Execom.IOG\Execom.IOG.csproj", "{C8D49483-4708-40C6-AA0E-4BF1BE704778}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{16D61B06-023C-4D16-BCE9-EDB0D2A35BFA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Benchmarks", "Benchmarks", "{929A73E8-CFEB-430C-90E1-1F82839E1305}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Execom.IOG.FlatFile", "Examples\Execom.IOG.FlatFile\Execom.IOG.FlatFile.csproj", "{D0BBC615-3425-4CAE-89CE-2135BA0EEFFB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Execom.IOG.HelloWorld", "Examples\Execom.IOG.HelloWorld\Execom.IOG.HelloWorld.csproj", "{41CCDDF7-CD87-4912-99E7-523AAD5EC635}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Execom.IOG.ObjectDB", "Examples\Execom.IOG.ObjectDB\Execom.IOG.ObjectDB.csproj", "{73864897-0F37-4DF9-8674-CD77CF44282D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Execom.IOG.ObjectBenchmark", "Benchmarks\Execom.IOG.ObjectBenchmark\Execom.IOG.ObjectBenchmark.csproj", "{BF3A648F-3801-4659-A6FF-483F894BE5AA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Execom.IOG.StorageBenchmark", "Benchmarks\Execom.IOG.StorageBenchmark\Execom.IOG.StorageBenchmark.csproj", "{7223631A-1CF2-4166-8C89-7032FB1B395B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Execom.IOG.ImmutableDB", "Examples\Execom.IOG.ImmutableDB\Execom.IOG.ImmutableDB.csproj", "{A2B22355-D647-4DBF-9819-67108D315798}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Webshop", "Webshop", "{C65AA378-4513-41A5-B294-CEBA96DA37CD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Execom.IOG.Webshop.Data", "Examples\Execom.IOG.Webshop\Execom.IOG.Webshop.Data\Execom.IOG.Webshop.Data.csproj", "{940D4E02-03BA-418C-99C6-232A4794142A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Execom.IOG.Webshop.Service", "Examples\Execom.IOG.Webshop\Execom.IOG.Webshop.Service\Execom.IOG.Webshop.Service.csproj", "{B88414DE-1DAD-4C5F-9996-BE111828E08B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Execom.IOG.Webshop.Website", "Examples\Execom.IOG.Webshop\Execom.IOG.Webshop.Website\Execom.IOG.Webshop.Website.csproj", "{2E1D944B-8945-412A-B1D6-2036DA0D1E68}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Distributed", "Distributed", "{F3CFF8F0-3D88-4C60-9BD1-498A69BF45C4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Execom.IOG.Distributed.Server", "Examples\Execom.IOG.Distributed\Execom.IOG.Distributed.Server\Execom.IOG.Distributed.Server.csproj", "{876B2302-CBF8-4C56-A03A-521AEBDC49BF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Execom.IOG.Distributed.Model", "Examples\Execom.IOG.Distributed\Execom.IOG.Distributed.Model\Execom.IOG.Distributed.Model.csproj", "{5213751D-2A2B-4823-ABA2-DB1E4C6849CD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Execom.IOG.Distributed.Client", "Examples\Execom.IOG.Distributed\Execom.IOG.Distributed.Client\Execom.IOG.Distributed.Client.csproj", "{520EE21E-319D-43A9-9B13-11533E81808F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Execom.IOG.AquilesStorage", "Execom.IOG.AquilesStorage\Execom.IOG.AquilesStorage.csproj", "{EF8A12A9-C12E-49A3-ACF6-A570EBB5C8B9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Execom.IOG.Cassandra", "Examples\Execom.IOG.Cassandra\Execom.IOG.Cassandra.csproj", "{539BA075-F74C-4383-9F66-F11CFF24CEDA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Execom.IOG.JS.Tests", "Examples\Execom.IOG.JS.Tests\Execom.IOG.JS.Tests.csproj", "{D84806B2-ECF4-4B38-967D-E46D7ED28708}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Execom.IOG.JavaScript", "Execom.IOG.JavaScript", "{69AEFB8F-5FA8-4C44-ABAE-93B1E557C147}"
+	ProjectSection(SolutionItems) = preProject
+		Execom.IOG.JavaScript\Cakefile = Execom.IOG.JavaScript\Cakefile
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{4DB646C6-5730-42E0-B22C-C3100D240859}"
+	ProjectSection(SolutionItems) = preProject
+		Execom.IOG.JavaScript\Scripts\datetime.1-1.js = Execom.IOG.JavaScript\Scripts\datetime.1-1.js
+		Execom.IOG.JavaScript\Scripts\IOGClient-0.8.2.js = Execom.IOG.JavaScript\Scripts\IOGClient-0.8.2.js
+		Execom.IOG.JavaScript\Scripts\uuid.js = Execom.IOG.JavaScript\Scripts\uuid.js
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "project", "project", "{0DA75BFD-A3B0-42FB-981B-884084EB44DD}"
+	ProjectSection(SolutionItems) = preProject
+		Execom.IOG.JavaScript\Scripts\project\appendable.change.set.coffee = Execom.IOG.JavaScript\Scripts\project\appendable.change.set.coffee
+		Execom.IOG.JavaScript\Scripts\project\attributes.coffee = Execom.IOG.JavaScript\Scripts\project\attributes.coffee
+		Execom.IOG.JavaScript\Scripts\project\auto.override.merge.rule.provider.coffee = Execom.IOG.JavaScript\Scripts\project\auto.override.merge.rule.provider.coffee
+		Execom.IOG.JavaScript\Scripts\project\base.types.coffee = Execom.IOG.JavaScript\Scripts\project\base.types.coffee
+		Execom.IOG.JavaScript\Scripts\project\bplus.tree.enumerator.coffee = Execom.IOG.JavaScript\Scripts\project\bplus.tree.enumerator.coffee
+		Execom.IOG.JavaScript\Scripts\project\bplus.tree.operation.coffee = Execom.IOG.JavaScript\Scripts\project\bplus.tree.operation.coffee
+		Execom.IOG.JavaScript\Scripts\project\cached.reader.node.provider.coffee = Execom.IOG.JavaScript\Scripts\project\cached.reader.node.provider.coffee
+		Execom.IOG.JavaScript\Scripts\project\client.context.coffee = Execom.IOG.JavaScript\Scripts\project\client.context.coffee
+		Execom.IOG.JavaScript\Scripts\project\collected.nodes.provider.coffee = Execom.IOG.JavaScript\Scripts\project\collected.nodes.provider.coffee
+		Execom.IOG.JavaScript\Scripts\project\collection.instaces.service.coffee = Execom.IOG.JavaScript\Scripts\project\collection.instaces.service.coffee
+		Execom.IOG.JavaScript\Scripts\project\collection.proxy.coffee = Execom.IOG.JavaScript\Scripts\project\collection.proxy.coffee
+		Execom.IOG.JavaScript\Scripts\project\collection.proxy.sealed.coffee = Execom.IOG.JavaScript\Scripts\project\collection.proxy.sealed.coffee
+		Execom.IOG.JavaScript\Scripts\project\commit.data.service.coffee = Execom.IOG.JavaScript\Scripts\project\commit.data.service.coffee
+		Execom.IOG.JavaScript\Scripts\project\commit.result.coffee = Execom.IOG.JavaScript\Scripts\project\commit.result.coffee
+		Execom.IOG.JavaScript\Scripts\project\constants.coffee = Execom.IOG.JavaScript\Scripts\project\constants.coffee
+		Execom.IOG.JavaScript\Scripts\project\dictionary.coffee = Execom.IOG.JavaScript\Scripts\project\dictionary.coffee
+		Execom.IOG.JavaScript\Scripts\project\dictionary.instances.service.coffee = Execom.IOG.JavaScript\Scripts\project\dictionary.instances.service.coffee
+		Execom.IOG.JavaScript\Scripts\project\dictionary.proxy.coffee = Execom.IOG.JavaScript\Scripts\project\dictionary.proxy.coffee
+		Execom.IOG.JavaScript\Scripts\project\dictionary.proxy.sealed.coffee = Execom.IOG.JavaScript\Scripts\project\dictionary.proxy.sealed.coffee
+		Execom.IOG.JavaScript\Scripts\project\direct.node.provider.coffee = Execom.IOG.JavaScript\Scripts\project\direct.node.provider.coffee
+		Execom.IOG.JavaScript\Scripts\project\edge.coffee = Execom.IOG.JavaScript\Scripts\project\edge.coffee
+		Execom.IOG.JavaScript\Scripts\project\edge.data.coffee = Execom.IOG.JavaScript\Scripts\project\edge.data.coffee
+		Execom.IOG.JavaScript\Scripts\project\enumerator.coffee = Execom.IOG.JavaScript\Scripts\project\enumerator.coffee
+		Execom.IOG.JavaScript\Scripts\project\field.builder.coffee = Execom.IOG.JavaScript\Scripts\project\field.builder.coffee
+		Execom.IOG.JavaScript\Scripts\project\generation.service.coffee = Execom.IOG.JavaScript\Scripts\project\generation.service.coffee
+		Execom.IOG.JavaScript\Scripts\project\isolated.change.set.coffee = Execom.IOG.JavaScript\Scripts\project\isolated.change.set.coffee
+		Execom.IOG.JavaScript\Scripts\project\isolated.node.provider.coffee = Execom.IOG.JavaScript\Scripts\project\isolated.node.provider.coffee
+		Execom.IOG.JavaScript\Scripts\project\key.value.pair.coffee = Execom.IOG.JavaScript\Scripts\project\key.value.pair.coffee
+		Execom.IOG.JavaScript\Scripts\project\limited.proxy.map.coffee = Execom.IOG.JavaScript\Scripts\project\limited.proxy.map.coffee
+		Execom.IOG.JavaScript\Scripts\project\memory.storage.coffee = Execom.IOG.JavaScript\Scripts\project\memory.storage.coffee
+		Execom.IOG.JavaScript\Scripts\project\node.coffee = Execom.IOG.JavaScript\Scripts\project\node.coffee
+		Execom.IOG.JavaScript\Scripts\project\object.wrapper.coffee = Execom.IOG.JavaScript\Scripts\project\object.wrapper.coffee
+		Execom.IOG.JavaScript\Scripts\project\property.info.coffee = Execom.IOG.JavaScript\Scripts\project\property.info.coffee
+		Execom.IOG.JavaScript\Scripts\project\proxy.creator.service.coffee = Execom.IOG.JavaScript\Scripts\project\proxy.creator.service.coffee
+		Execom.IOG.JavaScript\Scripts\project\workspace.coffee = Execom.IOG.JavaScript\Scripts\project\workspace.coffee
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{304BB847-F394-4779-B2C9-FD199144E9CF}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\packages.config = .nuget\packages.config
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 17
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs21
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = Execom.IOG.Test\\Execom.IOG.Test.csproj
+		SccProjectName1 = Execom.IOG.Test
+		SccLocalPath1 = Execom.IOG.Test
+		SccProjectUniqueName2 = Execom.IOG\\Execom.IOG.csproj
+		SccProjectName2 = Execom.IOG
+		SccLocalPath2 = Execom.IOG
+		SccProjectUniqueName3 = Examples\\Execom.IOG.FlatFile\\Execom.IOG.FlatFile.csproj
+		SccProjectTopLevelParentUniqueName3 = Execom.IOG\u0020-\u0020VS2010.sln
+		SccProjectName3 = Examples/Execom.IOG.FlatFile
+		SccLocalPath3 = Examples\\Execom.IOG.FlatFile
+		SccProjectUniqueName4 = Examples\\Execom.IOG.HelloWorld\\Execom.IOG.HelloWorld.csproj
+		SccProjectTopLevelParentUniqueName4 = Execom.IOG\u0020-\u0020VS2010.sln
+		SccProjectName4 = Examples/Execom.IOG.HelloWorld
+		SccLocalPath4 = Examples\\Execom.IOG.HelloWorld
+		SccProjectUniqueName5 = Examples\\Execom.IOG.ObjectDB\\Execom.IOG.ObjectDB.csproj
+		SccProjectTopLevelParentUniqueName5 = Execom.IOG\u0020-\u0020VS2010.sln
+		SccProjectName5 = Examples/Execom.IOG.ObjectDB
+		SccLocalPath5 = Examples\\Execom.IOG.ObjectDB
+		SccProjectUniqueName6 = Benchmarks\\Execom.IOG.ObjectBenchmark\\Execom.IOG.ObjectBenchmark.csproj
+		SccProjectTopLevelParentUniqueName6 = Execom.IOG\u0020-\u0020VS2010.sln
+		SccProjectName6 = Benchmarks/Execom.IOG.ObjectBenchmark
+		SccLocalPath6 = Benchmarks\\Execom.IOG.ObjectBenchmark
+		SccProjectUniqueName7 = Benchmarks\\Execom.IOG.StorageBenchmark\\Execom.IOG.StorageBenchmark.csproj
+		SccProjectTopLevelParentUniqueName7 = Execom.IOG\u0020-\u0020VS2010.sln
+		SccProjectName7 = Benchmarks/Execom.IOG.StorageBenchmark
+		SccLocalPath7 = Benchmarks\\Execom.IOG.StorageBenchmark
+		SccProjectUniqueName8 = Examples\\Execom.IOG.ImmutableDB\\Execom.IOG.ImmutableDB.csproj
+		SccProjectTopLevelParentUniqueName8 = Execom.IOG\u0020-\u0020VS2010.sln
+		SccProjectName8 = Examples/Execom.IOG.ImmutableDB
+		SccLocalPath8 = Examples\\Execom.IOG.ImmutableDB
+		SccProjectUniqueName9 = Examples\\Execom.IOG.Webshop\\Execom.IOG.Webshop.Data\\Execom.IOG.Webshop.Data.csproj
+		SccProjectTopLevelParentUniqueName9 = Execom.IOG\u0020-\u0020VS2010.sln
+		SccProjectName9 = Examples/Execom.IOG.Webshop/Execom.IOG.Webshop.Data
+		SccLocalPath9 = Examples\\Execom.IOG.Webshop\\Execom.IOG.Webshop.Data
+		SccProjectUniqueName10 = Examples\\Execom.IOG.Webshop\\Execom.IOG.Webshop.Service\\Execom.IOG.Webshop.Service.csproj
+		SccProjectTopLevelParentUniqueName10 = Execom.IOG\u0020-\u0020VS2010.sln
+		SccProjectName10 = Examples/Execom.IOG.Webshop/Execom.IOG.Webshop.Service
+		SccLocalPath10 = Examples\\Execom.IOG.Webshop\\Execom.IOG.Webshop.Service
+		SccProjectUniqueName11 = Examples\\Execom.IOG.Webshop\\Execom.IOG.Webshop.Website\\Execom.IOG.Webshop.Website.csproj
+		SccProjectTopLevelParentUniqueName11 = Execom.IOG\u0020-\u0020VS2010.sln
+		SccProjectName11 = Examples/Execom.IOG.Webshop/Execom.IOG.Webshop.Website
+		SccLocalPath11 = Examples\\Execom.IOG.Webshop\\Execom.IOG.Webshop.Website
+		SccProjectUniqueName12 = Examples\\Execom.IOG.Distributed\\Execom.IOG.Distributed.Server\\Execom.IOG.Distributed.Server.csproj
+		SccProjectTopLevelParentUniqueName12 = Execom.IOG\u0020-\u0020VS2010.sln
+		SccProjectName12 = Examples/Execom.IOG.Distributed/Execom.IOG.Distributed.Server
+		SccLocalPath12 = Examples\\Execom.IOG.Distributed\\Execom.IOG.Distributed.Server
+		SccProjectUniqueName13 = Examples\\Execom.IOG.Distributed\\Execom.IOG.Distributed.Model\\Execom.IOG.Distributed.Model.csproj
+		SccProjectTopLevelParentUniqueName13 = Execom.IOG\u0020-\u0020VS2010.sln
+		SccProjectName13 = Examples/Execom.IOG.Distributed/Execom.IOG.Distributed.Model
+		SccLocalPath13 = Examples\\Execom.IOG.Distributed\\Execom.IOG.Distributed.Model
+		SccProjectUniqueName14 = Examples\\Execom.IOG.Distributed\\Execom.IOG.Distributed.Client\\Execom.IOG.Distributed.Client.csproj
+		SccProjectTopLevelParentUniqueName14 = Execom.IOG\u0020-\u0020VS2010.sln
+		SccProjectName14 = Examples/Execom.IOG.Distributed/Execom.IOG.Distributed.Client
+		SccLocalPath14 = Examples\\Execom.IOG.Distributed\\Execom.IOG.Distributed.Client
+		SccProjectUniqueName15 = Execom.IOG.AquilesStorage\\Execom.IOG.AquilesStorage.csproj
+		SccProjectName15 = Execom.IOG.AquilesStorage
+		SccLocalPath15 = Execom.IOG.AquilesStorage
+		SccProjectUniqueName16 = Examples\\Execom.IOG.Cassandra\\Execom.IOG.Cassandra.csproj
+		SccProjectTopLevelParentUniqueName16 = Execom.IOG\u0020-\u0020VS2010.sln
+		SccProjectName16 = Examples/Execom.IOG.Cassandra
+		SccLocalPath16 = Examples\\Execom.IOG.Cassandra
+	EndGlobalSection
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = Execom.IOG.vsmdi
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{43F64571-6624-4F6D-A5AC-FB10E7C1D7D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43F64571-6624-4F6D-A5AC-FB10E7C1D7D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43F64571-6624-4F6D-A5AC-FB10E7C1D7D9}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{43F64571-6624-4F6D-A5AC-FB10E7C1D7D9}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{43F64571-6624-4F6D-A5AC-FB10E7C1D7D9}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{43F64571-6624-4F6D-A5AC-FB10E7C1D7D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43F64571-6624-4F6D-A5AC-FB10E7C1D7D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43F64571-6624-4F6D-A5AC-FB10E7C1D7D9}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{43F64571-6624-4F6D-A5AC-FB10E7C1D7D9}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{43F64571-6624-4F6D-A5AC-FB10E7C1D7D9}.Release|x86.ActiveCfg = Release|Any CPU
+		{C8D49483-4708-40C6-AA0E-4BF1BE704778}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8D49483-4708-40C6-AA0E-4BF1BE704778}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8D49483-4708-40C6-AA0E-4BF1BE704778}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{C8D49483-4708-40C6-AA0E-4BF1BE704778}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{C8D49483-4708-40C6-AA0E-4BF1BE704778}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C8D49483-4708-40C6-AA0E-4BF1BE704778}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8D49483-4708-40C6-AA0E-4BF1BE704778}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8D49483-4708-40C6-AA0E-4BF1BE704778}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{C8D49483-4708-40C6-AA0E-4BF1BE704778}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{C8D49483-4708-40C6-AA0E-4BF1BE704778}.Release|x86.ActiveCfg = Release|Any CPU
+		{D0BBC615-3425-4CAE-89CE-2135BA0EEFFB}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{D0BBC615-3425-4CAE-89CE-2135BA0EEFFB}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{D0BBC615-3425-4CAE-89CE-2135BA0EEFFB}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{D0BBC615-3425-4CAE-89CE-2135BA0EEFFB}.Debug|x86.ActiveCfg = Debug|x86
+		{D0BBC615-3425-4CAE-89CE-2135BA0EEFFB}.Debug|x86.Build.0 = Debug|x86
+		{D0BBC615-3425-4CAE-89CE-2135BA0EEFFB}.Release|Any CPU.ActiveCfg = Release|x86
+		{D0BBC615-3425-4CAE-89CE-2135BA0EEFFB}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{D0BBC615-3425-4CAE-89CE-2135BA0EEFFB}.Release|Mixed Platforms.Build.0 = Release|x86
+		{D0BBC615-3425-4CAE-89CE-2135BA0EEFFB}.Release|x86.ActiveCfg = Release|x86
+		{D0BBC615-3425-4CAE-89CE-2135BA0EEFFB}.Release|x86.Build.0 = Release|x86
+		{41CCDDF7-CD87-4912-99E7-523AAD5EC635}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{41CCDDF7-CD87-4912-99E7-523AAD5EC635}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{41CCDDF7-CD87-4912-99E7-523AAD5EC635}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{41CCDDF7-CD87-4912-99E7-523AAD5EC635}.Debug|x86.ActiveCfg = Debug|x86
+		{41CCDDF7-CD87-4912-99E7-523AAD5EC635}.Debug|x86.Build.0 = Debug|x86
+		{41CCDDF7-CD87-4912-99E7-523AAD5EC635}.Release|Any CPU.ActiveCfg = Release|x86
+		{41CCDDF7-CD87-4912-99E7-523AAD5EC635}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{41CCDDF7-CD87-4912-99E7-523AAD5EC635}.Release|Mixed Platforms.Build.0 = Release|x86
+		{41CCDDF7-CD87-4912-99E7-523AAD5EC635}.Release|x86.ActiveCfg = Release|x86
+		{41CCDDF7-CD87-4912-99E7-523AAD5EC635}.Release|x86.Build.0 = Release|x86
+		{73864897-0F37-4DF9-8674-CD77CF44282D}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{73864897-0F37-4DF9-8674-CD77CF44282D}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{73864897-0F37-4DF9-8674-CD77CF44282D}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{73864897-0F37-4DF9-8674-CD77CF44282D}.Debug|x86.ActiveCfg = Debug|x86
+		{73864897-0F37-4DF9-8674-CD77CF44282D}.Debug|x86.Build.0 = Debug|x86
+		{73864897-0F37-4DF9-8674-CD77CF44282D}.Release|Any CPU.ActiveCfg = Release|x86
+		{73864897-0F37-4DF9-8674-CD77CF44282D}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{73864897-0F37-4DF9-8674-CD77CF44282D}.Release|Mixed Platforms.Build.0 = Release|x86
+		{73864897-0F37-4DF9-8674-CD77CF44282D}.Release|x86.ActiveCfg = Release|x86
+		{73864897-0F37-4DF9-8674-CD77CF44282D}.Release|x86.Build.0 = Release|x86
+		{BF3A648F-3801-4659-A6FF-483F894BE5AA}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{BF3A648F-3801-4659-A6FF-483F894BE5AA}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{BF3A648F-3801-4659-A6FF-483F894BE5AA}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{BF3A648F-3801-4659-A6FF-483F894BE5AA}.Debug|x86.ActiveCfg = Debug|x86
+		{BF3A648F-3801-4659-A6FF-483F894BE5AA}.Debug|x86.Build.0 = Debug|x86
+		{BF3A648F-3801-4659-A6FF-483F894BE5AA}.Release|Any CPU.ActiveCfg = Release|x86
+		{BF3A648F-3801-4659-A6FF-483F894BE5AA}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{BF3A648F-3801-4659-A6FF-483F894BE5AA}.Release|Mixed Platforms.Build.0 = Release|x86
+		{BF3A648F-3801-4659-A6FF-483F894BE5AA}.Release|x86.ActiveCfg = Release|x86
+		{BF3A648F-3801-4659-A6FF-483F894BE5AA}.Release|x86.Build.0 = Release|x86
+		{7223631A-1CF2-4166-8C89-7032FB1B395B}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{7223631A-1CF2-4166-8C89-7032FB1B395B}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{7223631A-1CF2-4166-8C89-7032FB1B395B}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{7223631A-1CF2-4166-8C89-7032FB1B395B}.Debug|x86.ActiveCfg = Debug|x86
+		{7223631A-1CF2-4166-8C89-7032FB1B395B}.Debug|x86.Build.0 = Debug|x86
+		{7223631A-1CF2-4166-8C89-7032FB1B395B}.Release|Any CPU.ActiveCfg = Release|x86
+		{7223631A-1CF2-4166-8C89-7032FB1B395B}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{7223631A-1CF2-4166-8C89-7032FB1B395B}.Release|Mixed Platforms.Build.0 = Release|x86
+		{7223631A-1CF2-4166-8C89-7032FB1B395B}.Release|x86.ActiveCfg = Release|x86
+		{7223631A-1CF2-4166-8C89-7032FB1B395B}.Release|x86.Build.0 = Release|x86
+		{A2B22355-D647-4DBF-9819-67108D315798}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{A2B22355-D647-4DBF-9819-67108D315798}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{A2B22355-D647-4DBF-9819-67108D315798}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{A2B22355-D647-4DBF-9819-67108D315798}.Debug|x86.ActiveCfg = Debug|x86
+		{A2B22355-D647-4DBF-9819-67108D315798}.Debug|x86.Build.0 = Debug|x86
+		{A2B22355-D647-4DBF-9819-67108D315798}.Release|Any CPU.ActiveCfg = Release|x86
+		{A2B22355-D647-4DBF-9819-67108D315798}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{A2B22355-D647-4DBF-9819-67108D315798}.Release|Mixed Platforms.Build.0 = Release|x86
+		{A2B22355-D647-4DBF-9819-67108D315798}.Release|x86.ActiveCfg = Release|x86
+		{A2B22355-D647-4DBF-9819-67108D315798}.Release|x86.Build.0 = Release|x86
+		{940D4E02-03BA-418C-99C6-232A4794142A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{940D4E02-03BA-418C-99C6-232A4794142A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{940D4E02-03BA-418C-99C6-232A4794142A}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{940D4E02-03BA-418C-99C6-232A4794142A}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{940D4E02-03BA-418C-99C6-232A4794142A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{940D4E02-03BA-418C-99C6-232A4794142A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{940D4E02-03BA-418C-99C6-232A4794142A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{940D4E02-03BA-418C-99C6-232A4794142A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{940D4E02-03BA-418C-99C6-232A4794142A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{940D4E02-03BA-418C-99C6-232A4794142A}.Release|x86.ActiveCfg = Release|Any CPU
+		{B88414DE-1DAD-4C5F-9996-BE111828E08B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B88414DE-1DAD-4C5F-9996-BE111828E08B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B88414DE-1DAD-4C5F-9996-BE111828E08B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{B88414DE-1DAD-4C5F-9996-BE111828E08B}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{B88414DE-1DAD-4C5F-9996-BE111828E08B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B88414DE-1DAD-4C5F-9996-BE111828E08B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B88414DE-1DAD-4C5F-9996-BE111828E08B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B88414DE-1DAD-4C5F-9996-BE111828E08B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{B88414DE-1DAD-4C5F-9996-BE111828E08B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{B88414DE-1DAD-4C5F-9996-BE111828E08B}.Release|x86.ActiveCfg = Release|Any CPU
+		{2E1D944B-8945-412A-B1D6-2036DA0D1E68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E1D944B-8945-412A-B1D6-2036DA0D1E68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E1D944B-8945-412A-B1D6-2036DA0D1E68}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{2E1D944B-8945-412A-B1D6-2036DA0D1E68}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{2E1D944B-8945-412A-B1D6-2036DA0D1E68}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2E1D944B-8945-412A-B1D6-2036DA0D1E68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E1D944B-8945-412A-B1D6-2036DA0D1E68}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E1D944B-8945-412A-B1D6-2036DA0D1E68}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{2E1D944B-8945-412A-B1D6-2036DA0D1E68}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{2E1D944B-8945-412A-B1D6-2036DA0D1E68}.Release|x86.ActiveCfg = Release|Any CPU
+		{876B2302-CBF8-4C56-A03A-521AEBDC49BF}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{876B2302-CBF8-4C56-A03A-521AEBDC49BF}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{876B2302-CBF8-4C56-A03A-521AEBDC49BF}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{876B2302-CBF8-4C56-A03A-521AEBDC49BF}.Debug|x86.ActiveCfg = Debug|x86
+		{876B2302-CBF8-4C56-A03A-521AEBDC49BF}.Debug|x86.Build.0 = Debug|x86
+		{876B2302-CBF8-4C56-A03A-521AEBDC49BF}.Release|Any CPU.ActiveCfg = Release|x86
+		{876B2302-CBF8-4C56-A03A-521AEBDC49BF}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{876B2302-CBF8-4C56-A03A-521AEBDC49BF}.Release|Mixed Platforms.Build.0 = Release|x86
+		{876B2302-CBF8-4C56-A03A-521AEBDC49BF}.Release|x86.ActiveCfg = Release|x86
+		{876B2302-CBF8-4C56-A03A-521AEBDC49BF}.Release|x86.Build.0 = Release|x86
+		{5213751D-2A2B-4823-ABA2-DB1E4C6849CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5213751D-2A2B-4823-ABA2-DB1E4C6849CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5213751D-2A2B-4823-ABA2-DB1E4C6849CD}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{5213751D-2A2B-4823-ABA2-DB1E4C6849CD}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{5213751D-2A2B-4823-ABA2-DB1E4C6849CD}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5213751D-2A2B-4823-ABA2-DB1E4C6849CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5213751D-2A2B-4823-ABA2-DB1E4C6849CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5213751D-2A2B-4823-ABA2-DB1E4C6849CD}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{5213751D-2A2B-4823-ABA2-DB1E4C6849CD}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{5213751D-2A2B-4823-ABA2-DB1E4C6849CD}.Release|x86.ActiveCfg = Release|Any CPU
+		{520EE21E-319D-43A9-9B13-11533E81808F}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{520EE21E-319D-43A9-9B13-11533E81808F}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{520EE21E-319D-43A9-9B13-11533E81808F}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{520EE21E-319D-43A9-9B13-11533E81808F}.Debug|x86.ActiveCfg = Debug|x86
+		{520EE21E-319D-43A9-9B13-11533E81808F}.Debug|x86.Build.0 = Debug|x86
+		{520EE21E-319D-43A9-9B13-11533E81808F}.Release|Any CPU.ActiveCfg = Release|x86
+		{520EE21E-319D-43A9-9B13-11533E81808F}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{520EE21E-319D-43A9-9B13-11533E81808F}.Release|Mixed Platforms.Build.0 = Release|x86
+		{520EE21E-319D-43A9-9B13-11533E81808F}.Release|x86.ActiveCfg = Release|x86
+		{520EE21E-319D-43A9-9B13-11533E81808F}.Release|x86.Build.0 = Release|x86
+		{EF8A12A9-C12E-49A3-ACF6-A570EBB5C8B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF8A12A9-C12E-49A3-ACF6-A570EBB5C8B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF8A12A9-C12E-49A3-ACF6-A570EBB5C8B9}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{EF8A12A9-C12E-49A3-ACF6-A570EBB5C8B9}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{EF8A12A9-C12E-49A3-ACF6-A570EBB5C8B9}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EF8A12A9-C12E-49A3-ACF6-A570EBB5C8B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF8A12A9-C12E-49A3-ACF6-A570EBB5C8B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF8A12A9-C12E-49A3-ACF6-A570EBB5C8B9}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{EF8A12A9-C12E-49A3-ACF6-A570EBB5C8B9}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{EF8A12A9-C12E-49A3-ACF6-A570EBB5C8B9}.Release|x86.ActiveCfg = Release|Any CPU
+		{539BA075-F74C-4383-9F66-F11CFF24CEDA}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{539BA075-F74C-4383-9F66-F11CFF24CEDA}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{539BA075-F74C-4383-9F66-F11CFF24CEDA}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{539BA075-F74C-4383-9F66-F11CFF24CEDA}.Debug|x86.ActiveCfg = Debug|x86
+		{539BA075-F74C-4383-9F66-F11CFF24CEDA}.Debug|x86.Build.0 = Debug|x86
+		{539BA075-F74C-4383-9F66-F11CFF24CEDA}.Release|Any CPU.ActiveCfg = Release|x86
+		{539BA075-F74C-4383-9F66-F11CFF24CEDA}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{539BA075-F74C-4383-9F66-F11CFF24CEDA}.Release|Mixed Platforms.Build.0 = Release|x86
+		{539BA075-F74C-4383-9F66-F11CFF24CEDA}.Release|x86.ActiveCfg = Release|x86
+		{539BA075-F74C-4383-9F66-F11CFF24CEDA}.Release|x86.Build.0 = Release|x86
+		{D84806B2-ECF4-4B38-967D-E46D7ED28708}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D84806B2-ECF4-4B38-967D-E46D7ED28708}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D84806B2-ECF4-4B38-967D-E46D7ED28708}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{D84806B2-ECF4-4B38-967D-E46D7ED28708}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{D84806B2-ECF4-4B38-967D-E46D7ED28708}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D84806B2-ECF4-4B38-967D-E46D7ED28708}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D84806B2-ECF4-4B38-967D-E46D7ED28708}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D84806B2-ECF4-4B38-967D-E46D7ED28708}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{D84806B2-ECF4-4B38-967D-E46D7ED28708}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{D84806B2-ECF4-4B38-967D-E46D7ED28708}.Release|x86.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D0BBC615-3425-4CAE-89CE-2135BA0EEFFB} = {16D61B06-023C-4D16-BCE9-EDB0D2A35BFA}
+		{41CCDDF7-CD87-4912-99E7-523AAD5EC635} = {16D61B06-023C-4D16-BCE9-EDB0D2A35BFA}
+		{73864897-0F37-4DF9-8674-CD77CF44282D} = {16D61B06-023C-4D16-BCE9-EDB0D2A35BFA}
+		{A2B22355-D647-4DBF-9819-67108D315798} = {16D61B06-023C-4D16-BCE9-EDB0D2A35BFA}
+		{C65AA378-4513-41A5-B294-CEBA96DA37CD} = {16D61B06-023C-4D16-BCE9-EDB0D2A35BFA}
+		{F3CFF8F0-3D88-4C60-9BD1-498A69BF45C4} = {16D61B06-023C-4D16-BCE9-EDB0D2A35BFA}
+		{539BA075-F74C-4383-9F66-F11CFF24CEDA} = {16D61B06-023C-4D16-BCE9-EDB0D2A35BFA}
+		{D84806B2-ECF4-4B38-967D-E46D7ED28708} = {16D61B06-023C-4D16-BCE9-EDB0D2A35BFA}
+		{BF3A648F-3801-4659-A6FF-483F894BE5AA} = {929A73E8-CFEB-430C-90E1-1F82839E1305}
+		{7223631A-1CF2-4166-8C89-7032FB1B395B} = {929A73E8-CFEB-430C-90E1-1F82839E1305}
+		{940D4E02-03BA-418C-99C6-232A4794142A} = {C65AA378-4513-41A5-B294-CEBA96DA37CD}
+		{B88414DE-1DAD-4C5F-9996-BE111828E08B} = {C65AA378-4513-41A5-B294-CEBA96DA37CD}
+		{2E1D944B-8945-412A-B1D6-2036DA0D1E68} = {C65AA378-4513-41A5-B294-CEBA96DA37CD}
+		{876B2302-CBF8-4C56-A03A-521AEBDC49BF} = {F3CFF8F0-3D88-4C60-9BD1-498A69BF45C4}
+		{5213751D-2A2B-4823-ABA2-DB1E4C6849CD} = {F3CFF8F0-3D88-4C60-9BD1-498A69BF45C4}
+		{520EE21E-319D-43A9-9B13-11533E81808F} = {F3CFF8F0-3D88-4C60-9BD1-498A69BF45C4}
+		{4DB646C6-5730-42E0-B22C-C3100D240859} = {69AEFB8F-5FA8-4C44-ABAE-93B1E557C147}
+		{0DA75BFD-A3B0-42FB-981B-884084EB44DD} = {4DB646C6-5730-42E0-B22C-C3100D240859}
+	EndGlobalSection
+EndGlobal

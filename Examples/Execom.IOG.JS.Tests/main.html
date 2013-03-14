@@ -1,0 +1,334 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+    <title>IOG javascript test app</title>
+
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.22/themes/base/jquery-ui.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="http://static.jquery.com/ui/css/demo-docs-theme/ui.theme.css" type="text/css" media="all" />
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js" type="text/javascript"></script>
+    <script src="http://code.jquery.com/ui/1.8.22/jquery-ui.min.js" type="text/javascript"></script>
+
+    <script src="Scripts/uuid.js" type="text/javascript"></script>
+    <script src="Scripts/datetime.1-3.js" type="text/javascript"></script>
+    <script src="Scripts/jquery.signalR-0.5.3.min.js" type="text/javascript"></script>
+    <script src="Scripts/IOGClient-0.8.2.js" type="text/javascript"></script>
+
+    <script src="/signalr/hubs" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var eleme = $("#birthday");
+            $("#birthday").datepicker({ dateFormat: "dd-mm-yy" });
+            //connecting on hubs, in order to make
+            $.connection.hub.stateChanged(function (change) {
+                if (change.newState === $.signalR.connectionState.connected &&
+                    (context == null || iog == null)) {
+                    iog = window.execom.iog;
+                    //making context for remote server
+                    //in case you want to test this project on IIS just uncomment this lane and comment line with localhost
+                    //context = new iog.ClientContext('192.168.0.44:3681', "ServerContext.asmx");
+                    //making context for visual studio intern web server
+                    //in case you want to test this project on IIS just comment next line
+                    context = new iog.ClientContext('localhost:3681', "ServerContext.asmx");
+                    ws = context.OpenWorkspace(iog.IsolationLevel.Snapshot);
+
+                    ws.CreateSubscription(ws.Data().GetUsers(), function (msg) {
+                        console.log(msg);
+                        console.log('Users changed!');
+                        ws.ClearWorkspace();
+                        renderUsers();
+                    });
+                    renderUsers();
+                }
+            });
+
+
+        });
+        //when user leave page it should close iog working space
+        $(window).unload(function () {
+            ws.CloseWorkspace();
+            ws = null;
+            context = null;
+            console.log('unloading page');
+        });
+
+        var iog = null;
+        var context = null;
+        var ws = null;
+        var selectedUser = null;
+        var users = {};
+        var counter = 0;
+    </script>
+    <script type="text/javascript">
+        function on_click_submit_new_user(value) {
+            if (checkData()) {
+                var firstName = $('#firstName').val();
+                var lastName = $('#lastName').val();
+                var email = $('#email').val();
+                var date = $('#birthday').datepicker("getDate");
+                var year = date.getFullYear();
+                var month = date.getMonth() + 1;
+                var days = date.getDate();
+                var birthday = new DateTime(year, month, days);
+                var sex = $('input[name=sex]:checked', '#userForm').val()
+                var salary = $('#salary').val();
+                var numOfChildren = $('#numOfChildren').val();
+
+
+                if (submit_new_user(firstName, lastName, email, birthday, sex, salary, numOfChildren)) {
+                    
+                } else {
+                    alert("User cannot be inserted!");
+                }
+                renderUsers();
+                form_user_clear();
+            }
+        }
+
+        function submit_new_user(firstName, lastName, email, birthday, sex, salary, numOfChildren) {
+            var rootProxy = ws.Data().GetUsers();
+
+            var rootProxy = ws.Data().GetUsers();
+            if (selectedUser == null) {
+                var user = ws.New(iog.IAppUserType);
+                user.SetFirstName(firstName);
+                user.SetLastName(lastName);
+                user.SetEmail(email);
+                user.SetBirthday(birthday);
+                user.SetSalary(salary);
+                user.SetNumberOfChildren(numOfChildren);
+                if (sex == 'male') {
+                    user.SetSex(iog.enums.ESex.MALE);
+                } else {
+                    user.SetSex(iog.enums.ESex.FEMALE);
+                }
+
+                rootProxy.Add(user);
+            } else {
+                selectedUser.SetFirstName(firstName);
+                selectedUser.SetLastName(lastName);
+                selectedUser.SetEmail(email);
+                selectedUser.SetBirthday(birthday);
+                selectedUser.SetSalary(salary);
+                selectedUser.SetNumberOfChildren(numOfChildren);
+                if (sex == 'male') {
+                    selectedUser.SetSex(iog.enums.ESex.MALE);
+                } else {
+                    selectedUser.SetSex(iog.enums.ESex.FEMALE);
+                }
+            }
+
+            
+
+            ws.Commit();
+            rootProxy = null;
+
+            return true;
+        }
+
+        function form_user_clear() {
+            selectedUser = null;
+            $('#firstName').val("");
+            $('#lastName').val("");
+            $('#email').val("");
+            $('#birthday').val("");
+            $('#salary').val("");
+            $('#numOfChildren').val("");
+            $('#rbFemale').attr('checked', true);
+        }
+
+        function checkData() {
+            var firstName = $('#firstName').val();
+            var lastName = $('#lastName').val();
+            var email = $('#email').val();
+            var birthday = $('#birthday').datepicker("getDate");
+            var sex = "male";
+            var salary = $('#salary').val();
+            var numOfChildren = $('#numOfChildren').val();
+
+            if (firstName == null || firstName == "") {
+                return false;
+            }
+
+            if (email == null || email == "") {
+                return false;
+            }
+
+            if (lastName == null || lastName == "") {
+                return false;
+            }
+            if (birthday == null || birthday == "") {
+                return false;
+            }
+            if (sex == null || sex == "") {
+                return false;
+            }
+            if (salary == null || salary == "") {
+                return false;
+            }
+            if (numOfChildren == null || numOfChildren == "") {
+                return false;
+            }
+
+            return true;
+        }
+
+        function selectUser(id) {
+            selectedUser = users[id.trim()];
+            if (selectedUser != null) {
+                $('#firstName').val(selectedUser.GetFirstName());
+                $('#lastName').val(selectedUser.GetLastName());
+                $('#email').val(selectedUser.GetEmail());
+                $('#birthday').datepicker("setDate", selectedUser.GetBirthday().toDate());
+                $('#salary').val(selectedUser.GetSalary());
+                $('#numOfChildren').val(selectedUser.GetNumberOfChildren());
+
+                if (selectedUser.GetSex() == iog.enums.ESex.MALE.value) {
+                    $('#rbMale').attr('checked', true);
+                } else {
+                    $('#rbFemale').attr('checked', true);
+                }
+            }
+        }
+
+        function renderUsers() {
+            var rootProxy = ws.Data().GetUsers();
+            var usersEnumerator = rootProxy.GetEnumerator();
+            users = {};
+            counter = 0;
+            $("#users").find("tr:gt(0)").remove();
+            if (rootProxy != null) {
+                while (usersEnumerator.MoveNext()) {
+                    var current = usersEnumerator.Current();
+                    var date = current.GetBirthday();
+                    var nickname = 'u' + counter++;
+                    users[nickname.trim()] = current;
+                    $('#users > tbody:last').append('<tr><td>'+current.GetFirstName()+'</td><td>' +
+                         current.GetLastName() +'</td><td>'+ date.format('d.MM.yyyy') +
+                         '</td><td><form><input type="button" value="Select" onclick="selectUser(\''+nickname+'\')"/></form></td></tr>');
+                }
+
+            }
+
+            rootProxy = null;
+
+        }
+
+        function generateUsesrs(number) {
+            if (number > 0) {
+                var counter = 0;
+                var commit_counter = 0;
+                while (counter < number) {
+                    var rootProxy = ws.Data().GetUsers();
+
+                    var user = ws.New(iog.IAppUserType);
+                    user.SetFirstName(randomString(6));
+                    user.SetLastName(randomString(10));
+                    user.SetEmail(randomString(12));
+                    user.SetBirthday(new DateTime());
+                    user.SetSalary(Math.floor(Math.random() * 10000));
+                    user.SetNumberOfChildren(Math.floor(Math.random() * 7));
+                    sex = Math.floor(Math.random())
+                    if (sex == 1) {
+                        user.SetSex(iog.ESexType.enumValues.MALE);
+                    } else {
+                        user.SetSex(iog.ESexType.enumValues.FEMALE);
+                    }
+
+                    rootProxy.Add(user);
+
+                    counter += 1;
+                    commit_counter += 1;
+                    if (commit_counter >= 50) {
+                        commit_counter = 1;
+                        ws.Commit();
+                    }
+                    
+                }
+            }
+
+            ws.Commit();
+            renderUsers();
+        }
+
+        function randomString(str_length) {
+            var chars = "ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
+            var string_length = str_length;
+            var randomstring = '';
+            for (var i = 0; i < string_length; i++) {
+                var rnum = Math.floor(Math.random() * chars.length);
+                randomstring += chars.substring(rnum, rnum + 1);
+            }
+            return randomstring;
+        }
+    </script>  
+</head>
+<body>
+
+    <div class="data">
+        <form id="userForm"action="#">
+            <table>
+                <tr>
+                    <td>User information</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td>First name: </td>
+                    <td><input id="firstName" type="text" name="firstName"/></td>
+                </tr>
+                <tr>
+                    <td>Last name: </td>
+                    <td><input id="lastName" type="text" name="lastName"/></td>
+                </tr>
+                <tr>
+                    <td>Email: </td>
+                    <td><input id="email" type="text" name="email"/></td>
+                </tr>
+                <tr>
+                    <td>Birtday: </td>
+                    <td><input id="birthday" type="text" name="birthday"/></td>
+                </tr>
+                <tr>
+                    <td>Sex: </td>
+                    <td>
+                        <input id="rbMale" type="radio" name="sex" value="male"  /> Male<br />
+                        <input id="rbFemale" type="radio" name="sex" value="female" checked="checked" /> Female
+                    </td>
+                </tr>
+                <tr>
+                    <td>Salary: </td>
+                    <td><input id="salary" type="text" name="salary"/></td>
+                </tr>
+                <tr>
+                    <td>Number of children: </td>
+                    <td><input id="numOfChildren" type="text" name="numOfChildren"/></td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td><input type="button" value="Submit" onclick="on_click_submit_new_user('value')"/></td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td><input type="reset" onclick="form_user_clear()" /></td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td><input type="button" value="Generate 100 users" onclick="generateUsesrs(1000);" /></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <div class="list" style="position:absolute;top:0;left:600;width:600px;">
+        <table id="users">
+            <tbody>
+                <tr>
+                    <td>First Name</td>
+                    <td>Last Name</td>
+                    <td>Birthday</td>
+                    <td>&nbsp;</td>
+                </tr>
+            </tbody>
+            
+        </table>
+    </div>
+</body>
+</html>

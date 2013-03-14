@@ -1,0 +1,72 @@
+fs     = require 'fs'
+{exec} = require 'child_process'
+version = '0.8.2'
+appFiles = [
+      'settings'
+      'util',
+      'dictionary',
+      'type',
+      'base.types',
+      'constants',
+      'edge',
+      'edge.data',
+      'key.value.pair',
+      'sorted.list',
+      'node',
+      'Event/subscription',
+      'cached.reader.node.provider',
+      'direct.node.provider',
+      'memory.storage',
+      'property.info',
+      'utils',
+      'type.service',
+      'object.instances.service',
+      'enumerator',
+      'bplus.tree.enumerator',
+      'bplus.tree.operation',
+      'collection.instaces.service',
+      'dictionary.instances.service',
+      'table.element',
+      'limited.proxy.map',
+      'proxy.creator.service',
+      'runtime.proxy.faced',
+      'static.proxy.facede',
+      'collection.proxy'
+      'collection.proxy.sealed',
+      'dictionary.proxy',
+      'dictionary.proxy.sealed',
+      'field.builder',
+      'type.builder',
+      'generation.service',
+      'auto.override.merge.rule.provider',
+      'tracking.workspace.state.provider',
+      'appendable.change.set',
+      'isolated.change.set',
+      'isolated.node.provider',
+      'recursive.resolution.parameters',
+      'commit.result',
+      'server.context',
+      'workspace',
+      'client.context'
+  ]
+
+task 'build', 'Build single application file from source files', ->
+  exec ' coffee --compile --output Scripts/ Scripts/', (err, stdout, stderr) ->
+    throw err if err
+    console.log stdout + stderr
+
+  appContents = new Array remaining = appFiles.length
+  for file, index in appFiles then do (file, index) ->
+    fs.readFile "Scripts/project/#{file}.coffee", 'utf8', (err, fileContents) ->
+      throw err if err
+      appContents[index] = fileContents
+      process() if --remaining is 0
+  process = ->
+    fs.writeFile "Scripts/IOGClient-#{version}.coffee", appContents.join('\n\n'), 'utf8', (err) ->
+      throw err if err
+      exec "coffee --compile Scripts/IOGClient-#{version}.coffee", (err, stdout, stderr) ->
+        throw err if err
+        console.log stdout + stderr
+        fs.unlink "Scripts/IOGClient-#{version}.coffee", (err) ->
+          throw err if err
+          console.log 'Done.'

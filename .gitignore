@@ -1,0 +1,15 @@
+[Oo]bj/
+[Bb]in/
+[Cc][Vv][Ss]/
+*.user
+/TestResults
+*.vspscc
+*.vssscc
+deploy
+deploy/*
+*.suo
+*.[Cc]ache
+Local.testsettings
+*.docstates
+testimpactdata.sdf
+*.vsp

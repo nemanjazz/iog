@@ -1,0 +1,185 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{C8D49483-4708-40C6-AA0E-4BF1BE704778}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Execom.IOG</RootNamespace>
+    <AssemblyName>Execom.IOG</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>..\CodeAnalysisRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Attributes\ConcurrentAttribute.cs" />
+    <Compile Include="Attributes\ImmutableAttribute.cs" />
+    <Compile Include="Attributes\OverrideAttribute.cs" />
+    <Compile Include="Attributes\PrimaryKeyAttribute.cs" />
+    <Compile Include="Attributes\RevisionIdAttribute.cs" />
+    <Compile Include="Server\IOGServer.cs" />
+    <Compile Include="Server\LocalContextSingleton.cs" />
+    <Compile Include="Server\Metadata\ChangeSetParser.cs" />
+    <Compile Include="Server\Metadata\EdgeDataWrapper.cs" />
+    <Compile Include="Server\Metadata\EdgeWrapper.cs" />
+    <Compile Include="Server\Metadata\KeyValueWrapper.cs" />
+    <Compile Include="Server\Metadata\NodeWrapper.cs" />
+    <Compile Include="Server\Metadata\ObjectWrapper.cs" />
+    <Compile Include="Server\Metadata\PropertiesMetadata.cs" />
+    <Compile Include="Server\Metadata\ScalarTypes.cs" />
+    <Compile Include="Server\Metadata\TypeMetadata.cs" />
+    <Compile Include="Server\Metadata\TypeProxy.cs" />
+    <Compile Include="Server\Metadata\TypeSingleton.cs" />
+    <Compile Include="Services\Runtime\OrderedCollectionProxySealed.cs" />
+    <Compile Include="Services\Runtime\OrderedCollectionProxy.cs" />
+    <Compile Include="Services\Workspace\ArchiveWorkspaceFacade.cs" />
+    <Compile Include="SubWorkspaceImpl.cs" />
+    <Compile Include="Distributed\ClientContext.cs" />
+    <Compile Include="Context.cs" />
+    <Compile Include="Distributed\IServerContext.cs" />
+    <Compile Include="Distributed\ServerContext.cs" />
+    <Compile Include="Events\Subscription.cs" />
+    <Compile Include="Exceptions\ConcurrentModificationException.cs" />
+    <Compile Include="Graph\BPlusTreeOperations.cs" />
+    <Compile Include="Graph\AppendableChangeSet.cs" />
+    <Compile Include="Graph\CommitResult.cs" />
+    <Compile Include="Graph\ICollectedNodesProvider.cs" />
+    <Compile Include="Graph\IsolatedChangeSet.cs" />
+    <Compile Include="Graph\Edge.cs" />
+    <Compile Include="Graph\IChangeSetProvider.cs" />
+    <Compile Include="IContext.cs" />
+    <Compile Include="IWorkspace.cs" />
+    <Compile Include="Services\Data\BackupService.cs" />
+    <Compile Include="Services\Events\ISubscriptionManagerService.cs" />
+    <Compile Include="Services\Events\SubscriptionManagerService.cs" />
+    <Compile Include="Services\Runtime\SetCollectionProxySealed.cs" />
+    <Compile Include="Services\Runtime\SetCollectionProxy.cs" />
+    <Compile Include="Services\Workspace\IWorkspaceFacade.cs" />
+    <Compile Include="Graph\INodeProvider.cs" />
+    <Compile Include="Graph\IParentMapProvider.cs" />
+    <Compile Include="Graph\Node.cs" />
+    <Compile Include="Graph\NodeState.cs" />
+    <Compile Include="IndexedFile\ClusterFlags.cs" />
+    <Compile Include="IndexedFile\FileHeader.cs" />
+    <Compile Include="IndexedFile\IndexedFile.cs" />
+    <Compile Include="IsolationLevel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Graph\EdgeData.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Providers\CachedReadNodeProvider.cs" />
+    <Compile Include="Providers\CachedWriteNodeProviderSafe.cs" />
+    <Compile Include="Providers\CachedWriteNodeProviderUnsafe.cs" />
+    <Compile Include="Providers\DirectNodeProviderUnsafe.cs" />
+    <Compile Include="Providers\LimitedDirectNodeProviderUnsafe.cs" />
+    <Compile Include="Providers\LimitedDirectNodeProviderSafe.cs" />
+    <Compile Include="Providers\IEvictingProvider.cs" />
+    <Compile Include="Services\Merging\AttributeBasedMergeRuleProvider.cs" />
+    <Compile Include="Services\Merging\NodeMergeExecutor.cs" />
+    <Compile Include="Services\Merging\AutoOverrideMergeRuleProvider.cs" />
+    <Compile Include="Services\Merging\IMergeRuleProvider.cs" />
+    <Compile Include="Services\Merging\RecursiveResolutionParameters.cs" />
+    <Compile Include="Services\Workspace\WorkspaceFacade.cs" />
+    <Compile Include="Storage\LimitedMemoryStorageSafe.cs" />
+    <Compile Include="Storage\MemoryStorageSafe.cs" />
+    <Compile Include="Tracking\CollectedNodesProvider.cs" />
+    <Compile Include="Tracking\ParentMapProvider.cs" />
+    <Compile Include="Providers\DirectNodeProviderSafe.cs" />
+    <Compile Include="Tracking\TrackingChangeSetProvider.cs" />
+    <Compile Include="Providers\IsolatedNodeProvider.cs" />
+    <Compile Include="ProxySample.cs" />
+    <Compile Include="Services\Data\CollectionInstancesService.cs" />
+    <Compile Include="Services\Data\DictionaryInstancesService.cs" />
+    <Compile Include="Services\Data\ObjectSerializationService.cs" />
+    <Compile Include="Services\Data\SnapshotsService.cs" />
+    <Compile Include="Services\Data\CommitDataService.cs" />
+    <Compile Include="Services\Facade\IRuntimeDictionaryProxyFacade.cs" />
+    <Compile Include="Services\Facade\RuntimeProxyFacade.cs" />
+    <Compile Include="Services\Runtime\CollectionProxy.cs" />
+    <Compile Include="Services\Facade\IRuntimeCollectionProxyFacade.cs" />
+    <Compile Include="Services\Facade\IRuntimeProxyFacade.cs" />
+    <Compile Include="Services\Runtime\CollectionProxySealed.cs" />
+    <Compile Include="Services\Runtime\DictionaryProxySealed.cs" />
+    <Compile Include="Services\Runtime\DictionaryProxy.cs" />
+    <Compile Include="Services\Runtime\LimitedProxyMap.cs" />
+    <Compile Include="Services\Runtime\IProxyMap.cs" />
+    <Compile Include="Services\Runtime\ProxyCreatorService.cs" />
+    <Compile Include="Services\Facade\StaticProxyFacade.cs" />
+    <Compile Include="Services\Runtime\GenerationService.cs" />
+    <Compile Include="Services\Data\Constants.cs" />
+    <Compile Include="Services\Data\ObjectInstancesService.cs" />
+    <Compile Include="Services\Data\TypesService.cs" />
+    <Compile Include="Services\Runtime\Utils.cs" />
+    <Compile Include="Services\Runtime\WeakProxyMap.cs" />
+    <Compile Include="Storage\IEvictingStorage.cs" />
+    <Compile Include="Storage\LimitedMemoryStorageUnsafe.cs" />
+    <Compile Include="Storage\MemoryStorageUnsafe.cs" />
+    <Compile Include="Storage\IForceUpdateStorage.cs" />
+    <Compile Include="Storage\IKeyValueStorage.cs" />
+    <Compile Include="Storage\IndexedFileStorage.cs" />
+    <Compile Include="Storage\IObjectSerializer.cs" />
+    <Compile Include="Storage\ISerializingStorage.cs" />
+    <Compile Include="Tracking\TrackingWorkspaceStateProvider.cs" />
+    <Compile Include="Tracking\WorkspaceExclusiveLockProvider.cs" />
+    <Compile Include="Types\IIndexedCollection.cs" />
+    <Compile Include="Types\IOrderedCollection.cs" />
+    <Compile Include="Types\IScalarSet.cs" />
+    <Compile Include="Upgrade\UpgradeConfiguration.cs" />
+    <Compile Include="Workspace.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <CodeAnalysisDictionary Include="..\CustomDictionary.xml">
+      <Link>CustomDictionary.xml</Link>
+    </CodeAnalysisDictionary>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
