@@ -158,6 +158,14 @@
     <Compile Include="Types\IIndexedCollection.cs" />
     <Compile Include="Types\IOrderedCollection.cs" />
     <Compile Include="Types\IScalarSet.cs" />
+    <Compile Include="TypeVisualisation\GVTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GVTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TypeVisualisation\GVTemplateCode.cs" />
+    <Compile Include="TypeVisualisation\TypeVisualisationUnit.cs" />
+    <Compile Include="TypeVisualisation\TypeVisualisationUtilities.cs" />
     <Compile Include="Upgrade\UpgradeConfiguration.cs" />
     <Compile Include="Workspace.cs" />
   </ItemGroup>
@@ -167,13 +175,19 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="TypeVisualisation\GVTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>GVTemplate.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="..\CustomDictionary.xml">
       <Link>CustomDictionary.xml</Link>
     </CodeAnalysisDictionary>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -80,6 +80,7 @@
     <Compile Include="UseCases\PlainDatamodelTest.cs" />
     <Compile Include="UseCases\RecursiveDataModelTest.cs" />
     <Compile Include="UseCases\ScalarCollectionDataModel.cs" />
+    <Compile Include="TypesVisualisationTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Execom.IOG\Execom.IOG.csproj">
