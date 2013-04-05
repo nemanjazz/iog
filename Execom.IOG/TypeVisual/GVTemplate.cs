@@ -7,276 +7,47 @@
 //     the code is regenerated.
 // </auto-generated>
 // ------------------------------------------------------------------------------
-namespace Execom.IOG.TypeVisualisation
+namespace Execom.IOG.TypeVisual
 {
     using System;
     
     
-    #line 1 "C:\Users\mkosanovic\Documents\workspace\git\iog\Execom.IOG\TypeVisualisation\GVTemplate.tt"
+    #line 1 "C:\Users\mkosanovic\Documents\workspace\git\iog\Execom.IOG\TypeVisual\GVTemplate.tt"
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "10.0.0.0")]
     public partial class GVTemplate : GVTemplateBase
     {
         public virtual string TransformText()
         {
             this.Write("digraph g{\r\n\t\r\n\trankdir = LR;\r\n\tnode [shape=record];\r\n\tedge [arrowhead=open,minle" +
-                    "n = 2, labeldistance = 2];\r\n\t");
+                    "n = ");
             
-            #line 7 "C:\Users\mkosanovic\Documents\workspace\git\iog\Execom.IOG\TypeVisualisation\GVTemplate.tt"
-
-		foreach(TypeVisualisationUnit unit in typeUnits)
-		{
-	
+            #line 6 "C:\Users\mkosanovic\Documents\workspace\git\iog\Execom.IOG\TypeVisual\GVTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(minLen));
+            
+            #line default
+            #line hidden
+            this.Write(", labeldistance = ");
+            
+            #line 6 "C:\Users\mkosanovic\Documents\workspace\git\iog\Execom.IOG\TypeVisual\GVTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(labelDistance));
+            
+            #line default
+            #line hidden
+            this.Write("];\r\n\r\n\r\n\t");
+            
+            #line 9 "C:\Users\mkosanovic\Documents\workspace\git\iog\Execom.IOG\TypeVisual\GVTemplate.tt"
+ string nodesAndEdges = printNodesAndEdges(); 
             
             #line default
             #line hidden
             this.Write("\t");
             
-            #line 11 "C:\Users\mkosanovic\Documents\workspace\git\iog\Execom.IOG\TypeVisualisation\GVTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(unit.Name));
+            #line 10 "C:\Users\mkosanovic\Documents\workspace\git\iog\Execom.IOG\TypeVisual\GVTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(nodesAndEdges));
             
             #line default
             #line hidden
-            this.Write("Node [label=\"<p1>");
-            
-            #line 11 "C:\Users\mkosanovic\Documents\workspace\git\iog\Execom.IOG\TypeVisualisation\GVTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(unit.Name));
-            
-            #line default
-            #line hidden
-            this.Write("|");
-            
-            #line 11 "C:\Users\mkosanovic\Documents\workspace\git\iog\Execom.IOG\TypeVisualisation\GVTemplate.tt"
-
-		for(int i = 0; i < unit.PropertyScalarNames.Count; i++)
-		{
-			string propertyTypeName = unit.PropertyScalarTypes[i];
-			propertyTypeName = propertyTypeName.Replace("<","\\<");
-			propertyTypeName = propertyTypeName.Replace(">","\\>");
-			if(i == 0)
-			{
-			
-            
-            #line default
-            #line hidden
-            this.Write("<p2>");
-            
-            #line 19 "C:\Users\mkosanovic\Documents\workspace\git\iog\Execom.IOG\TypeVisualisation\GVTemplate.tt"
-
-			}
-			
-            
-            #line default
-            #line hidden
-            this.Write("+ ");
-            
-            #line 21 "C:\Users\mkosanovic\Documents\workspace\git\iog\Execom.IOG\TypeVisualisation\GVTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(unit.PropertyScalarNames[i]));
-            
-            #line default
-            #line hidden
-            this.Write(" : ");
-            
-            #line 21 "C:\Users\mkosanovic\Documents\workspace\git\iog\Execom.IOG\TypeVisualisation\GVTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(propertyTypeName));
-            
-            #line default
-            #line hidden
-            this.Write(" ");
-            
-            #line 21 "C:\Users\mkosanovic\Documents\workspace\git\iog\Execom.IOG\TypeVisualisation\GVTemplate.tt"
-
-
-				PropertyAttribute attribute = unit.PropertyScalarAttributes[i];
-				if(attribute == PropertyAttribute.PrimaryKeyAndImmutableProperty)
-				{
-					
-            
-            #line default
-            #line hidden
-            this.Write("[PK][IM]");
-            
-            #line 26 "C:\Users\mkosanovic\Documents\workspace\git\iog\Execom.IOG\TypeVisualisation\GVTemplate.tt"
-
-				} else if(attribute == PropertyAttribute.PrimaryKeyProperty)
-				{
-					
-            
-            #line default
-            #line hidden
-            this.Write("[PK]");
-            
-            #line 29 "C:\Users\mkosanovic\Documents\workspace\git\iog\Execom.IOG\TypeVisualisation\GVTemplate.tt"
-
-				} else if(attribute == PropertyAttribute.ImmutableProperty)
-				{
-					
-            
-            #line default
-            #line hidden
-            this.Write("[IM]");
-            
-            #line 32 "C:\Users\mkosanovic\Documents\workspace\git\iog\Execom.IOG\TypeVisualisation\GVTemplate.tt"
-
-				}
-
-			
-            
-            #line default
-            #line hidden
-            this.Write("\\l");
-            
-            #line 35 "C:\Users\mkosanovic\Documents\workspace\git\iog\Execom.IOG\TypeVisualisation\GVTemplate.tt"
-
-		}
-		if(unit.PropertyScalarNames.Count == 0)
-		{
-		
-            
-            #line default
-            #line hidden
-            this.Write("\\n");
-            
-            #line 39 "C:\Users\mkosanovic\Documents\workspace\git\iog\Execom.IOG\TypeVisualisation\GVTemplate.tt"
-
-		}
-            
-            #line default
-            #line hidden
-            this.Write("\"];\r\n\r\n\t");
-            
-            #line 42 "C:\Users\mkosanovic\Documents\workspace\git\iog\Execom.IOG\TypeVisualisation\GVTemplate.tt"
-
-		}
-
-		foreach(TypeVisualisationUnit unit in typeUnits)
-		{
-			for(int i = 0; i < unit.PropertyNonScalarNames.Count; i++)
-			{
-				string propertyTypeName = unit.PropertyNonScalarTypes[i];
-				Boolean isCollection;
-				if (propertyTypeName.StartsWith("ICollection<") || propertyTypeName.StartsWith("IIndexedCollection<")
-                            || propertyTypeName.StartsWith("IOrderedCollection<") || propertyTypeName.StartsWith("IScalarSet<"))
-                        {
-							isCollection = true;
-							propertyTypeName = propertyTypeName.Substring(propertyTypeName.IndexOf("<") + 1,
-                                propertyTypeName.LastIndexOf(">") - propertyTypeName.IndexOf("<") - 1);
-						}
-				else if(propertyTypeName.StartsWith("IDictionary<"))
-					{
-						isCollection = true;
-						propertyTypeName = propertyTypeName.Substring(propertyTypeName.IndexOf(",") + 1,
-                                propertyTypeName.IndexOf(">") - propertyTypeName.IndexOf(",") - 1);
-					}
-				else
-					{
-						isCollection = false;
-					}
-				
-				
-            
-            #line default
-            #line hidden
-            
-            #line 69 "C:\Users\mkosanovic\Documents\workspace\git\iog\Execom.IOG\TypeVisualisation\GVTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(unit.Name));
-            
-            #line default
-            #line hidden
-            this.Write("Node -> ");
-            
-            #line 69 "C:\Users\mkosanovic\Documents\workspace\git\iog\Execom.IOG\TypeVisualisation\GVTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(propertyTypeName));
-            
-            #line default
-            #line hidden
-            this.Write("Node [label=\"");
-            
-            #line 69 "C:\Users\mkosanovic\Documents\workspace\git\iog\Execom.IOG\TypeVisualisation\GVTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(unit.PropertyNonScalarNames[i]));
-            
-            #line default
-            #line hidden
-            
-            #line 69 "C:\Users\mkosanovic\Documents\workspace\git\iog\Execom.IOG\TypeVisualisation\GVTemplate.tt"
-
-					
-					PropertyAttribute attribute = unit.PropertyNonScalarAttributes[i];
-					if(attribute == PropertyAttribute.PrimaryKeyAndImmutableProperty)
-					{
-						
-            
-            #line default
-            #line hidden
-            this.Write("[PK][IM]\",color=\"red");
-            
-            #line 74 "C:\Users\mkosanovic\Documents\workspace\git\iog\Execom.IOG\TypeVisualisation\GVTemplate.tt"
-
-					} else if(attribute == PropertyAttribute.PrimaryKeyProperty)
-					{
-						
-            
-            #line default
-            #line hidden
-            this.Write("[PK]");
-            
-            #line 77 "C:\Users\mkosanovic\Documents\workspace\git\iog\Execom.IOG\TypeVisualisation\GVTemplate.tt"
-
-					} else if(attribute == PropertyAttribute.ImmutableProperty)
-					{
-						
-            
-            #line default
-            #line hidden
-            this.Write("[IM]\",color=\"red");
-            
-            #line 80 "C:\Users\mkosanovic\Documents\workspace\git\iog\Execom.IOG\TypeVisualisation\GVTemplate.tt"
-
-					}
-				
-				
-            
-            #line default
-            #line hidden
-            this.Write("\",headlabel=");
-            
-            #line 83 "C:\Users\mkosanovic\Documents\workspace\git\iog\Execom.IOG\TypeVisualisation\GVTemplate.tt"
-
-					
-					if(isCollection)
-					{
-					 
-            
-            #line default
-            #line hidden
-            this.Write("\"*\"");
-            
-            #line 87 "C:\Users\mkosanovic\Documents\workspace\git\iog\Execom.IOG\TypeVisualisation\GVTemplate.tt"
-
-					}else
-					{
-					 
-            
-            #line default
-            #line hidden
-            this.Write("\"1\"");
-            
-            #line 90 "C:\Users\mkosanovic\Documents\workspace\git\iog\Execom.IOG\TypeVisualisation\GVTemplate.tt"
-
-					}
-				  
-            
-            #line default
-            #line hidden
-            this.Write("];\r\n\t\t\t");
-            
-            #line 93 "C:\Users\mkosanovic\Documents\workspace\git\iog\Execom.IOG\TypeVisualisation\GVTemplate.tt"
-}	
-		}
-	
-            
-            #line default
-            #line hidden
-            this.Write("\r\n\r\n}");
+            this.Write("\r\n\r\n\r\n}");
             return this.GenerationEnvironment.ToString();
         }
     }

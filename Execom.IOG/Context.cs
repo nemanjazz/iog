@@ -37,7 +37,8 @@ namespace Execom.IOG
     using System.Collections.ObjectModel;
     using Execom.IOG.Upgrade;
     using System.Collections;
-    using Execom.IOG.TypeVisualisation;
+    using Execom.IOG.TypeVisual;
+    using Execom.IOG.TypeVisual;
     
     /// <summary>
     /// Context is an instance which provides access to data in the storage.
@@ -784,8 +785,11 @@ namespace Execom.IOG
             snapshotsService.AddSnapshot(snapshotId);
         }
 
-
-        private Guid GetRootTypeId()
+        /// <summary>
+        /// Returns the Id of the type that represents the root of the database (the representation of the Data Model)
+        /// </summary>
+        /// <returns></returns>
+        public Guid GetRootTypeId()
         {
             var snapshotRootNode = provider.GetNode(Constants.SnapshotsNodeId, NodeAccess.Read);
             var snapshotNode = provider.GetNode(snapshotRootNode.Edges.Values[0].ToNodeId, NodeAccess.Read);
@@ -800,14 +804,24 @@ namespace Execom.IOG
 
             return Guid.Empty;
         }
+
+        /// <summary>
+        /// Returns the name of the type that represents the root of the database (the representation of the Data Model)
+        /// </summary>
+        /// <returns></returns>
+        public string getRootTypeName()
+        {
+            var typeNode = provider.GetNode(GetRootTypeId(), NodeAccess.Read);
+            return TypeVisualUtilities.GetTypeNameFromAssemblyName((string)typeNode.Data);
+        }
         
         /// <summary>
         /// Gets the information of all types in the context (with the rootTypeId as the root type, doesn't actually have to be the root entity), and puts them in a list of TypeVisualisationUnits
         /// </summary>
         /// <returns></returns>
-        public List<TypeVisualisationUnit> GetTypeVisualisationUnitsOfContext(Guid rootTypeId)
+        public ICollection<TypeVisualUnit> GetTypeVisualisationUnits(Guid rootTypeId)
         {
-            List<TypeVisualisationUnit> retVal = new List<TypeVisualisationUnit>();
+            ICollection<TypeVisualUnit> retVal = new List<TypeVisualUnit>();
             List<string> ignoreTypeNames = new List<string>();
             if (!rootTypeId.Equals(Guid.Empty))
             {
@@ -822,24 +836,20 @@ namespace Execom.IOG
         /// <param name="typeNodeId"></param>
         /// <param name="units"></param>
         /// <param name="ignoreTypeNames"></param>
-        private void GetTypeVisualisationUnitsRecursive(Guid typeNodeId, List<TypeVisualisationUnit> units, List<string> ignoreTypeNames)
+        private void GetTypeVisualisationUnitsRecursive(Guid typeNodeId, ICollection<TypeVisualUnit> units, ICollection<string> ignoreTypeNames)
         {
-            TypeVisualisationUnit unit = null;
-
+            TypeVisualUnit unit = null;
             string typeName = null;
-            List<String> propertyScalarNames = new List<string>();
-            List<String> propertyScalarTypes = new List<string>();
-            List<PropertyAttribute> propertyScalarAttributes = new List<PropertyAttribute>();
-            List<String> propertyNonScalarNames = new List<string>();
-            List<String> propertyNonScalarTypes = new List<string>();
-            List<PropertyAttribute> propertyNonScalarAttributes = new List<PropertyAttribute>();
+            ICollection<TypeVisualProperty> scalarProperties = new List<TypeVisualProperty>();
+            ICollection<TypeVisualProperty> nonScalarProperties = new List<TypeVisualProperty>();
 
             if (!typeNodeId.Equals(Guid.Empty))
             {
                 var typeNode = provider.GetNode(typeNodeId, NodeAccess.Read);
-                typeName = TypeVisualisationUtilities.GetTypeNameFromAssemblyName((string)typeNode.Data);
+                typeName = TypeVisualUtilities.GetTypeNameFromAssemblyName((string)typeNode.Data);
                 if(!ignoreTypeNames.Contains(typeName))
                 {
+                    ignoreTypeNames.Add(typeName);
                     foreach (var edge in typeNode.Edges.Values)
                     {
                         if (edge.Data.Semantic.Equals(EdgeType.Property))
@@ -848,58 +858,32 @@ namespace Execom.IOG
                             bool isScalar;
                             var nodeProperty = provider.GetNode(edge.ToNodeId, NodeAccess.Read);
                             var nodePropertyType = provider.GetNode(nodeProperty.Edges.Values[0].ToNodeId, NodeAccess.Read);
-                            string propertyTypeName = TypeVisualisationUtilities.GetTypeNameFromAssemblyName((string)nodePropertyType.Data);
+                            string propertyTypeName = TypeVisualUtilities.GetTypeNameFromAssemblyName((string)nodePropertyType.Data);
 
-                            //checking if property is of generic type
-                            if (propertyTypeName.StartsWith("ICollection<") || propertyTypeName.StartsWith("IIndexedCollection<")
-                                || propertyTypeName.StartsWith("IOrderedCollection<") || propertyTypeName.StartsWith("IScalarSet<"))
+                            string collectionKey,collectionValue;
+                            PropertyCollectionType collectionType = TypeVisualUtilities.CheckIfCollectionOrDictionary(propertyTypeName, 
+                                out collectionKey, out collectionValue);
+
+                            //checking if property is a collection and if property is scalar.
+                            if (collectionType != PropertyCollectionType.NotACollection)
                             {
-                                string genericArgument = propertyTypeName.Substring(propertyTypeName.IndexOf("<") + 1,
-                                    propertyTypeName.LastIndexOf(">") - propertyTypeName.IndexOf("<") - 1);
-                                if (!typesService.IsSupportedScalarTypeName(genericArgument))
+                                if (!typesService.IsSupportedScalarTypeName(collectionValue))
                                 {
-                                    Guid genericArgumentTypeId = typesService.GetIdFromTypeName(genericArgument);
+                                    Guid genericArgumentTypeId = typesService.GetIdFromTypeName(collectionValue);
                                     if (!genericArgumentTypeId.Equals(Guid.Empty))
                                     {
-                                        ignoreTypeNames.Add(typeName);
-                                        GetTypeVisualisationUnitsRecursive(genericArgumentTypeId, units,ignoreTypeNames);
-                                    }
-                                    isScalar = false;
-                                }
-                                else
-                                    isScalar = true;
-                            }
-                            else if (propertyTypeName.StartsWith("IDictionary<"))
-                            {
-                                string firstGenericArgument = propertyTypeName.Substring(propertyTypeName.IndexOf("<") + 1,
-                                    propertyTypeName.IndexOf(",") - propertyTypeName.IndexOf("<") - 1);
-                                string secondGenericArgument = propertyTypeName.Substring(propertyTypeName.IndexOf(",") + 1,
-                                    propertyTypeName.IndexOf(">") - propertyTypeName.IndexOf(",") - 1);
-                                if (!typesService.IsSupportedScalarTypeName(firstGenericArgument))
-                                {
-                                    Guid genericArgumentTypeId = typesService.GetIdFromTypeName(firstGenericArgument);
-                                    if (!genericArgumentTypeId.Equals(Guid.Empty))
-                                    {
-                                        ignoreTypeNames.Add(typeName);
-                                        GetTypeVisualisationUnitsRecursive(genericArgumentTypeId, units, ignoreTypeNames);
-                                    }
-                                }
-                                if (!typesService.IsSupportedScalarTypeName(secondGenericArgument))
-                                {
-                                    Guid genericArgumentTypeId = typesService.GetIdFromTypeName(secondGenericArgument);
-                                    if (!genericArgumentTypeId.Equals(Guid.Empty))
-                                    {
-                                        ignoreTypeNames.Add(typeName);
+                                        //ignoreTypeNames.Add(typeName);
                                         GetTypeVisualisationUnitsRecursive(genericArgumentTypeId, units, ignoreTypeNames);
                                     }
                                     isScalar = false;
                                 }
                                 else
                                     isScalar = true;
+                                propertyTypeName = collectionValue;
                             }
                             else if (!typesService.IsSupportedScalarTypeName(propertyTypeName))
                             {
-                                ignoreTypeNames.Add(typeName);
+                                //ignoreTypeNames.Add(typeName);
                                 GetTypeVisualisationUnitsRecursive(nodeProperty.Edges.Values[0].ToNodeId, units, ignoreTypeNames);
                                 isScalar = false;
                             }
@@ -921,27 +905,18 @@ namespace Execom.IOG
                                 propAttribute = PropertyAttribute.None;
 
                             //adding the property to either scalar or non-scalar lists.
+                            TypeVisualProperty property = new TypeVisualProperty((string)nodeProperty.Data, propertyTypeName, 
+                                propAttribute, collectionType, collectionKey);
+
                             if (isScalar)
-                            {
-                                propertyScalarTypes.Add(propertyTypeName);
-                                propertyScalarNames.Add((string)nodeProperty.Data);
-                                propertyScalarAttributes.Add(propAttribute);
-                            }
+                                scalarProperties.Add(property);
                             else
-                            {
-                                propertyNonScalarTypes.Add(propertyTypeName);
-                                propertyNonScalarNames.Add((string)nodeProperty.Data);
-                                propertyNonScalarAttributes.Add(propAttribute);
-                            }
+                                nonScalarProperties.Add(property);
              
                         }
                     }
-                    unit = new TypeVisualisationUnit(typeName, propertyScalarNames, propertyScalarTypes, propertyScalarAttributes, 
-                        propertyNonScalarNames, propertyNonScalarTypes, propertyNonScalarAttributes);
-                    if (unit != null)
-                        units.Add(unit);
-                    else
-                        throw new NullReferenceException("Unit == null");
+                    unit = new TypeVisualUnit(typeName, scalarProperties, nonScalarProperties);
+                    units.Add(unit);
                 }
             }
             
@@ -949,12 +924,13 @@ namespace Execom.IOG
         }
 
         /// <summary>
-        /// Method for creating a Context specifically for Type Visualisation. For that reason, only the provider and types services are initialized, 
-        /// because the types that are needed for visualisation might not be available in the assembly.
+        /// Method for creating a Context specifically for Type Visualisation. 
+        /// <para>For that reason, only the provider and types services are initialized, 
+        /// because the types that are needed for visualisation might not be available in the assembly.</para>
         /// </summary>
         /// <param name="storage">The storage from which the types needed for visualisation are loaded</param>
         /// <returns>Context created for type visualisation.</returns>
-        public static Context CreateContextForTypeVisualisation(IKeyValueStorage<Guid, object> storage)
+        private static Context CreateContextForTypeVisualisation(IKeyValueStorage<Guid, object> storage)
         {
             return new Context(storage);
         }
@@ -981,7 +957,7 @@ namespace Execom.IOG
         {
             String graphVizContent;
             Context ctx = CreateContextForTypeVisualisation(storage);
-            List<TypeVisualisationUnit> typeUnits = ctx.GetTypeVisualisationUnitsOfContext(ctx.GetRootTypeId());
+            ICollection<TypeVisualUnit> typeUnits = ctx.GetTypeVisualisationUnits(ctx.GetRootTypeId());
             GVTemplate template = new GVTemplate(typeUnits);
             graphVizContent = template.TransformText();
             return graphVizContent;
@@ -994,7 +970,7 @@ namespace Execom.IOG
         public String getGraphVizContent()
         {
             String graphVizContent;
-            List<TypeVisualisationUnit> typeUnits = GetTypeVisualisationUnitsOfContext(GetRootTypeId());
+            ICollection<TypeVisualUnit> typeUnits = GetTypeVisualisationUnits(GetRootTypeId());
             GVTemplate template = new GVTemplate(typeUnits);
             graphVizContent = template.TransformText();
             return graphVizContent;
@@ -1002,7 +978,7 @@ namespace Execom.IOG
 
         /// <summary>
         /// Creates and returns a content for a GraphViz (.gv) file (using DOT language), for the visualisation of types that are in the storage.
-        /// For this purpose, a Context is created only for this purpose, and cannot be used for any other.
+        /// <para>For this purpose, a Context is created only for this purpose, and cannot be used for any other.</para>
         /// </summary>
         /// <param name="storage">Storage from where the types are extracted</param>
         /// <returns>content for the GraphViz file</returns>
@@ -1013,7 +989,7 @@ namespace Execom.IOG
             Guid typeId = ctx.typesService.GetIdFromTypeName(typeName);
             if(typeId.Equals(Guid.Empty))
                 throw new Exception("Type with the following name : " + typeName + " doesn't exist in this Context");
-            List<TypeVisualisationUnit> typeUnits = ctx.GetTypeVisualisationUnitsOfContext(typeId);
+            ICollection<TypeVisualUnit> typeUnits = ctx.GetTypeVisualisationUnits(typeId);
             GVTemplate template = new GVTemplate(typeUnits);
             graphVizContent = template.TransformText();
             return graphVizContent;
@@ -1029,10 +1005,27 @@ namespace Execom.IOG
             Guid typeId = typesService.GetIdFromTypeName(typeName);
             if (typeId.Equals(Guid.Empty))
                 throw new Exception("Type with the following name : " + typeName + " doesn't exist in this Context");
-            List<TypeVisualisationUnit> typeUnits = GetTypeVisualisationUnitsOfContext(typeId);
+            ICollection<TypeVisualUnit> typeUnits = GetTypeVisualisationUnits(typeId);
             GVTemplate template = new GVTemplate(typeUnits);
             graphVizContent = template.TransformText();
             return graphVizContent;
+        }
+
+        /// <summary>
+        /// Returns information about the types (as a TypeVisualUnit class) stored in the context of the passed storage. 
+        /// </summary>
+        /// <param name="storage">The storage from which the context will be created.</param>
+        /// <returns>A collection of TypeVisualUnits containing information about the types in the storage.</returns>
+        public static ICollection<TypeVisualUnit> GetTypeVisualisationUnitsFromStorage(IKeyValueStorage<Guid, object> storage)
+        {
+            Context ctx = CreateContextForTypeVisualisation(storage);
+            return ctx.GetTypeVisualisationUnits(ctx.GetRootTypeId());
+        }
+
+        public static string GetRootTypeNameFromStorage(IKeyValueStorage<Guid, object> storage)
+        {
+            Context ctx = CreateContextForTypeVisualisation(storage);
+            return ctx.getRootTypeName();
         }
         
     }

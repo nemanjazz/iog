@@ -158,14 +158,15 @@
     <Compile Include="Types\IIndexedCollection.cs" />
     <Compile Include="Types\IOrderedCollection.cs" />
     <Compile Include="Types\IScalarSet.cs" />
-    <Compile Include="TypeVisualisation\GVTemplate.cs">
+    <Compile Include="TypeVisual\GVTemplate.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>GVTemplate.tt</DependentUpon>
     </Compile>
-    <Compile Include="TypeVisualisation\GVTemplateCode.cs" />
-    <Compile Include="TypeVisualisation\TypeVisualisationUnit.cs" />
-    <Compile Include="TypeVisualisation\TypeVisualisationUtilities.cs" />
+    <Compile Include="TypeVisual\GVTemplateCode.cs" />
+    <Compile Include="TypeVisual\TypeVisualProperty.cs" />
+    <Compile Include="TypeVisual\TypeVisualUnit.cs" />
+    <Compile Include="TypeVisual\TypeVisualUtilities.cs" />
     <Compile Include="Upgrade\UpgradeConfiguration.cs" />
     <Compile Include="Workspace.cs" />
   </ItemGroup>
@@ -175,7 +176,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="TypeVisualisation\GVTemplate.tt">
+    <None Include="TypeVisual\GVTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>GVTemplate.cs</LastGenOutput>
     </None>

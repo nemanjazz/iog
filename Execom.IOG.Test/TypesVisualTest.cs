@@ -6,14 +6,14 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Execom.IOG.Attributes;
 using Execom.IOG.Types;
 using Execom.IOG;
-using Execom.IOG.TypeVisualisation;
+using Execom.IOG.TypeVisual;
 using Execom.IOG.Storage;
 using System.IO;
 
 namespace Execom.IOG.Test
 {
     [TestClass]
-    public class TypesVisualisationTest
+    public class TypesVisualTest
     {
 
         private static readonly string testResultsLocation = "d:\\TestFiles\\";
@@ -32,7 +32,7 @@ namespace Execom.IOG.Test
             [Immutable]
             string LastName { get; set; }
             Int64 JMBG { get; set; }
-            ICollection<IUser> Users { get; set; }
+            IUser Users { get; set; }
         }
 
         public interface IUser
@@ -44,33 +44,24 @@ namespace Execom.IOG.Test
             //IDictionary<Int32,IDataModel> DataModels { get; set; }
             string Password { get; set; }
             IUserInfo UserInfo { get; set; }
-            IDictionary<Int32,IAdress> Adress { get; set; }
+            IAdress Adress { get; set; }
         }
 
         public interface IDataModel
         {
             [Immutable]
-            IIndexedCollection<IUser> User { get; set; }
+            ICollection<IUser> User { get; set; }
             IDictionary<Int32,Double> DoubleNumber { get; set; }
             //ICollection<Int32> Int32Collection { get; set; }
         }
 
 
-        //[TestMethod]
-        //public void TestTypeNameExtractionLocally()
-        //{
-        //    Context ctx = new Context(typeof(IDataModel));
-        //   // List<TypeVisualisationUnit> typeUnits = ctx.GetTypeVisualisationUnitsOfContext();
-        //    Assert.IsTrue(typeUnits.Count == 4);
-        //    //Assert.AreEqual(propertyNames[0], "User");
-        //    //Assert.AreEqual(propertyTypes[0], "IUser");
-        //}
 
         [TestMethod]
         public void TestTextTemplateGenerationLocally()
         {
             Context ctx = new Context(typeof(IDataModel));
-            string content = ctx.getGraphVizContent("IUser");
+            string content = ctx.getGraphVizContent();
             System.IO.File.WriteAllText(testResultsLocation + "templateOutputLocal.gv", content);
             Assert.IsTrue(true);
         }
@@ -78,7 +69,6 @@ namespace Execom.IOG.Test
         [TestMethod]
         public void TestTextTemplateGenerationRemotely()
         {
-            Context ctx = null;
             FileStream file = new FileStream(testResultsLocation + "data.dat", FileMode.Open);
             IndexedFileStorage storage = new IndexedFileStorage(file, 256, true);
             string content = Context.GetGraphVizContentFromStorage(storage);
@@ -126,7 +116,7 @@ namespace Execom.IOG.Test
         public void TestTextTemplatePlainDataModel()
         {
             Context ctx = new Context(typeof(UseCases.PlainDatamodelTest.IDatabase));
-            string content = ctx.getGraphVizContent("IEvent");
+            string content = ctx.getGraphVizContent();
             System.IO.File.WriteAllText(testResultsLocation + "templateOutputPlainDataModel.gv", content);
             Assert.IsTrue(true);
         }
@@ -156,6 +146,19 @@ namespace Execom.IOG.Test
             string content = ctx.getGraphVizContent();
             System.IO.File.WriteAllText(testResultsLocation + "templateOutputScalarSetCollectionDataModel.gv", content);
             Assert.IsTrue(true);
+        }
+
+        [TestMethod]
+        public void TestChildrenAndParentDictionaries()
+        {
+            Context ctx = new Context(typeof(IDataModel));
+            ICollection<TypeVisualUnit> units = ctx.GetTypeVisualisationUnits(ctx.GetRootTypeId());
+            IDictionary<TypeVisualUnit, ICollection<TypeVisualUnit>> childrenDictionary, parentsDictionary;
+            TypeVisualUtilities.GetChildrenAndParentsDictonaryOfTypes(units, out childrenDictionary, out parentsDictionary);
+            Assert.IsTrue(childrenDictionary.Count == 4);
+            Assert.IsTrue(parentsDictionary.Count == 4);
+          
+
         }
     }
 }

@@ -29,7 +29,7 @@ namespace Execom.IOG.Services.Data
     using System.Diagnostics;
     using Execom.IOG.Attributes;
     using Execom.IOG.Types;
-    using Execom.IOG.TypeVisualisation;
+    using Execom.IOG.TypeVisual;
 
     /// <summary>
     /// Methods for type manipulation on the node provider
@@ -475,7 +475,7 @@ namespace Execom.IOG.Services.Data
                 if (edge.Data.Semantic.Equals(EdgeType.Contains))
                 {
                     var node = provider.GetNode(edge.ToNodeId, NodeAccess.Read);
-                    string nodeData = TypeVisualisationUtilities.GetTypeNameFromAssemblyName((string)node.Data);
+                    string nodeData = TypeVisualUtilities.GetTypeNameFromAssemblyName((string)node.Data);
                     if(typeName.Equals(nodeData))
                         return edge.ToNodeId;
                 }
