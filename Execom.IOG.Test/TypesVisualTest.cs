@@ -55,7 +55,25 @@ namespace Execom.IOG.Test
             //ICollection<Int32> Int32Collection { get; set; }
         }
 
+        public interface IDataEnumModel
+        {
+            EnumsEnglish firstEnum { get; set; }
+            EnumsSrpski secondEnum { get; set; }
+            Int32 intNumber { get; set; }
+        }
 
+        public enum EnumsEnglish
+        {
+            FirstValue,
+            SecondValue
+        }
+
+        public enum EnumsSrpski
+        {
+            PrvaVrednost,
+            DrugaVrednost
+
+        }
 
         [TestMethod]
         public void TestTextTemplateGenerationLocally()
@@ -152,12 +170,20 @@ namespace Execom.IOG.Test
         public void TestChildrenAndParentDictionaries()
         {
             Context ctx = new Context(typeof(IDataModel));
-            ICollection<TypeVisualUnit> units = ctx.GetTypeVisualisationUnits(ctx.GetRootTypeId());
+            IDictionary<String, TypeVisualUnit> units = ctx.GetTypeVisualUnits(ctx.GetRootTypeId());
             IDictionary<TypeVisualUnit, ICollection<TypeVisualUnit>> childrenDictionary, parentsDictionary;
             TypeVisualUtilities.GetChildrenAndParentsDictonaryOfTypes(units, out childrenDictionary, out parentsDictionary);
             Assert.IsTrue(childrenDictionary.Count == 4);
             Assert.IsTrue(parentsDictionary.Count == 4);
-          
+
+        }
+
+        [TestMethod]
+        public void TestEnumsTextTemplate()
+        {
+            Context ctx = new Context(typeof(IDataEnumModel));
+            IDictionary<String, TypeVisualUnit> units = ctx.GetTypeVisualUnits(ctx.GetRootTypeId());
+            Assert.IsTrue(units.Values.Count == 3);
 
         }
     }

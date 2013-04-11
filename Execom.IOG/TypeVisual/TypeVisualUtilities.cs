@@ -58,18 +58,17 @@ namespace Execom.IOG.TypeVisual
         /// <param name="typeUnits">Collection of types from which the information about child and parent types are built.</param>
         /// <param name="childrenDictionary">Dictionary of children types for the type represented by the key.</param>
         /// <param name="parentsDictionary">Dictionary of parent types for the type represented by the key.</param>
-        public static void GetChildrenAndParentsDictonaryOfTypes(ICollection<TypeVisualUnit> typeUnits,
+        public static void GetChildrenAndParentsDictonaryOfTypes(IDictionary<String, TypeVisualUnit> typeUnits,
                             out IDictionary<TypeVisualUnit, ICollection<TypeVisualUnit>> childrenDictionary,
                                 out IDictionary<TypeVisualUnit, ICollection<TypeVisualUnit>> parentsDictionary)
         {
             childrenDictionary = new Dictionary<TypeVisualUnit, ICollection<TypeVisualUnit>>();
             parentsDictionary = new Dictionary<TypeVisualUnit, ICollection<TypeVisualUnit>>();
-            var typeUnitsDictionary = new Dictionary<string, TypeVisualUnit>();
-            foreach (TypeVisualUnit type in typeUnits)
+            foreach (TypeVisualUnit type in typeUnits.Values)
             {
                 try
                 {
-                    typeUnitsDictionary.Add(type.Name, type);
+                    //typeUnitsDictionary.Add(type.Name, type);
                     childrenDictionary.Add(type, new List<TypeVisualUnit>());
                     parentsDictionary.Add(type, new List<TypeVisualUnit>());
                 }
@@ -78,12 +77,12 @@ namespace Execom.IOG.TypeVisual
                     throw new ArgumentException("Duplicate types in the types collection.");
                 }
             }
-            foreach (TypeVisualUnit type in typeUnitsDictionary.Values)
+            foreach (TypeVisualUnit type in typeUnits.Values)
             {
                 foreach (TypeVisualProperty property in type.NonScalarProperties)
                 {
                     string propertyType = property.Type;
-                    TypeVisualUnit child = typeUnitsDictionary[propertyType];
+                    TypeVisualUnit child = typeUnits[propertyType];
                     if (!childrenDictionary[type].Contains(child))
                         childrenDictionary[type].Add(child);
                     if (!parentsDictionary[child].Contains(type))

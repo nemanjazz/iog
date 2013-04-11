@@ -816,27 +816,27 @@ namespace Execom.IOG
         }
         
         /// <summary>
-        /// Gets the information of all types in the context (with the rootTypeId as the root type, doesn't actually have to be the root entity), and puts them in a list of TypeVisualisationUnits
+        /// Gets the information of all types in the context (with the rootTypeId as the root type, doesn't actually have to be the root entity), and puts them in a dictionary, where the key is the name of the type.
         /// </summary>
         /// <returns></returns>
-        public ICollection<TypeVisualUnit> GetTypeVisualisationUnits(Guid rootTypeId)
+        public IDictionary<String,TypeVisualUnit> GetTypeVisualUnits(Guid rootTypeId)
         {
-            ICollection<TypeVisualUnit> retVal = new List<TypeVisualUnit>();
+            IDictionary<String,TypeVisualUnit> retVal = new Dictionary<String,TypeVisualUnit>();
             List<string> ignoreTypeNames = new List<string>();
             if (!rootTypeId.Equals(Guid.Empty))
             {
-                GetTypeVisualisationUnitsRecursive(rootTypeId, retVal, ignoreTypeNames);
+                GetTypeVisualUnitsRecursive(rootTypeId, retVal, ignoreTypeNames);
             }
             return retVal;
         }
 
         /// <summary>
-        /// Recursively fills the units list with a TypeVisualisationUnit of the Guid - typeNodeId.
+        /// Recursively fills the units dictionary with a TypeVisualisationUnit of the Guid - typeNodeId.
         /// </summary>
         /// <param name="typeNodeId"></param>
         /// <param name="units"></param>
         /// <param name="ignoreTypeNames"></param>
-        private void GetTypeVisualisationUnitsRecursive(Guid typeNodeId, ICollection<TypeVisualUnit> units, ICollection<string> ignoreTypeNames)
+        private void GetTypeVisualUnitsRecursive(Guid typeNodeId, IDictionary<String,TypeVisualUnit> units, ICollection<string> ignoreTypeNames)
         {
             TypeVisualUnit unit = null;
             string typeName = null;
@@ -873,7 +873,7 @@ namespace Execom.IOG
                                     if (!genericArgumentTypeId.Equals(Guid.Empty))
                                     {
                                         //ignoreTypeNames.Add(typeName);
-                                        GetTypeVisualisationUnitsRecursive(genericArgumentTypeId, units, ignoreTypeNames);
+                                        GetTypeVisualUnitsRecursive(genericArgumentTypeId, units, ignoreTypeNames);
                                     }
                                     isScalar = false;
                                 }
@@ -884,7 +884,7 @@ namespace Execom.IOG
                             else if (!typesService.IsSupportedScalarTypeName(propertyTypeName))
                             {
                                 //ignoreTypeNames.Add(typeName);
-                                GetTypeVisualisationUnitsRecursive(nodeProperty.Edges.Values[0].ToNodeId, units, ignoreTypeNames);
+                                GetTypeVisualUnitsRecursive(nodeProperty.Edges.Values[0].ToNodeId, units, ignoreTypeNames);
                                 isScalar = false;
                             }
                             else
@@ -914,9 +914,16 @@ namespace Execom.IOG
                                 nonScalarProperties.Add(property);
              
                         }
+                        else if (edge.Data.Semantic.Equals(EdgeType.Contains))
+                        {
+                            var nodeProperty = provider.GetNode(edge.ToNodeId, NodeAccess.Read);
+                            TypeVisualProperty property = new TypeVisualProperty((string)nodeProperty.Data, "enumValue",
+                                PropertyAttribute.None, PropertyCollectionType.NotACollection, "");
+                            scalarProperties.Add(property);
+                        }
                     }
                     unit = new TypeVisualUnit(typeName, scalarProperties, nonScalarProperties);
-                    units.Add(unit);
+                    units.Add(unit.Name, unit);
                 }
             }
             
@@ -957,7 +964,7 @@ namespace Execom.IOG
         {
             String graphVizContent;
             Context ctx = CreateContextForTypeVisualisation(storage);
-            ICollection<TypeVisualUnit> typeUnits = ctx.GetTypeVisualisationUnits(ctx.GetRootTypeId());
+            IDictionary<String,TypeVisualUnit> typeUnits = ctx.GetTypeVisualUnits(ctx.GetRootTypeId());
             GVTemplate template = new GVTemplate(typeUnits);
             graphVizContent = template.TransformText();
             return graphVizContent;
@@ -970,7 +977,7 @@ namespace Execom.IOG
         public String getGraphVizContent()
         {
             String graphVizContent;
-            ICollection<TypeVisualUnit> typeUnits = GetTypeVisualisationUnits(GetRootTypeId());
+            IDictionary<String, TypeVisualUnit> typeUnits = GetTypeVisualUnits(GetRootTypeId());
             GVTemplate template = new GVTemplate(typeUnits);
             graphVizContent = template.TransformText();
             return graphVizContent;
@@ -989,7 +996,7 @@ namespace Execom.IOG
             Guid typeId = ctx.typesService.GetIdFromTypeName(typeName);
             if(typeId.Equals(Guid.Empty))
                 throw new Exception("Type with the following name : " + typeName + " doesn't exist in this Context");
-            ICollection<TypeVisualUnit> typeUnits = ctx.GetTypeVisualisationUnits(typeId);
+            IDictionary<String, TypeVisualUnit> typeUnits = ctx.GetTypeVisualUnits(typeId);
             GVTemplate template = new GVTemplate(typeUnits);
             graphVizContent = template.TransformText();
             return graphVizContent;
@@ -1005,23 +1012,28 @@ namespace Execom.IOG
             Guid typeId = typesService.GetIdFromTypeName(typeName);
             if (typeId.Equals(Guid.Empty))
                 throw new Exception("Type with the following name : " + typeName + " doesn't exist in this Context");
-            ICollection<TypeVisualUnit> typeUnits = GetTypeVisualisationUnits(typeId);
+            IDictionary<String, TypeVisualUnit> typeUnits = GetTypeVisualUnits(typeId);
             GVTemplate template = new GVTemplate(typeUnits);
             graphVizContent = template.TransformText();
             return graphVizContent;
         }
 
         /// <summary>
-        /// Returns information about the types (as a TypeVisualUnit class) stored in the context of the passed storage. 
+        /// Returns a dictionary of TypeVisualUnits (where the type name is the key) stored in the context of the passed storage. 
         /// </summary>
         /// <param name="storage">The storage from which the context will be created.</param>
-        /// <returns>A collection of TypeVisualUnits containing information about the types in the storage.</returns>
-        public static ICollection<TypeVisualUnit> GetTypeVisualisationUnitsFromStorage(IKeyValueStorage<Guid, object> storage)
+        /// <returns>A dictionary of TypeVisualUnits (where the type name is the key) containing information about the types in the storage.</returns>
+        public static IDictionary<String, TypeVisualUnit> GetTypeVisualisationUnitsFromStorage(IKeyValueStorage<Guid, object> storage)
         {
             Context ctx = CreateContextForTypeVisualisation(storage);
-            return ctx.GetTypeVisualisationUnits(ctx.GetRootTypeId());
+            return ctx.GetTypeVisualUnits(ctx.GetRootTypeId());
         }
 
+        /// <summary>
+        /// Returns the name of the root type from the information in the storage.
+        /// </summary>
+        /// <param name="storage"></param>
+        /// <returns></returns>
         public static string GetRootTypeNameFromStorage(IKeyValueStorage<Guid, object> storage)
         {
             Context ctx = CreateContextForTypeVisualisation(storage);

@@ -8,6 +8,11 @@ using System.Text;
 using System.Windows.Forms;
 using Execom.IOG.Storage;
 using System.IO;
+using GraphVizWrapper.Queries;
+using GraphVizWrapper.Commands;
+using GraphVizWrapper;
+using System.Diagnostics;
+
 
 namespace Execom.IOG.TypesVisualisationApp
 {
@@ -67,6 +72,7 @@ namespace Execom.IOG.TypesVisualisationApp
                 tbStatus.Text = "";
                 panStatus.Visible = false;
             }
+
         }
 
         private void btnCloseStorage_Click(object sender, EventArgs e)
@@ -82,40 +88,66 @@ namespace Execom.IOG.TypesVisualisationApp
 
         private void btnCreateGVFile_Click(object sender, EventArgs e)
         {
+            disableControls();
+            this.Cursor = Cursors.WaitCursor;
+            Application.DoEvents();
             
             try
             {
                 string gvContent = null;
+                string chosenTypeName = null;
+                //Opening the storage
                 using (FileStream file = new FileStream(filePath, FileMode.Open))
                 using (var storage = new IndexedFileStorage(file, clusterSize, safeWrite, header))
                 {
-                    
+                    string rootTypeName = Context.GetRootTypeNameFromStorage(storage);
                     if (rbRootType.Checked)
                     {
+                        chosenTypeName = rootTypeName;
                         gvContent = Context.GetGraphVizContentFromStorage(storage);
                         
                     }
                     else
                     {
-                        ChooseTypeForm chooseTypeForm = new ChooseTypeForm(Context.GetTypeVisualisationUnitsFromStorage(storage));
+                        //Opening the dialog for choosing a type.
+                        ChooseTypeForm chooseTypeForm = new ChooseTypeForm(Context.GetTypeVisualisationUnitsFromStorage(storage), rootTypeName);
                         if (chooseTypeForm.ShowDialog() == DialogResult.OK)
                         {
-                            gvContent = Context.GetGraphVizContentFromStorage(chooseTypeForm.CurrentType.Name, storage);
+                            chosenTypeName = chooseTypeForm.CurrentType.Name;
+                            gvContent = Context.GetGraphVizContentFromStorage(chosenTypeName, storage);
                         }
                     }
                 }
                 if (gvContent != null)
                 {
-                    saveFileDialog1.Filter = "GraphViz file|*.gv";
-                    saveFileDialog1.AddExtension = true;
-                    saveFileDialog1.DefaultExt = ".gv";
-                    if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+                    this.Cursor = Cursors.WaitCursor;
+                    Application.DoEvents();
+
+                    //creating the filename for the image.
+                    string fileLocation = filePath.Substring(0, filePath.LastIndexOf("\\") + 1);
+                    string fileName = Path.GetFileNameWithoutExtension(filePath) + "_" + chosenTypeName;
+                    string pngExtension = ".png";
+                    string newFilePathPng = fileLocation + fileName + pngExtension;
+                    int occurance = 0;
+                    while (File.Exists(newFilePathPng))
                     {
-                        using (StreamWriter sw = new StreamWriter(saveFileDialog1.FileName))
-                            sw.Write(gvContent);
-                        panStatus.Visible = true;
-                        tbStatus.Text = saveFileDialog1.FileName;
+                        occurance++;
+                        newFilePathPng = fileLocation + fileName + occurance + pngExtension;
                     }
+
+                    //Calling dot.exe to generate the image.
+                    var getStartProcessQuery = new GetStartProcessQuery();
+                    var getProcessStartInfoQuery = new GetProcessStartInfoQuery();
+                    var registerLayoutPluginCommand = new RegisterLayoutPluginCommand(getProcessStartInfoQuery,getStartProcessQuery);
+                    var wrapper = new GraphVizWrapper.GraphVizWrapper(getStartProcessQuery, getProcessStartInfoQuery, registerLayoutPluginCommand);
+
+                    byte[] output = wrapper.GenerateGraph(gvContent, Enums.GraphReturnType.Png);
+                    File.WriteAllBytes(newFilePathPng, output);
+                    
+     
+                    panStatus.Visible = true;
+                    tbStatus.Text = newFilePathPng;
+
                 }
                 
             }
@@ -131,8 +163,42 @@ namespace Execom.IOG.TypesVisualisationApp
                 ExceptionDialog exDialog = new ExceptionDialog(message, ex);
                 exDialog.ShowDialog();
             }
+            enableControls();
+            this.Cursor = Cursors.Default;
+            Application.DoEvents();
 
             }
+
+        private void btnShow_Click(object sender, EventArgs e)
+        {
+            if(!(tbStatus.Text.Equals("")))
+                Process.Start(tbStatus.Text);
+
+            
+        }
+
+        private void disableControls()
+        {
+            btnCreateGVFile.Enabled = false;
+            rbRootType.Enabled = false;
+            rbSpecificType.Enabled = false;
+            panStatus.Enabled = false;
+            btnCloseStorage.Enabled = false;
+            lblFilePath.Focus();
+        }
+
+        private void enableControls()
+        {
+            btnCreateGVFile.Enabled = true;
+            rbRootType.Enabled = true;
+            rbSpecificType.Enabled = true;
+            panStatus.Enabled = true;
+            btnCloseStorage.Enabled = true;
+
+        }
+
+
+        
 
         }
     

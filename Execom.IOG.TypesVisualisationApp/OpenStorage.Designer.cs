@@ -79,30 +79,26 @@
             this.lblHeader.TabIndex = 3;
             this.lblHeader.Text = "Header";
             // 
-            // openFileDialog1
-            // 
-            this.openFileDialog1.FileName = "openFileDialog1";
-            // 
             // tbFilePath
             // 
             this.tbFilePath.Location = new System.Drawing.Point(129, 22);
             this.tbFilePath.Name = "tbFilePath";
             this.tbFilePath.Size = new System.Drawing.Size(233, 20);
-            this.tbFilePath.TabIndex = 4;
+            this.tbFilePath.TabIndex = 0;
             // 
             // tbClusterSize
             // 
             this.tbClusterSize.Location = new System.Drawing.Point(129, 77);
             this.tbClusterSize.Name = "tbClusterSize";
             this.tbClusterSize.Size = new System.Drawing.Size(44, 20);
-            this.tbClusterSize.TabIndex = 5;
+            this.tbClusterSize.TabIndex = 2;
             // 
             // tbHeader
             // 
             this.tbHeader.Location = new System.Drawing.Point(129, 103);
             this.tbHeader.Name = "tbHeader";
             this.tbHeader.Size = new System.Drawing.Size(67, 20);
-            this.tbHeader.TabIndex = 6;
+            this.tbHeader.TabIndex = 3;
             // 
             // checkSafeWrite
             // 
@@ -112,7 +108,7 @@
             this.checkSafeWrite.Location = new System.Drawing.Point(129, 130);
             this.checkSafeWrite.Name = "checkSafeWrite";
             this.checkSafeWrite.Size = new System.Drawing.Size(15, 14);
-            this.checkSafeWrite.TabIndex = 7;
+            this.checkSafeWrite.TabIndex = 4;
             this.checkSafeWrite.UseVisualStyleBackColor = true;
             // 
             // btnBrowse
@@ -120,7 +116,7 @@
             this.btnBrowse.Location = new System.Drawing.Point(129, 48);
             this.btnBrowse.Name = "btnBrowse";
             this.btnBrowse.Size = new System.Drawing.Size(75, 23);
-            this.btnBrowse.TabIndex = 8;
+            this.btnBrowse.TabIndex = 1;
             this.btnBrowse.Text = "Browse";
             this.btnBrowse.UseVisualStyleBackColor = true;
             this.btnBrowse.Click += new System.EventHandler(this.btnBrowse_Click);
@@ -142,7 +138,7 @@
             this.btnOk.Location = new System.Drawing.Point(206, 180);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
-            this.btnOk.TabIndex = 11;
+            this.btnOk.TabIndex = 5;
             this.btnOk.Text = "Ok";
             this.btnOk.UseVisualStyleBackColor = true;
             this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
@@ -153,12 +149,13 @@
             this.btnCancel.Location = new System.Drawing.Point(287, 180);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 12;
+            this.btnCancel.TabIndex = 6;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             // 
             // OpenStorage
             // 
+            this.AcceptButton = this.btnOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(385, 215);

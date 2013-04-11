@@ -14,7 +14,8 @@ namespace Execom.IOG.TypesVisualisationApp
     {
         private IDictionary<TypeVisualUnit, ICollection<TypeVisualUnit>> childrenDictionary;
         private IDictionary<TypeVisualUnit, ICollection<TypeVisualUnit>> parentsDictionary;
-        private IList<TypeVisualUnit> units;
+        private IDictionary<String, TypeVisualUnit> units;
+        private string rootTypeName;
 
         public TypeVisualUnit CurrentType
         {
@@ -22,29 +23,38 @@ namespace Execom.IOG.TypesVisualisationApp
             private set;
         }
 
-        public ChooseTypeForm(ICollection<TypeVisualUnit> units)
+        public ChooseTypeForm(IDictionary<String, TypeVisualUnit> units, string rootTypeName)
         {
             InitializeComponent();
-            this.units = new List<TypeVisualUnit>(units);
+            this.rootTypeName = rootTypeName;
+            this.units = new Dictionary<String, TypeVisualUnit>(units);
             TypeVisualUtilities.GetChildrenAndParentsDictonaryOfTypes(this.units, out childrenDictionary, out parentsDictionary);
-            initialiseListBoxes(this.units);
+            showRootType();
         }
 
-        private void initialiseListBoxes(IList<TypeVisualUnit> units)
+        private void showRootType()
         {
-            listBoxParents.Items.Clear();
-            listBoxChildren.Items.Clear();
-            CurrentType = units[units.Count - 1];
+            
+            changeCurrentTypeAndRefreshLists(units[rootTypeName]);
+            listBoxChildren.Focus();
+        }
+
+        private void changeCurrentTypeAndRefreshLists(TypeVisualUnit currentType)
+        {
+            CurrentType = currentType;
             tbCurrentType.Text = CurrentType.ToString();
             fillListBoxes();
-            listBoxChildren.Focus();
         }
 
         private void fillListBoxes()
         {
-            listBoxChildren.DataSource = childrenDictionary[CurrentType];
+            var listChildren = new List<TypeVisualUnit>(childrenDictionary[CurrentType]);
+            var listParents = new List<TypeVisualUnit>(parentsDictionary[CurrentType]);
+            listChildren.Sort();
+            listParents.Sort();
+            listBoxChildren.DataSource = listChildren;
             listBoxChildren.DisplayMember = "Name";
-            listBoxParents.DataSource = parentsDictionary[CurrentType];
+            listBoxParents.DataSource = listParents;
             listBoxParents.DisplayMember = "Name";
             listBoxChildren.SelectedIndex = -1;
             listBoxParents.SelectedIndex = -1;
@@ -80,13 +90,23 @@ namespace Execom.IOG.TypesVisualisationApp
 
         private void chooseType(int selectedIndex, ListBox sender)
         {
-            CurrentType = (TypeVisualUnit) sender.Items[selectedIndex];
-            tbCurrentType.Text = CurrentType.ToString();
-            fillListBoxes();
+            changeCurrentTypeAndRefreshLists((TypeVisualUnit)sender.Items[selectedIndex]);
             sender.Focus();
         }
 
+        private void btnBackToRoot_Click(object sender, EventArgs e)
+        {
+            showRootType();
+        }
 
+        private void btnSearchType_Click(object sender, EventArgs e)
+        {
+            var searchDialog = new SearchTypeDialog(units);
+            if (searchDialog.ShowDialog() == DialogResult.OK)
+            {
+                changeCurrentTypeAndRefreshLists(searchDialog.ResultType);
+            }
+        }
 
     }
 }

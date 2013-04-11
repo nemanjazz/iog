@@ -34,8 +34,17 @@ namespace Execom.IOG.TypesVisualisationApp
 
         private void btnOk_Click(object sender, EventArgs e)
         {
+            disableControls();
+            this.Cursor = Cursors.WaitCursor;
+            Application.DoEvents();
+            
+
             if (!ValidateForm())
                 this.DialogResult = DialogResult.None;
+
+            enableControls();
+            this.Cursor = Cursors.Default;
+            Application.DoEvents();
             
         }
 
@@ -72,6 +81,7 @@ namespace Execom.IOG.TypesVisualisationApp
             }
             try
             {
+                
                 if(tbHeader.Text.Equals(""))
                     using ( FileStream file = new FileStream(tbFilePath.Text, FileMode.Open))
                     using (var storage = new IndexedFileStorage(file, clusterSize, checkSafeWrite.Checked))
@@ -89,9 +99,11 @@ namespace Execom.IOG.TypesVisualisationApp
             {
                 ExceptionDialog exDialog = new ExceptionDialog("An exception occured. \nPlease check the inputed parameters.",
                                                                 e);
+                
                 exDialog.ShowDialog();
                 return false;
             }
+
             if(tbHeader.Text.Equals(""))
                 parent.setStorageInformation(tbFilePath.Text, clusterSize, checkSafeWrite.Checked);
             else
@@ -99,5 +111,21 @@ namespace Execom.IOG.TypesVisualisationApp
 
             return true;
         }
+
+        private void disableControls()
+        {
+            btnOk.Enabled = false;
+            btnCancel.Enabled = false;
+            btnBrowse.Enabled = false;
+        }
+
+        private void enableControls()
+        {
+            btnOk.Enabled = true;
+            btnCancel.Enabled = true;
+            btnBrowse.Enabled = true;
+        }
+
+
     }
 }

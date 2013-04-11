@@ -30,7 +30,7 @@
         {
             this.btnOpenStorage = new System.Windows.Forms.Button();
             this.gbCurrentStorage = new System.Windows.Forms.GroupBox();
-            this.gbCreateGVFile = new System.Windows.Forms.GroupBox();
+            this.gbCreateImageFile = new System.Windows.Forms.GroupBox();
             this.btnCreateGVFile = new System.Windows.Forms.Button();
             this.rbSpecificType = new System.Windows.Forms.RadioButton();
             this.rbRootType = new System.Windows.Forms.RadioButton();
@@ -48,8 +48,9 @@
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.lblStatus = new System.Windows.Forms.Label();
             this.panStatus = new System.Windows.Forms.Panel();
+            this.btnShow = new System.Windows.Forms.Button();
             this.gbCurrentStorage.SuspendLayout();
-            this.gbCreateGVFile.SuspendLayout();
+            this.gbCreateImageFile.SuspendLayout();
             this.panStatus.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -65,7 +66,7 @@
             // 
             // gbCurrentStorage
             // 
-            this.gbCurrentStorage.Controls.Add(this.gbCreateGVFile);
+            this.gbCurrentStorage.Controls.Add(this.gbCreateImageFile);
             this.gbCurrentStorage.Controls.Add(this.cbSafeWrite);
             this.gbCurrentStorage.Controls.Add(this.tbHeader);
             this.gbCurrentStorage.Controls.Add(this.tbClusterSize);
@@ -81,24 +82,24 @@
             this.gbCurrentStorage.TabStop = false;
             this.gbCurrentStorage.Text = "Current storage opened";
             // 
-            // gbCreateGVFile
+            // gbCreateImageFile
             // 
-            this.gbCreateGVFile.Controls.Add(this.btnCreateGVFile);
-            this.gbCreateGVFile.Controls.Add(this.rbSpecificType);
-            this.gbCreateGVFile.Controls.Add(this.rbRootType);
-            this.gbCreateGVFile.Location = new System.Drawing.Point(7, 120);
-            this.gbCreateGVFile.Name = "gbCreateGVFile";
-            this.gbCreateGVFile.Size = new System.Drawing.Size(330, 67);
-            this.gbCreateGVFile.TabIndex = 12;
-            this.gbCreateGVFile.TabStop = false;
-            this.gbCreateGVFile.Text = "Create GraphViz File";
+            this.gbCreateImageFile.Controls.Add(this.btnCreateGVFile);
+            this.gbCreateImageFile.Controls.Add(this.rbSpecificType);
+            this.gbCreateImageFile.Controls.Add(this.rbRootType);
+            this.gbCreateImageFile.Location = new System.Drawing.Point(7, 120);
+            this.gbCreateImageFile.Name = "gbCreateImageFile";
+            this.gbCreateImageFile.Size = new System.Drawing.Size(330, 67);
+            this.gbCreateImageFile.TabIndex = 12;
+            this.gbCreateImageFile.TabStop = false;
+            this.gbCreateImageFile.Text = "Create Image File";
             // 
             // btnCreateGVFile
             // 
             this.btnCreateGVFile.Location = new System.Drawing.Point(234, 27);
             this.btnCreateGVFile.Name = "btnCreateGVFile";
             this.btnCreateGVFile.Size = new System.Drawing.Size(75, 23);
-            this.btnCreateGVFile.TabIndex = 11;
+            this.btnCreateGVFile.TabIndex = 4;
             this.btnCreateGVFile.Text = "Ok";
             this.btnCreateGVFile.UseVisualStyleBackColor = true;
             this.btnCreateGVFile.Click += new System.EventHandler(this.btnCreateGVFile_Click);
@@ -109,7 +110,7 @@
             this.rbSpecificType.Location = new System.Drawing.Point(115, 30);
             this.rbSpecificType.Name = "rbSpecificType";
             this.rbSpecificType.Size = new System.Drawing.Size(113, 17);
-            this.rbSpecificType.TabIndex = 10;
+            this.rbSpecificType.TabIndex = 3;
             this.rbSpecificType.Text = "from Specific Type";
             this.rbSpecificType.UseVisualStyleBackColor = true;
             // 
@@ -120,7 +121,7 @@
             this.rbRootType.Location = new System.Drawing.Point(11, 30);
             this.rbRootType.Name = "rbRootType";
             this.rbRootType.Size = new System.Drawing.Size(98, 17);
-            this.rbRootType.TabIndex = 9;
+            this.rbRootType.TabIndex = 2;
             this.rbRootType.TabStop = true;
             this.rbRootType.Text = "from Root Type";
             this.rbRootType.UseVisualStyleBackColor = true;
@@ -209,7 +210,7 @@
             this.btnCloseStorage.Location = new System.Drawing.Point(120, 23);
             this.btnCloseStorage.Name = "btnCloseStorage";
             this.btnCloseStorage.Size = new System.Drawing.Size(72, 36);
-            this.btnCloseStorage.TabIndex = 2;
+            this.btnCloseStorage.TabIndex = 1;
             this.btnCloseStorage.Text = "Close Storage File";
             this.btnCloseStorage.UseVisualStyleBackColor = true;
             this.btnCloseStorage.Click += new System.EventHandler(this.btnCloseStorage_Click);
@@ -219,7 +220,7 @@
             this.tbStatus.Location = new System.Drawing.Point(7, 19);
             this.tbStatus.Name = "tbStatus";
             this.tbStatus.ReadOnly = true;
-            this.tbStatus.Size = new System.Drawing.Size(336, 20);
+            this.tbStatus.Size = new System.Drawing.Size(228, 20);
             this.tbStatus.TabIndex = 3;
             // 
             // lblStatus
@@ -227,12 +228,13 @@
             this.lblStatus.AutoSize = true;
             this.lblStatus.Location = new System.Drawing.Point(4, 3);
             this.lblStatus.Name = "lblStatus";
-            this.lblStatus.Size = new System.Drawing.Size(158, 13);
+            this.lblStatus.Size = new System.Drawing.Size(144, 13);
             this.lblStatus.TabIndex = 4;
-            this.lblStatus.Text = "GraphViz file has been created: ";
+            this.lblStatus.Text = "Image file has been created: ";
             // 
             // panStatus
             // 
+            this.panStatus.Controls.Add(this.btnShow);
             this.panStatus.Controls.Add(this.lblStatus);
             this.panStatus.Controls.Add(this.tbStatus);
             this.panStatus.Location = new System.Drawing.Point(27, 281);
@@ -240,6 +242,16 @@
             this.panStatus.Size = new System.Drawing.Size(360, 44);
             this.panStatus.TabIndex = 5;
             this.panStatus.Visible = false;
+            // 
+            // btnShow
+            // 
+            this.btnShow.Location = new System.Drawing.Point(241, 16);
+            this.btnShow.Name = "btnShow";
+            this.btnShow.Size = new System.Drawing.Size(75, 23);
+            this.btnShow.TabIndex = 5;
+            this.btnShow.Text = "Show Image";
+            this.btnShow.UseVisualStyleBackColor = true;
+            this.btnShow.Click += new System.EventHandler(this.btnShow_Click);
             // 
             // MainForm
             // 
@@ -256,8 +268,8 @@
             this.Text = "Types Visualisation";
             this.gbCurrentStorage.ResumeLayout(false);
             this.gbCurrentStorage.PerformLayout();
-            this.gbCreateGVFile.ResumeLayout(false);
-            this.gbCreateGVFile.PerformLayout();
+            this.gbCreateImageFile.ResumeLayout(false);
+            this.gbCreateImageFile.PerformLayout();
             this.panStatus.ResumeLayout(false);
             this.panStatus.PerformLayout();
             this.ResumeLayout(false);
@@ -279,7 +291,7 @@
         private System.Windows.Forms.Label lblFilePath;
         private System.Windows.Forms.Label lblNoStorage;
         private System.Windows.Forms.Button btnCloseStorage;
-        private System.Windows.Forms.GroupBox gbCreateGVFile;
+        private System.Windows.Forms.GroupBox gbCreateImageFile;
         private System.Windows.Forms.Button btnCreateGVFile;
         private System.Windows.Forms.RadioButton rbSpecificType;
         private System.Windows.Forms.RadioButton rbRootType;
@@ -287,6 +299,7 @@
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.Label lblStatus;
         private System.Windows.Forms.Panel panStatus;
+        private System.Windows.Forms.Button btnShow;
     }
 }
 

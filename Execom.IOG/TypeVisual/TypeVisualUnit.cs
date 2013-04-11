@@ -11,7 +11,7 @@ namespace Execom.IOG.TypeVisual
     /// <summary>
     /// Class for holding information of a type (its name and all its properties, both scalar and non-scalar).
     /// </summary>
-    public class TypeVisualUnit
+    public class TypeVisualUnit : IComparable
     {
 
         private string name;
@@ -62,5 +62,13 @@ namespace Execom.IOG.TypeVisual
             return name;
         }
 
+        public int CompareTo(object obj)
+        {
+            if (!(obj is TypeVisualUnit))
+                return 0;
+            if (this == null || obj == null || this.Name == null || ((TypeVisualUnit)obj).Name == null)
+                return 0;
+            return this.Name.CompareTo(((TypeVisualUnit)obj).Name);
+        }
     }
 }

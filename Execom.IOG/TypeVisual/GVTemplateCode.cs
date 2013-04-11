@@ -6,7 +6,7 @@ namespace Execom.IOG.TypeVisual
 {
     public partial class GVTemplate
     {
-        private ICollection<TypeVisualUnit> typeUnits;
+        private IDictionary<String,TypeVisualUnit> typeUnits;
         private int minLen = 2;
         private int labelDistance = 2;
 
@@ -23,7 +23,7 @@ namespace Execom.IOG.TypeVisual
         }
 
 
-        public GVTemplate(ICollection<TypeVisualUnit> typeUnits)
+        public GVTemplate(IDictionary<String, TypeVisualUnit> typeUnits)
         {
             this.typeUnits = typeUnits;
         }
@@ -32,7 +32,7 @@ namespace Execom.IOG.TypeVisual
         {   
             string retVal = "";
     
-            foreach (TypeVisualUnit unit in typeUnits)
+            foreach (TypeVisualUnit unit in typeUnits.Values)
             {
                 retVal +=unit.Name + "Node [label=\"<p1>" + unit.Name + "|";
                 if(unit.ScalarProperties.Count == 0)

@@ -36,10 +36,13 @@
             this.tbCurrentType = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.lblCurrentType = new System.Windows.Forms.Label();
+            this.btnBackToRoot = new System.Windows.Forms.Button();
+            this.btnSearchType = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // listBoxParents
             // 
+            this.listBoxParents.BackColor = System.Drawing.SystemColors.InactiveBorder;
             this.listBoxParents.FormattingEnabled = true;
             this.listBoxParents.Location = new System.Drawing.Point(12, 28);
             this.listBoxParents.Name = "listBoxParents";
@@ -53,8 +56,8 @@
             this.btnOk.Location = new System.Drawing.Point(356, 239);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(80, 23);
-            this.btnOk.TabIndex = 1;
-            this.btnOk.Text = "Create GV file";
+            this.btnOk.TabIndex = 2;
+            this.btnOk.Text = "Create Image";
             this.btnOk.UseVisualStyleBackColor = true;
             this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
             // 
@@ -64,7 +67,7 @@
             this.btnCancel.Location = new System.Drawing.Point(442, 239);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 2;
+            this.btnCancel.TabIndex = 3;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             // 
@@ -79,6 +82,7 @@
             // 
             // listBoxChildren
             // 
+            this.listBoxChildren.BackColor = System.Drawing.SystemColors.InactiveBorder;
             this.listBoxChildren.FormattingEnabled = true;
             this.listBoxChildren.Location = new System.Drawing.Point(356, 28);
             this.listBoxChildren.Name = "listBoxChildren";
@@ -89,8 +93,8 @@
             // 
             // tbCurrentType
             // 
-            this.tbCurrentType.BackColor = System.Drawing.SystemColors.Window;
-            this.tbCurrentType.Location = new System.Drawing.Point(179, 114);
+            this.tbCurrentType.BackColor = System.Drawing.SystemColors.InactiveBorder;
+            this.tbCurrentType.Location = new System.Drawing.Point(179, 116);
             this.tbCurrentType.Name = "tbCurrentType";
             this.tbCurrentType.ReadOnly = true;
             this.tbCurrentType.Size = new System.Drawing.Size(171, 20);
@@ -110,17 +114,39 @@
             // lblCurrentType
             // 
             this.lblCurrentType.AutoSize = true;
-            this.lblCurrentType.Location = new System.Drawing.Point(233, 98);
+            this.lblCurrentType.Location = new System.Drawing.Point(233, 97);
             this.lblCurrentType.Name = "lblCurrentType";
             this.lblCurrentType.Size = new System.Drawing.Size(64, 13);
             this.lblCurrentType.TabIndex = 7;
             this.lblCurrentType.Text = "Current type";
+            // 
+            // btnBackToRoot
+            // 
+            this.btnBackToRoot.Location = new System.Drawing.Point(226, 143);
+            this.btnBackToRoot.Name = "btnBackToRoot";
+            this.btnBackToRoot.Size = new System.Drawing.Size(78, 23);
+            this.btnBackToRoot.TabIndex = 0;
+            this.btnBackToRoot.Text = "Back to root";
+            this.btnBackToRoot.UseVisualStyleBackColor = true;
+            this.btnBackToRoot.Click += new System.EventHandler(this.btnBackToRoot_Click);
+            // 
+            // btnSearchType
+            // 
+            this.btnSearchType.Location = new System.Drawing.Point(226, 172);
+            this.btnSearchType.Name = "btnSearchType";
+            this.btnSearchType.Size = new System.Drawing.Size(78, 23);
+            this.btnSearchType.TabIndex = 1;
+            this.btnSearchType.Text = "Search type";
+            this.btnSearchType.UseVisualStyleBackColor = true;
+            this.btnSearchType.Click += new System.EventHandler(this.btnSearchType_Click);
             // 
             // ChooseTypeForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(529, 279);
+            this.Controls.Add(this.btnSearchType);
+            this.Controls.Add(this.btnBackToRoot);
             this.Controls.Add(this.lblCurrentType);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.tbCurrentType);
@@ -147,5 +173,7 @@
         private System.Windows.Forms.TextBox tbCurrentType;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label lblCurrentType;
+        private System.Windows.Forms.Button btnBackToRoot;
+        private System.Windows.Forms.Button btnSearchType;
     }
 }
