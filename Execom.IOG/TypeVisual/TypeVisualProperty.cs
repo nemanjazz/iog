@@ -26,6 +26,8 @@ namespace Execom.IOG.TypeVisual
 
     public class TypeVisualProperty
     {
+        public static readonly string EnumType = "enumValue";
+
         private string name;
         private string type;
         private PropertyAttribute attribute;

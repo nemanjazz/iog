@@ -917,7 +917,7 @@ namespace Execom.IOG
                         else if (edge.Data.Semantic.Equals(EdgeType.Contains))
                         {
                             var nodeProperty = provider.GetNode(edge.ToNodeId, NodeAccess.Read);
-                            TypeVisualProperty property = new TypeVisualProperty((string)nodeProperty.Data, "enumValue",
+                            TypeVisualProperty property = new TypeVisualProperty((string)nodeProperty.Data, TypeVisualProperty.EnumType,
                                 PropertyAttribute.None, PropertyCollectionType.NotACollection, "");
                             scalarProperties.Add(property);
                         }
