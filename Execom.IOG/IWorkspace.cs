@@ -20,6 +20,7 @@ namespace Execom.IOG
 {
     using System;
     using Execom.IOG.Events;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Delegate which may return object of given type
@@ -203,5 +204,12 @@ namespace Execom.IOG
         /// </summary>
         /// <param name="isolationLevel"></param>
         void ChangeIsolationLevel(IsolationLevel isolationLevel);
+
+        /// <summary>
+        /// Returns parent objects for the given object.
+        /// </summary>
+        /// <param name="instance"></param>
+        /// <returns></returns>
+        ICollection<object> ParentNodes<T>(object instance);
     }
 }

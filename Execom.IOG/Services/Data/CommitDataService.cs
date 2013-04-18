@@ -751,6 +751,9 @@ namespace Execom.IOG.Services.Data
                                     }
                                 }
                             }
+
+                            // Update parent nodes
+                            UpdateParentNodes(newId, newNode, nodeState, delta);
                         }
                         break;
                     case NodeState.Created:
@@ -765,6 +768,9 @@ namespace Execom.IOG.Services.Data
                             delta.SetNode(nodeId, node);
                             // This change is defined as creation
                             nodeStates.Add(nodeId, NodeState.Created);
+
+                            // Update parent nodes
+                            UpdateParentNodes(nodeId, node, nodeState, delta);
                         }
                         break;
                     case NodeState.Modified:
@@ -791,14 +797,49 @@ namespace Execom.IOG.Services.Data
                                 }
                             }
 
+                            // Update parent nodes
+                            UpdateParentNodes(newId, node, nodeState, delta);
                         }
                         break;
 
                     case NodeState.Removed:
-                        // Removed nodes are ignored
+                        {
+                            // Update parent nodes
+                            var node = nodes.GetNode(nodeId, NodeAccess.Read);
+                            UpdateParentNodes(nodeId, node, nodeState, delta);
+                        }
                         break;
                     default:
                         throw new ArgumentException(nodeState.ToString());
+                }
+            }
+        }
+
+        /// <summary>
+        /// Updates the parent nodes list.
+        /// If the node state is None, Created or Modified new node is added to the parent nodes list of all the child nodes (child nodes are nodes which are referenced by the new node as properties).
+        /// If the node state is Removed new node is removed from the parent nodes list of all the child nodes.
+        /// </summary>
+        /// <param name="newId"></param>
+        /// <param name="newNode"></param>
+        /// <param name="nodeState"></param>
+        /// <param name="delta">Node provider which contains nodes which will be saved at the end of the commit process</param>
+        private void UpdateParentNodes(Guid newId, Node<Guid, object, EdgeData> newNode, NodeState nodeState, DirectNodeProviderUnsafe<Guid, object, EdgeData> delta)
+        {
+            foreach (Edge<Guid, EdgeData> edge in newNode.Edges.Values)
+            {
+                if ((edge.Data as EdgeData).Semantic == EdgeType.Property)
+                {
+                    var parentNode = nodes.GetNode(edge.ToNodeId, NodeAccess.ReadWrite);
+                    if (nodeState != NodeState.Removed)
+                    {
+                        parentNode.ParentNodes[newId] = null;
+                    }
+                    else
+                    {
+                        parentNode.ParentNodes.Remove(newId);
+                    }
+                    delta.SetNode(edge.ToNodeId, parentNode);
                 }
             }
         }
