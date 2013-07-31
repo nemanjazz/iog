@@ -753,7 +753,7 @@ namespace Execom.IOG.Services.Data
                             }
 
                             // Update parent nodes
-                            UpdateParentNodes(newId, newNode, nodeState, delta);
+                            UpdateParentNodes(newId, newNode, nodeState, delta, changeSet);
                         }
                         break;
                     case NodeState.Created:
@@ -770,7 +770,7 @@ namespace Execom.IOG.Services.Data
                             nodeStates.Add(nodeId, NodeState.Created);
 
                             // Update parent nodes
-                            UpdateParentNodes(nodeId, node, nodeState, delta);
+                            UpdateParentNodes(nodeId, node, nodeState, delta, changeSet);
                         }
                         break;
                     case NodeState.Modified:
@@ -798,7 +798,7 @@ namespace Execom.IOG.Services.Data
                             }
 
                             // Update parent nodes
-                            UpdateParentNodes(newId, node, nodeState, delta);
+                            UpdateParentNodes(newId, node, nodeState, delta, changeSet);
                         }
                         break;
 
@@ -806,7 +806,7 @@ namespace Execom.IOG.Services.Data
                         {
                             // Update parent nodes
                             var node = nodes.GetNode(nodeId, NodeAccess.Read);
-                            UpdateParentNodes(nodeId, node, nodeState, delta);
+                            UpdateParentNodes(nodeId, node, nodeState, delta, changeSet);
                         }
                         break;
                     default:
@@ -824,24 +824,34 @@ namespace Execom.IOG.Services.Data
         /// <param name="newNode"></param>
         /// <param name="nodeState"></param>
         /// <param name="delta">Node provider which contains nodes which will be saved at the end of the commit process</param>
-        private void UpdateParentNodes(Guid newId, Node<Guid, object, EdgeData> newNode, NodeState nodeState, DirectNodeProviderUnsafe<Guid, object, EdgeData> delta)
+        private void UpdateParentNodes(Guid newId, Node<Guid, object, EdgeData> newNode, NodeState nodeState, DirectNodeProviderUnsafe<Guid, object, EdgeData> delta, IsolatedChangeSet<Guid, object, EdgeData> changeSet)
         {
             foreach (Edge<Guid, EdgeData> edge in newNode.Edges.Values)
             {
                 if ((edge.Data as EdgeData).Semantic == EdgeType.Property)
                 {
-                    var parentNode = nodes.GetNode(edge.ToNodeId, NodeAccess.ReadWrite);
+                    var childNode = GetChildNode(edge, changeSet);
                     if (nodeState != NodeState.Removed)
                     {
-                        parentNode.ParentNodes[newId] = null;
+                        childNode.ParentNodes.Add(newId, null);
                     }
                     else
                     {
-                        parentNode.ParentNodes.Remove(newId);
+                        childNode.ParentNodes.Remove(newId);
                     }
-                    delta.SetNode(edge.ToNodeId, parentNode);
+                    delta.SetNode(edge.ToNodeId, childNode);
                 }
             }
+        }
+
+        private Node<Guid, object, EdgeData> GetChildNode(Edge<Guid, EdgeData> edge, IsolatedChangeSet<Guid, object, EdgeData> changeSet)
+        {
+            var childNode = nodes.GetNode(edge.ToNodeId, NodeAccess.ReadWrite);
+            if (childNode != null)
+            {
+                return childNode;
+            }
+            return changeSet.Nodes.GetNode(edge.ToNodeId, NodeAccess.ReadWrite);
         }
 
         private Node<Guid, object, EdgeData> CloneNode(Node<Guid, object, EdgeData> node)

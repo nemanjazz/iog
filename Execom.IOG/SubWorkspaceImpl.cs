@@ -287,5 +287,11 @@ namespace Execom.IOG
         {
             parentWorkspace.ChangeIsolationLevel(isolationLevel);
         }
+
+
+        public System.Collections.Generic.ICollection<T> ParentNodes<T>(object instance)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
