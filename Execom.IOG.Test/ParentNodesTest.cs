@@ -51,6 +51,11 @@ namespace Execom.IOG.Test
                 Assert.AreEqual(0, ws.ParentNodes<IPerson>(database.Person.Car).Count);
 
                 ws.Commit();
+            }
+
+            using (var ws = ctx.OpenWorkspace<IDatabase>(IsolationLevel.Exclusive))
+            {
+                IDatabase database = ws.Data;
 
                 Assert.AreEqual("John Connor", database.Person.Name);
                 Assert.AreEqual("Renault", database.Person.Car.Model);
