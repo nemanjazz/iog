@@ -99,6 +99,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{304BB8
 		.nuget\packages.config = .nuget\packages.config
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{B7A27541-8C46-46A1-B01A-ECA94B6D15BD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Execom.IOG.TypesVisualisationApp", "Execom.IOG.TypesVisualisationApp\Execom.IOG.TypesVisualisationApp.csproj", "{0FAB4238-E567-4045-9D58-C72E1E31BCC7}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
 		SccNumberOfProjects = 17
@@ -349,6 +353,16 @@ Global
 		{D84806B2-ECF4-4B38-967D-E46D7ED28708}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{D84806B2-ECF4-4B38-967D-E46D7ED28708}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{D84806B2-ECF4-4B38-967D-E46D7ED28708}.Release|x86.ActiveCfg = Release|Any CPU
+		{0FAB4238-E567-4045-9D58-C72E1E31BCC7}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{0FAB4238-E567-4045-9D58-C72E1E31BCC7}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{0FAB4238-E567-4045-9D58-C72E1E31BCC7}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{0FAB4238-E567-4045-9D58-C72E1E31BCC7}.Debug|x86.ActiveCfg = Debug|x86
+		{0FAB4238-E567-4045-9D58-C72E1E31BCC7}.Debug|x86.Build.0 = Debug|x86
+		{0FAB4238-E567-4045-9D58-C72E1E31BCC7}.Release|Any CPU.ActiveCfg = Release|x86
+		{0FAB4238-E567-4045-9D58-C72E1E31BCC7}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{0FAB4238-E567-4045-9D58-C72E1E31BCC7}.Release|Mixed Platforms.Build.0 = Release|x86
+		{0FAB4238-E567-4045-9D58-C72E1E31BCC7}.Release|x86.ActiveCfg = Release|x86
+		{0FAB4238-E567-4045-9D58-C72E1E31BCC7}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -372,5 +386,6 @@ Global
 		{520EE21E-319D-43A9-9B13-11533E81808F} = {F3CFF8F0-3D88-4C60-9BD1-498A69BF45C4}
 		{4DB646C6-5730-42E0-B22C-C3100D240859} = {69AEFB8F-5FA8-4C44-ABAE-93B1E557C147}
 		{0DA75BFD-A3B0-42FB-981B-884084EB44DD} = {4DB646C6-5730-42E0-B22C-C3100D240859}
+		{0FAB4238-E567-4045-9D58-C72E1E31BCC7} = {B7A27541-8C46-46A1-B01A-ECA94B6D15BD}
 	EndGlobalSection
 EndGlobal

@@ -29,6 +29,7 @@ namespace Execom.IOG.Services.Data
     using System.Diagnostics;
     using Execom.IOG.Attributes;
     using Execom.IOG.Types;
+    using Execom.IOG.TypeVisual;
 
     /// <summary>
     /// Methods for type manipulation on the node provider
@@ -463,6 +464,27 @@ namespace Execom.IOG.Services.Data
         }
 
         /// <summary>
+        /// Returns the Id of the node type with the specified name. It looks in the types pointed by the TypesRoot node.
+        /// </summary>
+        /// <param name="typeName">Type name to compare possible results to.</param>
+        /// <returns>The Id of the node pointing to the type. Empty if node is not found</returns>
+        public Guid GetIdFromTypeName(string typeName)
+        {
+            foreach (var edge in provider.GetNode(Constants.TypesNodeId, NodeAccess.Read).Edges.Values)
+            {
+                if (edge.Data.Semantic.Equals(EdgeType.Contains))
+                {
+                    var node = provider.GetNode(edge.ToNodeId, NodeAccess.Read);
+                    string nodeData = TypeVisualUtilities.GetTypeNameFromAssemblyName((string)node.Data);
+                    if(typeName.Equals(nodeData))
+                        return edge.ToNodeId;
+                }
+            }
+
+            return Guid.Empty;
+        }
+
+        /// <summary>
         /// Run through types and cache scalar types in a table
         /// </summary>
         private void CacheScalarTypes()
@@ -503,6 +525,21 @@ namespace Execom.IOG.Services.Data
                     break;
                 }
             }
+            return foundScalar;
+        }
+
+        public bool IsSupportedScalarTypeName(string typeName)
+        {
+            bool foundScalar = false;
+            foreach (var candidateType in supportedScalarTypes)
+            {
+                if (candidateType.Name.Equals(typeName))
+                {
+                    foundScalar = true;
+                    break;
+                }
+            }
+
             return foundScalar;
         }
 

@@ -1,0 +1,13 @@
+﻿<#@ template language="C#" #>
+digraph g{
+	
+	rankdir = LR;
+	node [shape=record];
+	edge [arrowhead=open,minlen = <#= minLen#>, labeldistance = <#= labelDistance#>];
+
+
+	<# string nodesAndEdges = printNodesAndEdges(); #>
+	<#= nodesAndEdges #>
+
+
+}
