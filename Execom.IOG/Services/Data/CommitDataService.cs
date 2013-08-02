@@ -821,30 +821,56 @@ namespace Execom.IOG.Services.Data
         /// If the node state is Removed new node is removed from the parent nodes list of all the child nodes.
         /// </summary>
         /// <param name="newId"></param>
-        /// <param name="newNode"></param>
+        /// <param name="parentNode"></param>
         /// <param name="nodeState"></param>
         /// <param name="delta">Node provider which contains nodes which will be saved at the end of the commit process</param>
-        private void UpdateParentNodes(Guid newId, Node<Guid, object, EdgeData> newNode, NodeState nodeState, DirectNodeProviderUnsafe<Guid, object, EdgeData> delta, IsolatedChangeSet<Guid, object, EdgeData> changeSet)
+        private void UpdateParentNodes(Guid newId, Node<Guid, object, EdgeData> parentNode, NodeState nodeState, DirectNodeProviderUnsafe<Guid, object, EdgeData> delta, IsolatedChangeSet<Guid, object, EdgeData> changeSet)
         {
-            foreach (Edge<Guid, EdgeData> edge in newNode.Edges.Values)
+            foreach (Edge<Guid, EdgeData> edge in parentNode.Edges.Values)
             {
                 if ((edge.Data as EdgeData).Semantic == EdgeType.Property)
                 {
-                    var childNode = GetChildNode(edge, changeSet);
-                    if (nodeState != NodeState.Removed)
+                    var childNode = GetNode(edge, changeSet);
+                    if (childNode != null)
                     {
-                        childNode.ParentNodes.Add(newId, null);
+                        switch (childNode.NodeType)
+                        {
+                            case NodeType.Object:
+                                UpdateParentNode(newId, nodeState, delta, edge, childNode);
+                                break;
+                            case NodeType.Collection:
+                                foreach (Edge<Guid, EdgeData> collectionEdge in childNode.Edges.Values)
+                                {
+                                    if (collectionEdge.Data.Semantic.Equals(EdgeType.ListItem))
+                                    {
+                                        UpdateParentNode(newId, nodeState, delta, collectionEdge, GetNode(collectionEdge, changeSet));
+                                    }
+                                }
+                                break;
+                            case NodeType.Dictionary:
+                                break;
+                            default:
+                                throw new NotImplementedException("NodeType=" + childNode.NodeType);
+                        }
                     }
-                    else
-                    {
-                        childNode.ParentNodes.Remove(newId);
-                    }
-                    delta.SetNode(edge.ToNodeId, childNode);
                 }
             }
         }
 
-        private Node<Guid, object, EdgeData> GetChildNode(Edge<Guid, EdgeData> edge, IsolatedChangeSet<Guid, object, EdgeData> changeSet)
+        private static void UpdateParentNode(Guid newId, NodeState nodeState, DirectNodeProviderUnsafe<Guid, object, EdgeData> delta, Edge<Guid, EdgeData> edge, Node<Guid, object, EdgeData> childNode)
+        {
+            if (nodeState != NodeState.Removed)
+            {
+                childNode.ParentNodes.Add(newId, null);
+            }
+            else
+            {
+                childNode.ParentNodes.Remove(newId);
+            }
+            delta.SetNode(edge.ToNodeId, childNode);
+        }
+
+        private Node<Guid, object, EdgeData> GetNode(Edge<Guid, EdgeData> edge, IsolatedChangeSet<Guid, object, EdgeData> changeSet)
         {
             var childNode = nodes.GetNode(edge.ToNodeId, NodeAccess.ReadWrite);
             if (childNode != null)

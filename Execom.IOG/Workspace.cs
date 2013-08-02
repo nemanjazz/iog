@@ -626,10 +626,10 @@ namespace Execom.IOG
         }
 
 
-        public ICollection<T> ParentNodes<T>(object instance)
+        public ICollection<object> ParentNodes(object instance)
         {
             var id = Utils.GetItemId(instance);
-            ICollection<T> result = new Collection<T>();
+            ICollection<object> result = new Collection<object>();
             var node = nodeProvider.GetNode(id, NodeAccess.Read);
             if (node != null)
             {
@@ -638,10 +638,10 @@ namespace Execom.IOG
                     object proxy = null;
                     if (!immutableProxyMap.TryGetProxy(parentNode, out proxy))
                     {
-                        proxy = proxyCreatorService.NewObject<T>(runtimeProxyFacade, parentNode, true);
+                        proxy = proxyCreatorService.NewObject(runtimeProxyFacade, typesService.GetInstanceTypeId(parentNode), parentNode, true);
                         immutableProxyMap.AddProxy(parentNode, proxy);
                     }
-                    result.Add((T)proxy);
+                    result.Add(proxy);
                 }
             }
             return result;

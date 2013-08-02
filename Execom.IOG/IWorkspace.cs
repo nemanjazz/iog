@@ -210,6 +210,6 @@ namespace Execom.IOG
         /// </summary>
         /// <param name="instance"></param>
         /// <returns></returns>
-        ICollection<T> ParentNodes<T>(object instance);
+        ICollection<object> ParentNodes(object instance);
     }
 }

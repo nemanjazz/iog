@@ -289,7 +289,7 @@ namespace Execom.IOG
         }
 
 
-        public System.Collections.Generic.ICollection<T> ParentNodes<T>(object instance)
+        public System.Collections.Generic.ICollection<object> ParentNodes(object instance)
         {
             throw new NotImplementedException();
         }
