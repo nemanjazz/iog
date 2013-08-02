@@ -81,6 +81,7 @@
     <Compile Include="UseCases\RecursiveDataModelTest.cs" />
     <Compile Include="UseCases\ScalarCollectionDataModel.cs" />
     <Compile Include="TypesVisualTest.cs" />
+    <Compile Include="ViewDataServiceTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Execom.IOG\Execom.IOG.csproj">

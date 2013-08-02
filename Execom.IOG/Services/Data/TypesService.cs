@@ -290,8 +290,6 @@ namespace Execom.IOG.Services.Data
             }
         }
 
-
-
         /// <summary>
         /// Returns type name of given type
         /// </summary>

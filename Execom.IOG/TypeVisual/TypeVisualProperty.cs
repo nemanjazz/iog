@@ -21,7 +21,6 @@ namespace Execom.IOG.TypeVisual
         IOrderedCollection,
         IIndexedCollection,
         IDictionary
-
     }
 
     public class TypeVisualProperty
@@ -76,7 +75,6 @@ namespace Execom.IOG.TypeVisual
             this.attribute = attribute;
             this.collectionType = collectionType;
             this.collectionKey = collectionKey;
-
         }
 
         public override string ToString()

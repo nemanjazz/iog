@@ -63,7 +63,6 @@ namespace Execom.IOG
         /// </summary>
         private IChangeSetProvider<Guid, object, EdgeData> changeSetProvider;
 
-
         /// <summary>
         /// Provider for collected nodes
         /// </summary>
@@ -149,11 +148,15 @@ namespace Execom.IOG
         /// </summary>
         internal WorkspaceExclusiveLockProvider workspaceExclusiveLockProvider;
 
-
         /// <summary>
         /// Backup service
         /// </summary>
         private BackupService backupService;
+
+        /// <summary>
+        /// View Data Service
+        /// </summary>
+        private ViewDataService viewDataService;
 
         private string parentMappingFileName = Properties.Settings.Default.ParentMappingFileName;
 
@@ -757,6 +760,8 @@ namespace Execom.IOG
 
             backupService = new BackupService();
 
+            viewDataService = new ViewDataService(provider, typesService);
+
             bool firstRun = snapshotsService.InitializeSnapshots();
 
             if (firstRun)
@@ -926,8 +931,6 @@ namespace Execom.IOG
                     units.Add(unit.Name, unit);
                 }
             }
-            
-
         }
 
         /// <summary>
@@ -1019,6 +1022,18 @@ namespace Execom.IOG
         }
 
         /// <summary>
+        /// Returns a collection of data for the model
+        /// </summary>
+        /// <returns>An IEnumerable of objects representing the model data</returns>
+        public ViewDataStructure GetDataFromModel()
+        {
+            var snapshotRootNode = provider.GetNode(Constants.SnapshotsNodeId, NodeAccess.Read);
+            var snapshotNode = provider.GetNode(snapshotRootNode.Edges.Values[0].ToNodeId, NodeAccess.Read);
+            var objectNode = provider.GetNode(snapshotNode.Edges.Values[0].ToNodeId, NodeAccess.Read);
+            return viewDataService.GetDataForSelectedNode(objectNode);
+        }
+
+        /// <summary>
         /// Returns a dictionary of TypeVisualUnits (where the type name is the key) stored in the context of the passed storage. 
         /// </summary>
         /// <param name="storage">The storage from which the context will be created.</param>
@@ -1039,6 +1054,5 @@ namespace Execom.IOG
             Context ctx = CreateContextForTypeVisualisation(storage);
             return ctx.getRootTypeName();
         }
-        
     }
 }

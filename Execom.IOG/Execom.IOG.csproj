@@ -61,6 +61,7 @@
     <Compile Include="Server\Metadata\TypeMetadata.cs" />
     <Compile Include="Server\Metadata\TypeProxy.cs" />
     <Compile Include="Server\Metadata\TypeSingleton.cs" />
+    <Compile Include="Services\Data\ViewDataService.cs" />
     <Compile Include="Services\Runtime\OrderedCollectionProxySealed.cs" />
     <Compile Include="Services\Runtime\OrderedCollectionProxy.cs" />
     <Compile Include="Services\Workspace\ArchiveWorkspaceFacade.cs" />
