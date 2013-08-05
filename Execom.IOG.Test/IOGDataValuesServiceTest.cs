@@ -9,9 +9,9 @@ using Execom.IOG.Services.Data;
 namespace Execom.IOG.Test
 {
     [TestClass]
-    public class ViewDataServiceTest
+    public class IOGDataValuesServiceTest
     {
-        public ViewDataServiceTest()
+        public IOGDataValuesServiceTest()
         {
             Properties.Settings.Default["SnapshotIsolationEnabled"] = true;            
         }
@@ -40,7 +40,7 @@ namespace Execom.IOG.Test
                     ws.Data.Age = 32;
                     ws.Commit();
 
-                    ViewDataStructure structure = ctx.GetDataFromModel();
+                    IOGDataStructure structure = ctx.GetDataFromModel();
 
                     Assert.AreEqual("IDatabase", structure.DataStructureName);
                     Assert.IsNull(structure.SubDataStructure);

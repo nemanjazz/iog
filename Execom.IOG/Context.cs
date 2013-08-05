@@ -156,7 +156,7 @@ namespace Execom.IOG
         /// <summary>
         /// View Data Service
         /// </summary>
-        private ViewDataService viewDataService;
+        private IOGDataValuesService viewDataService;
 
         private string parentMappingFileName = Properties.Settings.Default.ParentMappingFileName;
 
@@ -760,7 +760,7 @@ namespace Execom.IOG
 
             backupService = new BackupService();
 
-            viewDataService = new ViewDataService(provider, typesService);
+            viewDataService = new IOGDataValuesService(provider, typesService);
 
             bool firstRun = snapshotsService.InitializeSnapshots();
 
@@ -1025,7 +1025,7 @@ namespace Execom.IOG
         /// Returns a collection of data for the model
         /// </summary>
         /// <returns>An IEnumerable of objects representing the model data</returns>
-        public ViewDataStructure GetDataFromModel()
+        public IOGDataStructure GetDataFromModel()
         {
             var snapshotRootNode = provider.GetNode(Constants.SnapshotsNodeId, NodeAccess.Read);
             var snapshotNode = provider.GetNode(snapshotRootNode.Edges.Values[0].ToNodeId, NodeAccess.Read);
