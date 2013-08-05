@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Execom.IOG.Attributes;
 using Execom.IOG.Services.Data;
+using System.Collections;
 
 namespace Execom.IOG.Test
 {
@@ -27,6 +26,8 @@ namespace Execom.IOG.Test
         {
             string Name { get; set; }
             int Age { get; set; }
+            ICollection<string> EmployeeNames { get; set; }
+            IDictionary<string, int> EmployeeAges { get; set; }
         }
 
         [TestMethod]
@@ -43,8 +44,49 @@ namespace Execom.IOG.Test
                     IOGDataStructure structure = ctx.GetDataFromModel();
 
                     Assert.AreEqual("IDatabase", structure.DataStructureName);
-                    Assert.IsNull(structure.SubDataStructure);
                     Assert.IsTrue(structure.ScalarValues.Count == 2);
+                }
+            }
+        }
+
+        [TestMethod]
+        public void TestGetCollectionDataFromModel()
+        {
+            using (Context ctx = new Context(typeof(IDatabase)))
+            {
+                using (var ws = ctx.OpenWorkspace<IDatabase>(IsolationLevel.Exclusive))
+                {
+                    ws.Data.EmployeeNames = ws.New<ICollection<string>>();
+                    ws.Data.EmployeeNames.Add("Employee 1");
+                    ws.Data.EmployeeNames.Add("Employee 2");
+                    ws.Commit();
+
+                    IOGDataStructure structure = ctx.GetDataFromModel();
+
+                    Assert.AreEqual("IDatabase", structure.DataStructureName);
+                    Assert.IsTrue(structure.ScalarValuesCollection.DataStructureMemberName == "EmployeeNames" &&
+                        structure.ScalarValuesCollection.Values.Count == 2);
+                }
+            }
+        }
+
+        [TestMethod]
+        public void TestGetDictionaryDataFromModel()
+        {
+            using (Context ctx = new Context(typeof(IDatabase)))
+            {
+                using (var ws = ctx.OpenWorkspace<IDatabase>(IsolationLevel.Exclusive))
+                {
+                    ws.Data.EmployeeAges = ws.New<IDictionary<string, int>>();
+                    ws.Data.EmployeeAges.Add("Employee 1", 32);
+                    ws.Data.EmployeeAges.Add("Employee 2", 45);
+                    ws.Commit();
+
+                    IOGDataStructure structure = ctx.GetDataFromModel();
+
+                    Assert.AreEqual("IDatabase", structure.DataStructureName);
+                    Assert.IsTrue(structure.ScalarValuesDictionary.DataStructureMemberName == "EmployeeAges" &&
+                        structure.ScalarValuesDictionary.Values.Count == 2);
                 }
             }
         }

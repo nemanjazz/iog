@@ -17,18 +17,56 @@ namespace Execom.IOG.Services.Data
         public string DataStructureName { get; set; }
 
         /// <summary>
+        /// Gets or sets type of the data structure
+        /// </summary>
+        public Type DataStructureType { get; set; }
+
+        /// <summary>
         /// Gets or sets sub-data structure
         /// </summary>
         public IOGDataStructure SubDataStructure { get; set; }
 
         /// <summary>
-        /// Gets or sets dictionary (property name, value) of scalar values of this data structure
+        /// Gets or sets dictionary (property name, value) of scalar values
         /// </summary>
         public IDictionary<string, object> ScalarValues { get; set; }
 
-        public IOGDataStructure()
+        /// <summary>
+        /// Gets or sets object which represents scalar values collection
+        /// </summary>
+        public ScalarValuesCollectionData ScalarValuesCollection { get; set; }
+
+        /// <summary>
+        /// Gets or sets object which represents scalar values dictionary
+        /// </summary>
+        public ScalarValuesDictionaryData ScalarValuesDictionary { get; set; }
+
+        /// <summary>
+        /// Represents scalar values collection
+        /// </summary>
+        public class ScalarValuesCollectionData
         {
-            ScalarValues = new Dictionary<string, object>();
+            public string DataStructureMemberName { get; set; }
+            public ICollection<object> Values { get; set; }
+
+            public ScalarValuesCollectionData()
+            {
+                Values = new List<object>();
+            }
+        }
+
+        /// <summary>
+        /// Represents scalar values dictionary
+        /// </summary>
+        public class ScalarValuesDictionaryData
+        {
+            public string DataStructureMemberName { get; set; }
+            public IDictionary<object, object> Values { get; set; }
+
+            public ScalarValuesDictionaryData()
+            {
+                Values = new Dictionary<object, object>();
+            }
         }
     }
     
@@ -41,6 +79,9 @@ namespace Execom.IOG.Services.Data
         private TypesService typesService;
 
         private IOGDataStructure structure = new IOGDataStructure();
+
+        private string previousPropertyName;
+        private object previousDictionaryKey;
 
         /// <summary>
         /// Creates a new intance of ViewDataService
@@ -56,8 +97,8 @@ namespace Execom.IOG.Services.Data
         /// <summary>
         /// Generates IOG data structure starting from a given node
         /// </summary>
-        /// <param name="startingNode"></param>
-        /// <returns></returns>
+        /// <param name="startingNode">Root node representing starting point for search</param>
+        /// <returns>Object representing the data structure of a given model</returns>
         public IOGDataStructure GetDataForSelectedNode(Node<Guid, object, EdgeData> startingNode)
         {
             if (startingNode != null)
@@ -80,42 +121,113 @@ namespace Execom.IOG.Services.Data
              * ListItem - A node contains a list of B nodes
              */
 
+            // TODO: Resolve null node
+
+            if (node == null)
+                return;
+
             if (node.Values.Count > 0)
             {
-                //foreach (var value in node.Values)
-                //{
-                //    if (typesService.IsScalarType(typesService.GetMemberTypeId(value.Key)))
-                //    {
-                //        foreach (var edge in node.Edges.Values)
-                //        {
-                //            if (edge.Data.Semantic == EdgeType.OfType)
-                //            {
-                //                structure.DataStructureName = typesService.GetTypeFromId(edge.ToNodeId).Name;
-                //            }
-                //        }
-                //        string memberName = typesService.GetMemberName(typesService.GetMemberTypeId(value.Key), value.Key);
-                //        structure.ScalarValues.Add(memberName, value.Value);
-                //    }
-                //}
-
+                structure.ScalarValues = new Dictionary<string, object>();
                 addScalarValuesToDataStructure(node);
+            }
+
+            if (node.NodeType == NodeType.Collection && isCollectionOfScalarTypes(node))
+            {
+                structure.ScalarValuesCollection = new IOGDataStructure.ScalarValuesCollectionData();
+                structure.ScalarValuesCollection.DataStructureMemberName = previousPropertyName;
+                addScalarValueCollectionToDataStructure(node);
+            }
+
+            if (node.NodeType == NodeType.Dictionary && isCollectionOfScalarTypes(node))
+            {
+                structure.ScalarValuesDictionary = new IOGDataStructure.ScalarValuesDictionaryData();
+                structure.ScalarValuesDictionary.DataStructureMemberName = previousPropertyName;
+                addScalarValueDictionaryToDataStructure(node);
+            }
+
+            foreach (var edge in node.Edges.Values)
+            {
+                if (edge.Data.Semantic == EdgeType.Property)
+                {
+                    var test = nodes.GetNode(new Guid(edge.Data.Data.ToString()), NodeAccess.Read);
+                    previousPropertyName = nodes.GetNode(new Guid(edge.Data.Data.ToString()), NodeAccess.Read).Data.ToString();
+                    getDataRecursive(nodes.GetNode(edge.ToNodeId, NodeAccess.Read));
+                }
             }
         }
 
         private void addScalarValuesToDataStructure(Node<Guid, object, EdgeData> node)
         {
+            setDataStructureName(node);
+            
             foreach (var value in node.Values)
             {
-                foreach (var edge in node.Edges.Values)
-                {
-                    if (edge.Data.Semantic == EdgeType.OfType)
-                    {
-                        structure.DataStructureName = typesService.GetTypeFromId(edge.ToNodeId).Name;
-                    }
-                }
                 string memberName = typesService.GetMemberName(typesService.GetMemberTypeId(value.Key), value.Key);
                 structure.ScalarValues.Add(memberName, value.Value);
             }
+        }
+
+        private void addScalarValueCollectionToDataStructure(Node<Guid, object, EdgeData> node)
+        {
+            if (node.NodeType == NodeType.Scalar)
+            {
+                structure.ScalarValuesCollection.Values.Add(node.Data);
+            }
+
+            foreach (var edge in node.Edges.Values)
+            {   
+                if (edge.Data.Semantic == EdgeType.ListItem)
+                    addScalarValueCollectionToDataStructure(nodes.GetNode(edge.ToNodeId, NodeAccess.Read));
+            }
+        }
+
+        private void addScalarValueDictionaryToDataStructure(Node<Guid, object, EdgeData> node)
+        {
+            if (node.NodeType == NodeType.Scalar)
+            {
+                structure.ScalarValuesDictionary.Values.Add(previousDictionaryKey, node.Data);
+            }
+
+            foreach (var edge in node.Edges.Values)
+            {
+                if (edge.Data.Semantic == EdgeType.ListItem)
+                {
+                    previousDictionaryKey = edge.Data.Data;
+                    addScalarValueDictionaryToDataStructure(nodes.GetNode(edge.ToNodeId, NodeAccess.Read));
+                }
+            }
+        }
+
+        private void setDataStructureName(Node<Guid, object, EdgeData> node)
+        {
+            foreach (var edge in node.Edges.Values)
+            {
+                if (edge.Data.Semantic == EdgeType.OfType)
+                    structure.DataStructureName = typesService.GetTypeFromId(edge.ToNodeId).Name;
+            }
+        }
+
+        private bool isCollectionOfScalarTypes(Node<Guid, object, EdgeData> node)
+        {
+            foreach (var edge in node.Edges.Values)
+            {
+                if (edge.Data.Semantic == EdgeType.OfType)
+                {
+                    var type = typesService.GetTypeFromId(edge.ToNodeId);
+                    var genericArguments = type.GetGenericArguments();
+
+                    foreach (var genericArgument in genericArguments)
+                    {
+                        if (!typesService.IsSupportedScalarTypeName(genericArgument.Name))
+                            return false;
+                    }
+
+                    return true;
+                }
+            }
+            
+            return false;
         }
     }
 }
