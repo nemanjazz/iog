@@ -47,6 +47,7 @@ namespace Execom.IOG.Services.Data
         public class ScalarValuesCollectionData
         {
             public string DataStructureMemberName { get; set; }
+            public Type DataStructureType { get; set; }
             public ICollection<object> Values { get; set; }
 
             public ScalarValuesCollectionData()
@@ -61,6 +62,7 @@ namespace Execom.IOG.Services.Data
         public class ScalarValuesDictionaryData
         {
             public string DataStructureMemberName { get; set; }
+            public Type DataStructureType { get; set; }
             public IDictionary<object, object> Values { get; set; }
 
             public ScalarValuesDictionaryData()
@@ -80,6 +82,7 @@ namespace Execom.IOG.Services.Data
 
         private IOGDataStructure structure = new IOGDataStructure();
 
+        private string previousDataStructureName = "Root";
         private string previousPropertyName;
         private object previousDictionaryKey;
 
@@ -159,7 +162,8 @@ namespace Execom.IOG.Services.Data
 
         private void addScalarValuesToDataStructure(Node<Guid, object, EdgeData> node)
         {
-            setDataStructureName(node);
+            structure.DataStructureName = previousDataStructureName;
+            setDataStructureType(node);
             
             foreach (var value in node.Values)
             {
@@ -170,6 +174,9 @@ namespace Execom.IOG.Services.Data
 
         private void addScalarValueCollectionToDataStructure(Node<Guid, object, EdgeData> node)
         {
+            if (structure.ScalarValuesCollection.DataStructureType == null)
+                setDataStructureTypeForCollection(node);
+            
             if (node.NodeType == NodeType.Scalar)
             {
                 structure.ScalarValuesCollection.Values.Add(node.Data);
@@ -184,6 +191,9 @@ namespace Execom.IOG.Services.Data
 
         private void addScalarValueDictionaryToDataStructure(Node<Guid, object, EdgeData> node)
         {
+            if (structure.ScalarValuesDictionary.DataStructureType == null)
+                setDataStructureTypeForDictionary(node);
+            
             if (node.NodeType == NodeType.Scalar)
             {
                 structure.ScalarValuesDictionary.Values.Add(previousDictionaryKey, node.Data);
@@ -199,12 +209,30 @@ namespace Execom.IOG.Services.Data
             }
         }
 
-        private void setDataStructureName(Node<Guid, object, EdgeData> node)
+        private void setDataStructureType(Node<Guid, object, EdgeData> node)
         {
             foreach (var edge in node.Edges.Values)
             {
                 if (edge.Data.Semantic == EdgeType.OfType)
-                    structure.DataStructureName = typesService.GetTypeFromId(edge.ToNodeId).Name;
+                    structure.DataStructureType = typesService.GetTypeFromId(edge.ToNodeId);
+            }
+        }
+
+        private void setDataStructureTypeForCollection(Node<Guid, object, EdgeData> node)
+        {
+            foreach (var edge in node.Edges.Values)
+            {
+                if (edge.Data.Semantic == EdgeType.OfType)
+                    structure.ScalarValuesCollection.DataStructureType = typesService.GetTypeFromId(edge.ToNodeId);
+            }
+        }
+
+        private void setDataStructureTypeForDictionary(Node<Guid, object, EdgeData> node)
+        {
+            foreach (var edge in node.Edges.Values)
+            {
+                if (edge.Data.Semantic == EdgeType.OfType)
+                    structure.ScalarValuesDictionary.DataStructureType = typesService.GetTypeFromId(edge.ToNodeId);
             }
         }
 

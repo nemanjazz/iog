@@ -43,7 +43,8 @@ namespace Execom.IOG.Test
 
                     IOGDataStructure structure = ctx.GetDataFromModel();
 
-                    Assert.AreEqual("IDatabase", structure.DataStructureName);
+                    Assert.AreEqual("Root", structure.DataStructureName);
+                    Assert.AreEqual(typeof(IDatabase), structure.DataStructureType);
                     Assert.IsTrue(structure.ScalarValues.Count == 2);
                 }
             }
@@ -63,7 +64,8 @@ namespace Execom.IOG.Test
 
                     IOGDataStructure structure = ctx.GetDataFromModel();
 
-                    Assert.AreEqual("IDatabase", structure.DataStructureName);
+                    Assert.AreEqual("Root", structure.DataStructureName);
+                    Assert.AreEqual(typeof(ICollection<string>), structure.ScalarValuesCollection.DataStructureType);
                     Assert.IsTrue(structure.ScalarValuesCollection.DataStructureMemberName == "EmployeeNames" &&
                         structure.ScalarValuesCollection.Values.Count == 2);
                 }
@@ -84,7 +86,8 @@ namespace Execom.IOG.Test
 
                     IOGDataStructure structure = ctx.GetDataFromModel();
 
-                    Assert.AreEqual("IDatabase", structure.DataStructureName);
+                    Assert.AreEqual("Root", structure.DataStructureName);
+                    Assert.AreEqual(typeof(IDictionary<string, int>), structure.ScalarValuesDictionary.DataStructureType);
                     Assert.IsTrue(structure.ScalarValuesDictionary.DataStructureMemberName == "EmployeeAges" &&
                         structure.ScalarValuesDictionary.Values.Count == 2);
                 }
