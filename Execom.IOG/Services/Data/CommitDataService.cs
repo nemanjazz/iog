@@ -816,9 +816,7 @@ namespace Execom.IOG.Services.Data
         }
 
         /// <summary>
-        /// Updates the parent nodes list.
-        /// If the node state is None, Created or Modified new node is added to the parent nodes list of all the child nodes (child nodes are nodes which are referenced by the new node as properties).
-        /// If the node state is Removed new node is removed from the parent nodes list of all the child nodes.
+        /// For the given nod, goes through all the child nodes and adds that node to the parent node list of the child nodes.
         /// </summary>
         /// <param name="newId"></param>
         /// <param name="parentNode"></param>
@@ -856,31 +854,31 @@ namespace Execom.IOG.Services.Data
             }
         }
 
+        /// <summary>
+        /// Updates the parent nodes list.
+        /// If the node state is None, Created or Modified new node is added to the parent nodes list of all the child nodes (child nodes are nodes which are referenced by the new node as properties).
+        /// If the node state is Removed new node is removed from the parent nodes list of all the child nodes.
+        /// </summary>
+        /// <param name="newId"></param>
+        /// <param name="nodeState"></param>
+        /// <param name="delta"></param>
+        /// <param name="edge"></param>
+        /// <param name="childNode"></param>
+        /// <param name="parentNode"></param>
         private static void UpdateParentNode(Guid newId, NodeState nodeState, DirectNodeProviderUnsafe<Guid, object, EdgeData> delta, Edge<Guid, EdgeData> edge, Node<Guid, object, EdgeData> childNode, Node<Guid, object, EdgeData> parentNode)
         {
             switch (nodeState)
             {
                 case NodeState.None:
-                    if (!childNode.ParentNodes.ContainsKey(newId))
-                    {
-                        childNode.ParentNodes.Add(newId, null);
-                    }
-                    break;
                 case NodeState.Created:
-                    if (!childNode.ParentNodes.ContainsKey(newId))
-                    {
-                        childNode.ParentNodes.Add(newId, null);
-                    }
+                    AddParentToChildNode(newId, childNode);
                     break;
                 case NodeState.Modified:
                     if (!parentNode.Previous.Equals(Guid.Empty) && childNode.ParentNodes.ContainsKey(parentNode.Previous))
                     {
                         childNode.ParentNodes.Remove(parentNode.Previous);
                     }
-                    if (!childNode.ParentNodes.ContainsKey(newId))
-                    {
-                        childNode.ParentNodes.Add(newId, null);
-                    }
+                    AddParentToChildNode(newId, childNode);
                     break;
                 case NodeState.Removed:
                     childNode.ParentNodes.Remove(newId);
@@ -888,9 +886,27 @@ namespace Execom.IOG.Services.Data
                 default:
                     break;
             }
-            delta.SetNode(edge.ToNodeId, childNode);
         }
 
+        /// <summary>
+        /// Adds parent node to child nodes parent node list if that node is not already in the parents node list.
+        /// </summary>
+        /// <param name="newId"></param>
+        /// <param name="childNode"></param>
+        private static void AddParentToChildNode(Guid newId, Node<Guid, object, EdgeData> childNode)
+        {
+            if (!childNode.ParentNodes.ContainsKey(newId))
+            {
+                childNode.ParentNodes.Add(newId, null);
+            }
+        }
+
+        /// <summary>
+        /// Returns node from the nodes list. If node does not exist in the nodes list node from the changeSet is returned.
+        /// </summary>
+        /// <param name="nodeId"></param>
+        /// <param name="changeSet"></param>
+        /// <returns></returns>
         private Node<Guid, object, EdgeData> GetNode(Guid nodeId, IsolatedChangeSet<Guid, object, EdgeData> changeSet)
         {
             var childNode = nodes.GetNode(nodeId, NodeAccess.ReadWrite);
