@@ -46,8 +46,8 @@ namespace Execom.IOG.Test
                     Assert.AreEqual("Root", structure.Name);
                     Assert.AreEqual("Name", (structure.SubStructures as List<IOGDataStructure>)[0].Name);
                     Assert.AreEqual("Age", (structure.SubStructures as List<IOGDataStructure>)[1].Name);
-                    Assert.AreEqual("String", (structure.SubStructures as List<IOGDataStructure>)[0].Type);
-                    Assert.AreEqual("Int32", (structure.SubStructures as List<IOGDataStructure>)[1].Type);
+                    Assert.AreEqual("String", (structure.SubStructures as List<IOGDataStructure>)[0].TypeName);
+                    Assert.AreEqual("Int32", (structure.SubStructures as List<IOGDataStructure>)[1].TypeName);
                     Assert.AreEqual("Test Name", (structure.SubStructures as List<IOGDataStructure>)[0].Value);
                     Assert.AreEqual("32", (structure.SubStructures as List<IOGDataStructure>)[1].Value);
                 }
@@ -64,9 +64,6 @@ namespace Execom.IOG.Test
                     ws.Data.EmployeeNames = ws.New<ICollection<string>>();
                     ws.Data.EmployeeNames.Add("Employee 1");
                     ws.Data.EmployeeNames.Add("Employee 2");
-                    ws.Data.EmployeeAges = ws.New<IDictionary<string, int>>();
-                    ws.Data.EmployeeAges.Add("Employee 1", 32);
-                    ws.Data.EmployeeAges.Add("Employee 2", 45);
                     ws.Commit();
 
                     IOGDataStructure structure = ctx.GetDataFromModel();

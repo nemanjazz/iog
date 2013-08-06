@@ -18,7 +18,7 @@ namespace Execom.IOG.Services.Data
         /// <summary>
         /// Gets the type name of data structure
         /// </summary>
-        public string Type { get; private set; }
+        public string TypeName { get; private set; }
 
         /// <summary>
         /// Gets the value of data structure
@@ -86,12 +86,12 @@ namespace Execom.IOG.Services.Data
         }
 
         /// <summary>
-        /// Adds type to the current data structure
+        /// Adds type name to the current data structure
         /// </summary>
-        /// <param name="type">type to add</param>
-        public void AddType(Type type)
+        /// <param name="type">type name to add</param>
+        public void AddTypeName(string type)
         {
-            CurrentDataStructure.Type = type.Name;
+            CurrentDataStructure.TypeName = type;
         }
 
         public void AddCollectionOrDictionaryType(Type type)
@@ -106,7 +106,7 @@ namespace Execom.IOG.Services.Data
                     collectionGenericTypeNames += genericType.Name + ", ";
                 }
                 collectionGenericTypeNames = collectionGenericTypeNames.Trim().Substring(0, collectionGenericTypeNames.Length - 2);
-                CurrentDataStructure.Type = String.Format("{0}<{1}>", collectionTypeName, collectionGenericTypeNames);
+                CurrentDataStructure.TypeName = String.Format("{0}<{1}>", collectionTypeName, collectionGenericTypeNames);
             }
         }
 
@@ -121,7 +121,7 @@ namespace Execom.IOG.Services.Data
 
         public override string ToString()
         {
-            return String.Format("({0}) {1}{2}", Type, Name, Value == null ? "" : " : " + Value);
+            return String.Format("({0}) {1}{2}", TypeName, Name, Value == null ? "" : " : " + Value);
         }
 
         private IOGDataStructure findDataStructure(IOGDataStructure structure)
@@ -146,7 +146,11 @@ namespace Execom.IOG.Services.Data
         private INodeProvider<Guid, object, EdgeData> nodes;
         private TypesService typesService;
         private IOGDataStructure dataStructure;
-        private IOGDataStructure currentDataStructure = null;
+        private IOGDataStructure currentDataStructure;
+        private IOGDataStructure previousDataStructure;
+        private int collectionOrDictionaryIndex;
+        private string collectionOrDictionaryTypeName;
+        private string dictionaryKey;
 
         /// <summary>
         /// Creates a new intance of IOG data values service
@@ -189,6 +193,8 @@ namespace Execom.IOG.Services.Data
              * ListItem - A node contains a list of B nodes
              */
 
+            // TODO: Resolve problem with retreiving data type when node is null
+
             if (node != null)
             {
                 if (node.Values.Count > 0)
@@ -196,12 +202,25 @@ namespace Execom.IOG.Services.Data
 
                 if (node.NodeType == NodeType.Collection && isCollectionOrDictionaryOfScalarTypes(node))
                 {
+                    previousDataStructure = currentDataStructure;
+                    currentDataStructure = dataStructure.CurrentDataStructure;
+                    collectionOrDictionaryIndex = 0;
                     addScalarCollectionToDataStructure(node);
+                    collectionOrDictionaryIndex = 0;
+                    collectionOrDictionaryTypeName = null;
+                    currentDataStructure = previousDataStructure;
                 }
 
                 if (node.NodeType == NodeType.Dictionary && isCollectionOrDictionaryOfScalarTypes(node))
                 {
+                    previousDataStructure = currentDataStructure;
+                    currentDataStructure = dataStructure.CurrentDataStructure;
+                    collectionOrDictionaryIndex = 0;
                     addScalarDictionaryToDataStructure(node);
+                    collectionOrDictionaryIndex = 0;
+                    collectionOrDictionaryTypeName = null;
+                    dictionaryKey = null;
+                    currentDataStructure = previousDataStructure;
                 }
                 
                 foreach (var edge in node.Edges.Values)
@@ -224,7 +243,7 @@ namespace Execom.IOG.Services.Data
                 dataStructure.AddName(typesService.GetMemberName(typesService.GetMemberTypeId(value.Key), value.Key));
                 var typeId = typesService.GetInstanceTypeId(value.Key);
                 var type = typesService.GetTypeFromId(typeId);
-                dataStructure.AddType(type);
+                dataStructure.AddTypeName(type.Name);
                 dataStructure.AddValue(value.Value);
             }
         }
@@ -235,14 +254,18 @@ namespace Execom.IOG.Services.Data
 
             if (node.NodeType == NodeType.Scalar)
             {
-                //structure.ScalarValuesCollection.Values.Add(node.Data);
+                dataStructure.AddNewSubStructure(currentDataStructure);
+                dataStructure.AddName("Item " + collectionOrDictionaryIndex);
+                collectionOrDictionaryIndex++;
+                dataStructure.AddTypeName(collectionOrDictionaryTypeName);
+                dataStructure.AddValue(node.Data);
             }
 
             foreach (var edge in node.Edges.Values)
             {
                 if (edge.Data.Semantic == EdgeType.ListItem)
                 {
-                    //addScalarValueCollectionToDataStructure(nodes.GetNode(edge.ToNodeId, NodeAccess.Read));
+                    addScalarCollectionToDataStructure(nodes.GetNode(edge.ToNodeId, NodeAccess.Read));
                 }
             }
         }
@@ -253,15 +276,19 @@ namespace Execom.IOG.Services.Data
 
             if (node.NodeType == NodeType.Scalar)
             {
-                //structure.ScalarValuesDictionary.Values.Add(previousDictionaryKey, node.Data);
+                dataStructure.AddNewSubStructure(currentDataStructure);
+                dataStructure.AddName("Item " + collectionOrDictionaryIndex);
+                collectionOrDictionaryIndex++;
+                dataStructure.AddTypeName(collectionOrDictionaryTypeName);
+                dataStructure.AddValue(dictionaryKey + "->" + node.Data);
             }
 
             foreach (var edge in node.Edges.Values)
             {
                 if (edge.Data.Semantic == EdgeType.ListItem)
                 {
-                    //previousDictionaryKey = edge.Data.Data;
-                    //addScalarValueDictionaryToDataStructure(nodes.GetNode(edge.ToNodeId, NodeAccess.Read));
+                    dictionaryKey = edge.Data.Data.ToString();
+                    addScalarDictionaryToDataStructure(nodes.GetNode(edge.ToNodeId, NodeAccess.Read));
                 }
             }
         }
@@ -273,7 +300,7 @@ namespace Execom.IOG.Services.Data
                 if (edge.Data.Semantic == EdgeType.OfType)
                 {
                     if(!isCollectionOrDictionary)
-                        dataStructure.AddType(typesService.GetTypeFromId(edge.ToNodeId));
+                        dataStructure.AddTypeName(typesService.GetTypeFromId(edge.ToNodeId).Name);
                     else
                         dataStructure.AddCollectionOrDictionaryType(typesService.GetTypeFromId(edge.ToNodeId));
 
@@ -293,11 +320,18 @@ namespace Execom.IOG.Services.Data
 
                     foreach (var genericArgument in genericArguments)
                     {
-                        if (typesService.IsSupportedScalarTypeName(genericArgument.Name))
-                            return true;
+                        if (!typesService.IsSupportedScalarTypeName(genericArgument.Name))
+                        {
+                            collectionOrDictionaryTypeName = null;
+                            return false;
+                        }
+
+                        collectionOrDictionaryTypeName += genericArgument.Name + ", ";
                     }
 
-                    return false;
+                    collectionOrDictionaryTypeName = collectionOrDictionaryTypeName.Trim().Substring(0, collectionOrDictionaryTypeName.Length - 2);
+                    
+                    return true;
                 }
             }
 
