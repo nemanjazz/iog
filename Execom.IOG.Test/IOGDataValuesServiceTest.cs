@@ -12,7 +12,7 @@ namespace Execom.IOG.Test
     {
         public IOGDataValuesServiceTest()
         {
-            Properties.Settings.Default["SnapshotIsolationEnabled"] = true;            
+            Properties.Settings.Default["SnapshotIsolationEnabled"] = true;
         }
 
         public interface IPerson
@@ -31,7 +31,7 @@ namespace Execom.IOG.Test
         }
 
         [TestMethod]
-        public void TestGetPropertyDataFromModel()
+        public void TestGetScalarPropertyDataFromModel()
         {
             using (Context ctx = new Context(typeof(IDatabase)))
             {
@@ -42,16 +42,20 @@ namespace Execom.IOG.Test
                     ws.Commit();
 
                     IOGDataStructure structure = ctx.GetDataFromModel();
-
-                    Assert.AreEqual("Root", structure.DataStructureName);
-                    Assert.AreEqual(typeof(IDatabase), structure.DataStructureType);
-                    Assert.IsTrue(structure.ScalarValues.Count == 2);
+                    
+                    Assert.AreEqual("Root", structure.Name);
+                    Assert.AreEqual("Name", (structure.SubStructures as List<IOGDataStructure>)[0].Name);
+                    Assert.AreEqual("Age", (structure.SubStructures as List<IOGDataStructure>)[1].Name);
+                    Assert.AreEqual("String", (structure.SubStructures as List<IOGDataStructure>)[0].Type);
+                    Assert.AreEqual("Int32", (structure.SubStructures as List<IOGDataStructure>)[1].Type);
+                    Assert.AreEqual("Test Name", (structure.SubStructures as List<IOGDataStructure>)[0].Value);
+                    Assert.AreEqual("32", (structure.SubStructures as List<IOGDataStructure>)[1].Value);
                 }
             }
         }
 
         [TestMethod]
-        public void TestGetCollectionDataFromModel()
+        public void TestGetCollectionPropertyDataFromModel()
         {
             using (Context ctx = new Context(typeof(IDatabase)))
             {
@@ -60,20 +64,18 @@ namespace Execom.IOG.Test
                     ws.Data.EmployeeNames = ws.New<ICollection<string>>();
                     ws.Data.EmployeeNames.Add("Employee 1");
                     ws.Data.EmployeeNames.Add("Employee 2");
+                    ws.Data.EmployeeAges = ws.New<IDictionary<string, int>>();
+                    ws.Data.EmployeeAges.Add("Employee 1", 32);
+                    ws.Data.EmployeeAges.Add("Employee 2", 45);
                     ws.Commit();
 
                     IOGDataStructure structure = ctx.GetDataFromModel();
-
-                    Assert.AreEqual("Root", structure.DataStructureName);
-                    Assert.AreEqual(typeof(ICollection<string>), structure.ScalarValuesCollection.DataStructureType);
-                    Assert.IsTrue(structure.ScalarValuesCollection.DataStructureMemberName == "EmployeeNames" &&
-                        structure.ScalarValuesCollection.Values.Count == 2);
                 }
             }
         }
 
         [TestMethod]
-        public void TestGetDictionaryDataFromModel()
+        public void TestGetDictionaryPropertyDataFromModel()
         {
             using (Context ctx = new Context(typeof(IDatabase)))
             {
@@ -85,11 +87,6 @@ namespace Execom.IOG.Test
                     ws.Commit();
 
                     IOGDataStructure structure = ctx.GetDataFromModel();
-
-                    Assert.AreEqual("Root", structure.DataStructureName);
-                    Assert.AreEqual(typeof(IDictionary<string, int>), structure.ScalarValuesDictionary.DataStructureType);
-                    Assert.IsTrue(structure.ScalarValuesDictionary.DataStructureMemberName == "EmployeeAges" &&
-                        structure.ScalarValuesDictionary.Values.Count == 2);
                 }
             }
         }

@@ -1022,9 +1022,9 @@ namespace Execom.IOG
         }
 
         /// <summary>
-        /// Returns a collection of data for the model
+        /// Returns an IOG data structure which represents the model data
         /// </summary>
-        /// <returns>An IEnumerable of objects representing the model data</returns>
+        /// <returns>IOG data structure object</returns>
         public IOGDataStructure GetDataFromModel()
         {
             var snapshotRootNode = provider.GetNode(Constants.SnapshotsNodeId, NodeAccess.Read);
