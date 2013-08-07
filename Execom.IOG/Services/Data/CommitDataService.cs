@@ -874,7 +874,7 @@ namespace Execom.IOG.Services.Data
                     AddParentToChildNode(newId, childNode);
                     break;
                 case NodeState.Modified:
-                    if (!parentNode.Previous.Equals(Guid.Empty) && childNode.ParentNodes.ContainsKey(parentNode.Previous))
+                    if (!parentNode.Previous.Equals(Guid.Empty) && childNode.ParentNodes.Contains(parentNode.Previous))
                     {
                         childNode.ParentNodes.Remove(parentNode.Previous);
                     }
@@ -895,9 +895,9 @@ namespace Execom.IOG.Services.Data
         /// <param name="childNode"></param>
         private static void AddParentToChildNode(Guid newId, Node<Guid, object, EdgeData> childNode)
         {
-            if (!childNode.ParentNodes.ContainsKey(newId))
+            if (!childNode.ParentNodes.Contains(newId))
             {
-                childNode.ParentNodes.Add(newId, null);
+                childNode.ParentNodes.Add(newId);
             }
         }
 

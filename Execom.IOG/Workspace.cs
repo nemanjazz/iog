@@ -633,7 +633,7 @@ namespace Execom.IOG
             var node = nodeProvider.GetNode(id, NodeAccess.Read);
             if (node != null)
             {
-                foreach (var parentNode in node.ParentNodes.Keys)
+                foreach (var parentNode in node.ParentNodes)
                 {
                     object proxy = null;
                     if (!immutableProxyMap.TryGetProxy(parentNode, out proxy))

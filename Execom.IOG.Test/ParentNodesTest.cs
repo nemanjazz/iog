@@ -5,6 +5,8 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Execom.IOG.Attributes;
 using Execom.IOG.Types;
+using System.IO;
+using Execom.IOG.Storage;
 
 namespace Execom.IOG.Test
 {
@@ -223,6 +225,61 @@ namespace Execom.IOG.Test
                 Assert.AreEqual("Renault", database.Person.Car.Model);
                 Assert.AreEqual(1, ws.ParentNodes(database.Person.Car).Count);
                 Assert.AreEqual("John Connor Junior", (ws.ParentNodes(database.Person.Car).ElementAt(0) as IPerson).Name);
+            }
+        }
+
+        [TestMethod]
+        public void TestParentNodesIndexStorage()
+        {
+            var file = new FileStream("data.dat", FileMode.Create);
+            var storage = new IndexedFileStorage(file, 256, true);
+            Context ctx = new Context(typeof(IDatabase), null, storage);
+
+            using (var ws = ctx.OpenWorkspace<IDatabase>(IsolationLevel.Exclusive))
+            {
+                IDatabase database = ws.Data;
+
+                var car = ws.New<ICar>();
+                car.Model = "Renault";
+
+                var person = ws.New<IPerson>();
+                person.Name = "John Connor";
+                person.Car = car;
+
+                database.Person = person;
+
+                Assert.AreEqual("John Connor", database.Person.Name);
+                Assert.AreEqual("Renault", database.Person.Car.Model);
+                Assert.AreEqual(0, ws.ParentNodes(database.Person.Car).Count);
+
+                ws.Commit();
+            }
+
+            using (var ws = ctx.OpenWorkspace<IDatabase>(IsolationLevel.Exclusive))
+            {
+                IDatabase database = ws.Data;
+
+                Assert.AreEqual("John Connor", database.Person.Name);
+                Assert.AreEqual("Renault", database.Person.Car.Model);
+                Assert.AreEqual(1, ws.ParentNodes(database.Person.Car).Count);
+                Assert.AreEqual("John Connor", (ws.ParentNodes(database.Person.Car).ElementAt(0) as IPerson).Name);
+            }
+
+
+            ctx.Dispose();
+            storage.Dispose();
+            file.Close();
+            file = new FileStream("data.dat", FileMode.Open);
+            storage = new IndexedFileStorage(file, 256, true);
+            ctx = new Context(typeof(IDatabase), null, storage);
+            using (var ws = ctx.OpenWorkspace<IDatabase>(IsolationLevel.Exclusive))
+            {
+                IDatabase database = ws.Data;
+
+                Assert.AreEqual("John Connor", database.Person.Name);
+                Assert.AreEqual("Renault", database.Person.Car.Model);
+                Assert.AreEqual(1, ws.ParentNodes(database.Person.Car).Count);
+                Assert.AreEqual("John Connor", (ws.ParentNodes(database.Person.Car).ElementAt(0) as IPerson).Name);
             }
         }
     }

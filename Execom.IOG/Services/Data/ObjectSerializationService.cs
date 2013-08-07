@@ -110,7 +110,15 @@ namespace Execom.IOG.Services.Data
                             values.Add((Guid)ReadObjectFromStream(br), ReadObjectFromStream(br));
                         }
 
-                        Node<Guid, object, EdgeData> node = new Node<Guid, object, EdgeData>(nodeType, ReadObjectFromStream(br), edges, values);
+                        int parentNodesCount = br.ReadInt32();
+                        List<Guid> parentNodes = new List<Guid>(parentNodesCount);
+
+                        for (int i = 0; i < parentNodesCount; i++)
+                        {
+                            parentNodes.Add((Guid)ReadObjectFromStream(br));
+                        }
+
+                        Node<Guid, object, EdgeData> node = new Node<Guid, object, EdgeData>(nodeType, ReadObjectFromStream(br), edges, values, parentNodes);
                         node.Previous = (Guid)ReadObjectFromStream(br);
                         node.Commited = commited;
                         return node;
@@ -249,6 +257,13 @@ namespace Execom.IOG.Services.Data
                     {
                         WriteObjectToStream(scalarValue.Key, bw);
                         WriteObjectToStream(scalarValue.Value, bw);
+                    }
+
+                    bw.Write(node.ParentNodes.Count);
+
+                    foreach (var parentNode in node.ParentNodes)
+                    {
+                        WriteObjectToStream(parentNode, bw);
                     }
 
                     WriteObjectToStream(node.Data, bw);
