@@ -826,28 +826,31 @@ namespace Execom.IOG.Services.Data
         {
             foreach (Edge<Guid, EdgeData> edge in parentNode.Edges.Values)
             {
-                if ((edge.Data as EdgeData).Semantic == EdgeType.Property)
+                if ((edge.Data.Flags & EdgeFlags.StoreParentNodes) == EdgeFlags.StoreParentNodes)
                 {
-                    var childNode = GetNode(edge.ToNodeId, changeSet);
-                    if (childNode != null)
+                    if ((edge.Data as EdgeData).Semantic == EdgeType.Property)
                     {
-                        switch (childNode.NodeType)
+                        var childNode = GetNode(edge.ToNodeId, changeSet);
+                        if (childNode != null)
                         {
-                            case NodeType.Object:
-                                UpdateParentNode(newId, nodeState, delta, edge, childNode, parentNode);
-                                break;
-                            case NodeType.Collection:
-                            case NodeType.Dictionary:
-                                foreach (Edge<Guid, EdgeData> collectionEdge in childNode.Edges.Values)
-                                {
-                                    if (collectionEdge.Data.Semantic.Equals(EdgeType.ListItem))
+                            switch (childNode.NodeType)
+                            {
+                                case NodeType.Object:
+                                    UpdateParentNode(newId, nodeState, delta, edge, childNode, parentNode);
+                                    break;
+                                case NodeType.Collection:
+                                case NodeType.Dictionary:
+                                    foreach (Edge<Guid, EdgeData> collectionEdge in childNode.Edges.Values)
                                     {
-                                        UpdateParentNode(newId, nodeState, delta, collectionEdge, GetNode(collectionEdge.ToNodeId, changeSet), parentNode);
+                                        if (collectionEdge.Data.Semantic.Equals(EdgeType.ListItem))
+                                        {
+                                            UpdateParentNode(newId, nodeState, delta, collectionEdge, GetNode(collectionEdge.ToNodeId, changeSet), parentNode);
+                                        }
                                     }
-                                }
-                                break;
-                            default:
-                                throw new NotImplementedException("NodeType=" + childNode.NodeType);
+                                    break;
+                                default:
+                                    throw new NotImplementedException("NodeType=" + childNode.NodeType);
+                            }
                         }
                     }
                 }

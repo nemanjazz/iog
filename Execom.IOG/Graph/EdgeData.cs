@@ -52,7 +52,12 @@ namespace Execom.IOG.Graph
         /// <summary>
         /// Edge is pointing to permanent version and should not be updated
         /// </summary>
-        Permanent = 1        
+        Permanent = 1,
+
+        /// <summary>
+        /// Parent nodes should be stored for this edge
+        /// </summary>
+        StoreParentNodes = 2
     }
 
     /// <summary>
