@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\ConcurrentAttribute.cs" />
+    <Compile Include="Attributes\StoreParentNodesAttribute.cs" />
     <Compile Include="Attributes\ImmutableAttribute.cs" />
     <Compile Include="Attributes\OverrideAttribute.cs" />
     <Compile Include="Attributes\PrimaryKeyAttribute.cs" />

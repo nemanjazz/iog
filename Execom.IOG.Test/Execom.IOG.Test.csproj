@@ -57,6 +57,7 @@
     <Compile Include="CollectionMultiRemoveTest.cs" />
     <Compile Include="CollectionTest.cs" />
     <Compile Include="ContextTest.cs" />
+    <Compile Include="ParentNodesTest.cs" />
     <Compile Include="DynamicPermanentTest.cs" />
     <Compile Include="ExclusiveLockTest.cs" />
     <Compile Include="GarbageCollectionTest.cs" />

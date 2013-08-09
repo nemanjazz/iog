@@ -161,10 +161,11 @@ namespace Execom.IOG.Services.Data
                     }
                     else
                     {
-                        // Initialize as permanent if it was declared so
-                        bool isPermanentEdge = (edge.Data.Flags & EdgeFlags.Permanent) == EdgeFlags.Permanent;
+                        // Initialize edge flags from values in type definition
+                        bool isPermanent = (edge.Data.Flags & EdgeFlags.Permanent) == EdgeFlags.Permanent;
+                        bool storeParentNodes = (edge.Data.Flags & EdgeFlags.StoreParentNodes) == EdgeFlags.StoreParentNodes;
                         // Initialize reference types with null value
-                        instance.AddEdge(new Edge<Guid, EdgeData>(Constants.NullReferenceNodeId, new EdgeData(EdgeType.Property, isPermanentEdge ? EdgeFlags.Permanent : EdgeFlags.None, memberId)));
+                        instance.AddEdge(new Edge<Guid, EdgeData>(Constants.NullReferenceNodeId, new EdgeData(EdgeType.Property, typesService.CalculateEdgeFlags(isPermanent, storeParentNodes), memberId)));
                     }
                 }
             }

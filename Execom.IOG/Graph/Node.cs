@@ -22,6 +22,7 @@ namespace Execom.IOG.Graph
     using System.Collections.Generic;
     using System.Text;
     using System.Collections.ObjectModel;
+    using System.Collections;
 
     [Serializable]
     public enum NodeType : byte
@@ -59,7 +60,14 @@ namespace Execom.IOG.Graph
         /// List of scalar values sorted by an identifier
         /// </summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1051:DoNotDeclareVisibleInstanceFields", Justification = "Due to performance reasons this remains a field")]
-        public readonly Dictionary<TIdentifier, object> Values;       
+        public readonly Dictionary<TIdentifier, object> Values;
+
+        /// <summary>
+        /// List of parent nodes which have this node defined as property.
+        /// It is used for accessing the parent node because circular references are not allowed.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1051:DoNotDeclareVisibleInstanceFields", Justification = "Due to performance reasons this remains a field")]
+        public readonly List<TIdentifier> ParentNodes;
 
         /// <summary>
         /// Node data
@@ -93,6 +101,7 @@ namespace Execom.IOG.Graph
             Data = data;
             Edges = new SortedList<TEdgeData, Edge<TIdentifier, TEdgeData>>();
             Values = new Dictionary<TIdentifier, object>();
+            ParentNodes = new List<TIdentifier>();
         }
 
         public Node(NodeType nodeType, TNodeData data, IDictionary<TEdgeData, Edge<TIdentifier, TEdgeData>> edgeList)
@@ -101,6 +110,7 @@ namespace Execom.IOG.Graph
             Data = data;
             Edges = new SortedList<TEdgeData, Edge<TIdentifier, TEdgeData>>(edgeList);
             Values = new Dictionary<TIdentifier, object>();
+            ParentNodes = new List<TIdentifier>();
         }
 
         public Node(NodeType nodeType, TNodeData data, IDictionary<TEdgeData, Edge<TIdentifier, TEdgeData>> edgeList, IDictionary<TIdentifier, object> valueList)
@@ -108,8 +118,18 @@ namespace Execom.IOG.Graph
             NodeType = nodeType;
             Data = data;
             Edges = new SortedList<TEdgeData, Edge<TIdentifier, TEdgeData>>(edgeList);
-            Values = new Dictionary<TIdentifier, object>(valueList);            
-        }         
+            Values = new Dictionary<TIdentifier, object>(valueList);
+            ParentNodes = new List<TIdentifier>();
+        }
+
+        public Node(NodeType nodeType, TNodeData data, IDictionary<TEdgeData, Edge<TIdentifier, TEdgeData>> edgeList, IDictionary<TIdentifier, object> valueList, ICollection<TIdentifier> parentNodes)
+        {
+            NodeType = nodeType;
+            Data = data;
+            Edges = new SortedList<TEdgeData, Edge<TIdentifier, TEdgeData>>(edgeList);
+            Values = new Dictionary<TIdentifier, object>(valueList);
+            ParentNodes = new List<TIdentifier>(parentNodes);
+        } 
 
         /// <summary>
         /// Returns edge by given edge data
