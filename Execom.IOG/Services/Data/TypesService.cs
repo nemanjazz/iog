@@ -120,15 +120,15 @@ namespace Execom.IOG.Services.Data
 
                         bool isPrimaryKey = p.GetCustomAttributes(typeof(PrimaryKeyAttribute), false).Length == 1;
 
+                        bool saveParentNodes = p.GetCustomAttributes(typeof(StoreParentNodesAttribute), false).Length == 1;
+
                         // Add the type
                         AddType(p.PropertyType);
                         // Add the member to type 
                         Guid memberId = AddTypeMember(p.Name, p.PropertyType, isPrimaryKey);
 
-                        
-
                         //Add edge to the member
-                        node.AddEdge(new Edge<Guid, EdgeData>(memberId, new EdgeData(EdgeType.Property, isPermanent ? EdgeFlags.Permanent : EdgeFlags.None, memberId)));
+                        node.AddEdge(new Edge<Guid, EdgeData>(memberId, new EdgeData(EdgeType.Property, CalculateEdgeFlags(isPermanent, saveParentNodes), memberId)));
                     }
 
                     Type collectionType=null;
@@ -837,6 +837,26 @@ namespace Execom.IOG.Services.Data
         internal IEnumerable<Guid> GetRegisteredTypes()
         {
             return this.typeIdToTypeMapping.Keys;
+        }
+
+        /// <summary>
+        /// Calculate edge flags from type attribute values.
+        /// </summary>
+        /// <param name="isPermanent"></param>
+        /// <param name="saveParentNodes"></param>
+        /// <returns></returns>
+        public EdgeFlags CalculateEdgeFlags(bool isPermanent, bool saveParentNodes)
+        {
+            EdgeFlags edgeFlags = EdgeFlags.None;
+            if (isPermanent)
+            {
+                edgeFlags |= EdgeFlags.Permanent;
+            }
+            if (saveParentNodes)
+            {
+                edgeFlags |= EdgeFlags.StoreParentNodes;
+            }
+            return edgeFlags;
         }
     }
 }

@@ -623,6 +623,28 @@ namespace Execom.IOG
             {
                 throw new InvalidOperationException("Call was made from the thread which is not allowed by the workspace");
             }
-        }        
+        }
+
+
+        public ICollection<object> ParentNodes(object instance)
+        {
+            var id = Utils.GetItemId(instance);
+            ICollection<object> result = new Collection<object>();
+            var node = nodeProvider.GetNode(id, NodeAccess.Read);
+            if (node != null)
+            {
+                foreach (var parentNode in node.ParentNodes)
+                {
+                    object proxy = null;
+                    if (!immutableProxyMap.TryGetProxy(parentNode, out proxy))
+                    {
+                        proxy = proxyCreatorService.NewObject(runtimeProxyFacade, typesService.GetInstanceTypeId(parentNode), parentNode, true);
+                        immutableProxyMap.AddProxy(parentNode, proxy);
+                    }
+                    result.Add(proxy);
+                }
+            }
+            return result;
+        }
     }
 }
