@@ -12,6 +12,7 @@ using GraphVizWrapper.Queries;
 using GraphVizWrapper.Commands;
 using GraphVizWrapper;
 using System.Diagnostics;
+using Execom.IOG.Services.Data;
 
 
 namespace Execom.IOG.TypesVisualisationApp
@@ -100,21 +101,22 @@ namespace Execom.IOG.TypesVisualisationApp
                 using (FileStream file = new FileStream(filePath, FileMode.Open))
                 using (var storage = new IndexedFileStorage(file, clusterSize, safeWrite, header))
                 {
-                    string rootTypeName = Context.GetRootTypeNameFromStorage(storage);
+                    TypesVisualisationService typesVisualisationService = new TypesVisualisationService(storage);
+                    string rootTypeName = typesVisualisationService.getRootTypeName();
                     if (rbRootType.Checked)
                     {
                         chosenTypeName = rootTypeName;
-                        gvContent = Context.GetGraphVizContentFromStorage(storage);
+                        gvContent = typesVisualisationService.GetGraphVizContentFromStorage(storage);
                         
                     }
                     else
                     {
                         //Opening the dialog for choosing a type.
-                        ChooseTypeForm chooseTypeForm = new ChooseTypeForm(Context.GetTypeVisualisationUnitsFromStorage(storage), rootTypeName);
+                        ChooseTypeForm chooseTypeForm = new ChooseTypeForm(typesVisualisationService.GetTypeVisualUnits(typesVisualisationService.GetRootTypeId()), rootTypeName);
                         if (chooseTypeForm.ShowDialog() == DialogResult.OK)
                         {
                             chosenTypeName = chooseTypeForm.CurrentType.Name;
-                            gvContent = Context.GetGraphVizContentFromStorage(chosenTypeName, storage);
+                            gvContent = typesVisualisationService.GetGraphVizContentFromStorage(chosenTypeName, storage);
                         }
                     }
                 }
