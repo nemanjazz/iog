@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Product Id="6d84c741-0e50-476d-aefa-f0a5c7074f05" 
+           Name="IOG Visualisation" 
+           Language="1033" 
+           Version="1.0.0.0" 
+           Manufacturer="Execom" 
+           UpgradeCode="f16edfe5-8fe0-44b8-b66c-1405b339ff93">
+		<Package InstallerVersion="200" 
+             Compressed="yes" />
+
+		<Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />
+
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="ProgramFilesFolder">
+				<Directory Id="INSTALLLOCATION" Name="IOG Visualisation">
+          
+          <!-- Required DLLs -->
+          <Component Id="RequiredDLLs" Guid="3323B033-BA07-43B7-8102-DD89222B18D1">
+            <File Id="Execom.IOG.dll"
+                  Name="Execom.IOG.dll"
+                  Source="$(var.Execom.IOG.TypesVisualisationApp.TargetDir)\Execom.IOG.dll" />
+            <File Id="GraphVizWrapper.dll"
+                  Name="GraphVizWrapper.dll"
+                  Source="$(var.Execom.IOG.TypesVisualisationApp.TargetDir)\GraphVizWrapper.dll" />
+          </Component>
+          
+          <!-- GraphViz DLLs -->
+          <Directory Id="GraphViz" Name="GraphViz">
+            <Component Id="GraphVizDLLs" Guid="D002F62C-4F8E-405F-BA2B-AC519210A1F8">
+              <File Id="cdt.dll"
+                    Name="cdt.dll"
+                    Source="$(var.Execom.IOG.TypesVisualisationApp.TargetDir)\GraphViz\cdt.dll" />
+              <File Id="cgraph.dll"
+                    Name="cgraph.dll"
+                    Source="$(var.Execom.IOG.TypesVisualisationApp.TargetDir)\GraphViz\cgraph.dll" />
+              <File Id="config6"
+                    Name="config6"
+                    Source="$(var.Execom.IOG.TypesVisualisationApp.TargetDir)\GraphViz\config6" />
+              <File Id="dot.exe"
+                    Name="dot.exe"
+                    Source="$(var.Execom.IOG.TypesVisualisationApp.TargetDir)\GraphViz\dot.exe" />
+              <File Id="freetype6.dll"
+                    Name="freetype6.dll"
+                    Source="$(var.Execom.IOG.TypesVisualisationApp.TargetDir)\GraphViz\freetype6.dll" />
+              <File Id="gvc.dll"
+                    Name="gvc.dll"
+                    Source="$(var.Execom.IOG.TypesVisualisationApp.TargetDir)\GraphViz\gvc.dll" />
+              <File Id="gvplugin_dot_layout.dll"
+                    Name="gvplugin_dot_layout.dll"
+                    Source="$(var.Execom.IOG.TypesVisualisationApp.TargetDir)\GraphViz\gvplugin_dot_layout.dll" />
+              <File Id="gvplugin_pango.dll"
+                    Name="gvplugin_pango.dll"
+                    Source="$(var.Execom.IOG.TypesVisualisationApp.TargetDir)\GraphViz\gvplugin_pango.dll" />
+              <File Id="iconv.dll"
+                    Name="iconv.dll"
+                    Source="$(var.Execom.IOG.TypesVisualisationApp.TargetDir)\GraphViz\iconv.dll" />
+              <File Id="jpeg62.dll"
+                    Name="jpeg62.dll"
+                    Source="$(var.Execom.IOG.TypesVisualisationApp.TargetDir)\GraphViz\jpeg62.dll" />
+              <File Id="libcairo_2.dll"
+                    Name="libcairo-2.dll"
+                    Source="$(var.Execom.IOG.TypesVisualisationApp.TargetDir)\GraphViz\libcairo-2.dll" />
+              <File Id="libexpat.dll"
+                    Name="libexpat.dll"
+                    Source="$(var.Execom.IOG.TypesVisualisationApp.TargetDir)\GraphViz\libexpat.dll" />
+              <File Id="libfontconfig_1.dll"
+                    Name="libfontconfig-1.dll"
+                    Source="$(var.Execom.IOG.TypesVisualisationApp.TargetDir)\GraphViz\libfontconfig-1.dll" />
+              <File Id="libfreetype_6.dll"
+                    Name="libfreetype-6.dll"
+                    Source="$(var.Execom.IOG.TypesVisualisationApp.TargetDir)\GraphViz\libfreetype-6.dll" />
+              <File Id="libglib_2.0_0.dll"
+                    Name="libglib-2.0-0.dll"
+                    Source="$(var.Execom.IOG.TypesVisualisationApp.TargetDir)\GraphViz\libglib-2.0-0.dll" />
+              <File Id="libgmodule_2.0_0.dll"
+                    Name="libgmodule-2.0-0.dll"
+                    Source="$(var.Execom.IOG.TypesVisualisationApp.TargetDir)\GraphViz\libgmodule-2.0-0.dll" />
+              <File Id="libgobject_2.0_0.dll"
+                    Name="libgobject-2.0-0.dll"
+                    Source="$(var.Execom.IOG.TypesVisualisationApp.TargetDir)\GraphViz\libgobject-2.0-0.dll" />
+              <File Id="libgthread_2.0_0.dll"
+                    Name="libgthread-2.0-0.dll"
+                    Source="$(var.Execom.IOG.TypesVisualisationApp.TargetDir)\GraphViz\libgthread-2.0-0.dll" />
+              <File Id="libpango_1.0_0.dll"
+                    Name="libpango-1.0-0.dll"
+                    Source="$(var.Execom.IOG.TypesVisualisationApp.TargetDir)\GraphViz\libpango-1.0-0.dll" />
+              <File Id="libpangocairo_1.0_0.dll"
+                    Name="libpangocairo-1.0-0.dll"
+                    Source="$(var.Execom.IOG.TypesVisualisationApp.TargetDir)\GraphViz\libpangocairo-1.0-0.dll" />
+              <File Id="libpangoft2_1.0_0.dll"
+                    Name="libpangoft2-1.0-0.dll"
+                    Source="$(var.Execom.IOG.TypesVisualisationApp.TargetDir)\GraphViz\libpangoft2-1.0-0.dll" />
+              <File Id="libpangowin32_1.0_0.dll"
+                    Name="libpangowin32-1.0-0.dll"
+                    Source="$(var.Execom.IOG.TypesVisualisationApp.TargetDir)\GraphViz\libpangowin32-1.0-0.dll" />
+              <File Id="libpng12.dll"
+                    Name="libpng12.dll"
+                    Source="$(var.Execom.IOG.TypesVisualisationApp.TargetDir)\GraphViz\libpng12.dll" />
+              <File Id="libpng14_14.dll"
+                    Name="libpng14-14.dll"
+                    Source="$(var.Execom.IOG.TypesVisualisationApp.TargetDir)\GraphViz\libpng14-14.dll" />
+              <File Id="libxml2.dll"
+                    Name="libxml2.dll"
+                    Source="$(var.Execom.IOG.TypesVisualisationApp.TargetDir)\GraphViz\libxml2.dll" />
+              <File Id="ltdl.dll"
+                    Name="ltdl.dll"
+                    Source="$(var.Execom.IOG.TypesVisualisationApp.TargetDir)\GraphViz\ltdl.dll" />
+              <File Id="Pathplan.dll"
+                    Name="Pathplan.dll"
+                    Source="$(var.Execom.IOG.TypesVisualisationApp.TargetDir)\GraphViz\Pathplan.dll" />
+              <File Id="zlib1.dll"
+                    Name="zlib1.dll"
+                    Source="$(var.Execom.IOG.TypesVisualisationApp.TargetDir)\GraphViz\zlib1.dll" />
+            </Component>
+          </Directory>
+          
+          <!-- Application -->
+          <Component Id="VisualisationApp" Guid="AFC1FC6D-9E7B-4173-BA29-40B32476DC53">
+            <File Id="Execom.IOG.TypesVisualisationApp.exe"
+                  Name="Execom.IOG.TypesVisualisationApp.exe" 
+                  Source="$(var.Execom.IOG.TypesVisualisationApp.TargetDir)\Execom.IOG.TypesVisualisationApp.exe"
+                  KeyPath="yes"
+                  Assembly=".net"
+                  AssemblyApplication="Execom.IOG.TypesVisualisationApp.exe"
+                  AssemblyManifest="Execom.IOG.TypesVisualisationApp.exe" />
+          </Component>
+          
+				</Directory>
+			</Directory>
+		</Directory>
+
+		<Feature Id="ProductFeature" Title="Execom.IOG.Visualisation.Setup" Level="1">
+      <ComponentRef Id="RequiredDLLs" />
+      <ComponentRef Id="GraphVizDLLs" />
+      <ComponentRef Id="VisualisationApp" />
+      <ComponentGroupRef Id="Product.Generated" />
+		</Feature>
+	</Product>
+</Wix>
