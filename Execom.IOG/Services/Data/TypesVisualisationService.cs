@@ -53,7 +53,8 @@ namespace Execom.IOG.Services.Data
             var storageProvider = new DirectNodeProviderSafe<Guid, object, EdgeData>(storage, storage is IForceUpdateStorage);
             provider = new CachedReadNodeProvider<Guid, object, EdgeData>(storageProvider, new DirectNodeProviderSafe<Guid, object, EdgeData>(new LimitedMemoryStorageSafe<Guid, object>(Properties.Settings.Default.DataCacheMinimumCount, Properties.Settings.Default.DataCacheMaximumCount), false));
             typesService = new TypesService(provider);
-
+            typesService.InitializeTypeSystem(null);
+            objectSerializationService.TypesService = typesService;
         }
 
         #endregion

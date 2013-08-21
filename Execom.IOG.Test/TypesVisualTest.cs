@@ -59,6 +59,18 @@ namespace Execom.IOG.Test
             Int32 intNumber { get; set; }
         }
 
+        public interface IDataEnumModel2
+        {
+            IObjectWithEnum ObjectWithEnum { get; set; }
+            Int32 intNumber { get; set; }
+        }
+
+        public interface IObjectWithEnum
+        {
+            EnumsEnglish EnumsEnglish { get; set; }
+            Int32 Number { get; set; }
+        }
+
         public enum EnumsEnglish
         {
             FirstValue,
@@ -82,6 +94,67 @@ namespace Execom.IOG.Test
             string content = service.GetGraphVizContentFromStorage(storage);
             System.IO.File.WriteAllText("templateOutputRemote.gv", content);
             Assert.IsTrue(true);
+
+            storage.Dispose();
+            file.Close();
+        }
+
+        [TestMethod]
+        public void TestEnum()
+        {
+            FileStream file = new FileStream("data.dat", FileMode.Create);
+            IndexedFileStorage storage = new IndexedFileStorage(file, 256, true);
+            Context ctx = new Context(typeof(IDataEnumModel2), null, storage);
+
+            using (var ws = ctx.OpenWorkspace<IDataEnumModel2>(IsolationLevel.Exclusive))
+            {
+                IDataEnumModel2 database = ws.Data;
+                ws.Data.ObjectWithEnum = ws.New<IObjectWithEnum>();
+                ws.Data.ObjectWithEnum.EnumsEnglish = EnumsEnglish.FirstValue;
+                ws.Data.ObjectWithEnum.Number = 1;
+                ws.Data.intNumber = 100;
+                ws.Commit();
+            }
+
+            ctx.Dispose();
+            storage.Dispose();
+            file.Close();
+
+            file = new FileStream("data.dat", FileMode.Open);
+            storage = new IndexedFileStorage(file, 256, true);
+            TypesVisualisationService service = new TypesVisualisationService(storage);
+            string content = service.GetGraphVizContentFromStorage(storage);
+            System.IO.File.WriteAllText("TestEnum.gv", content);
+
+            storage.Dispose();
+            file.Close();
+        }
+
+        [TestMethod]
+        public void TestEnumInRoot()
+        {
+            FileStream file = new FileStream("data.dat", FileMode.Create);
+            IndexedFileStorage storage = new IndexedFileStorage(file, 256, true);
+            Context ctx = new Context(typeof(IDataEnumModel), null, storage);
+
+            using (var ws = ctx.OpenWorkspace<IDataEnumModel>(IsolationLevel.Exclusive))
+            {
+                IDataEnumModel database = ws.Data;
+                ws.Data.firstEnum = EnumsEnglish.FirstValue;
+                ws.Data.secondEnum = EnumsSrpski.DrugaVrednost;
+                ws.Data.intNumber = 100;
+                ws.Commit();
+            }
+
+            ctx.Dispose();
+            storage.Dispose();
+            file.Close();
+
+            file = new FileStream("data.dat", FileMode.Open);
+            storage = new IndexedFileStorage(file, 256, true);
+            TypesVisualisationService service = new TypesVisualisationService(storage);
+            string content = service.GetGraphVizContentFromStorage(storage);
+            System.IO.File.WriteAllText("TestEnumInRoot.gv", content);
 
             storage.Dispose();
             file.Close();
