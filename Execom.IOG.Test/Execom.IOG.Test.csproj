@@ -37,13 +37,25 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="MongoDB.Bson">
+      <HintPath>..\Execom.IOG.MongoStorage\dll\MongoDB.Bson.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Driver">
+      <HintPath>..\Execom.IOG.MongoStorage\dll\MongoDB.Driver.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\Execom.IOG.MongoStorage\dll\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDependentAssemblyPaths Condition=" '$(VS100COMNTOOLS)' != '' " Include="$(VS100COMNTOOLS)..\IDE\PrivateAssemblies">
@@ -84,6 +96,10 @@
     <Compile Include="TypesVisualTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Execom.IOG.MongoStorage\Execom.IOG.MongoStorage.csproj">
+      <Project>{A04C4C9D-938A-4902-A619-D0C3D2C87509}</Project>
+      <Name>Execom.IOG.MongoStorage</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Execom.IOG\Execom.IOG.csproj">
       <Project>{C8D49483-4708-40C6-AA0E-4BF1BE704778}</Project>
       <Name>Execom.IOG</Name>
