@@ -26,6 +26,7 @@ namespace Execom.IOG.StorageBenchmark
     using System.Diagnostics;
     using System.Collections.ObjectModel;
     using Execom.IOG.Services.Data;
+    using Execom.IOG.MongoStorage;
 
     /// <summary>
     /// Console application to test the various storages performance
@@ -41,10 +42,11 @@ namespace Execom.IOG.StorageBenchmark
         static void Main(string[] args)
         {
             startMemory = GC.GetTotalMemory(false);           
-            var storage = new IndexedFileStorage(new FileStream("data.dat", FileMode.OpenOrCreate), 256, true);
+            //var storage = new IndexedFileStorage(new FileStream("data.dat", FileMode.OpenOrCreate), 256, true);
+            var storage = new MongoStorage("mongodb://ws014:27017/test", "test", "test");
             storage.Serializer = new ObjectSerializationService();
             TestStorage(storage, maxElements);
-            storage.Dispose();
+            //storage.Dispose();
             //TestStorage(new MemoryStorage<Guid, object>(), maxElements);
         }
 
