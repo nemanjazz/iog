@@ -63,28 +63,73 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BankingTest.cs" />
-    <Compile Include="BPlusTreeTest.cs" />
-    <Compile Include="ChangeNotificationTest.cs" />
-    <Compile Include="CollectionMultiRemoveTest.cs" />
-    <Compile Include="CollectionTest.cs" />
-    <Compile Include="ContextTest.cs" />
-    <Compile Include="ParentNodesTest.cs" />
-    <Compile Include="DynamicPermanentTest.cs" />
-    <Compile Include="ExclusiveLockTest.cs" />
-    <Compile Include="GarbageCollectionTest.cs" />
-    <Compile Include="SnapshotExclusiveTest.cs" />
-    <Compile Include="ThreadingTest.cs" />
-    <Compile Include="ImmutableBankingTest.cs" />
-    <Compile Include="DictionaryMultiInsertTest.cs" />
-    <Compile Include="IndexedFileTest.cs" />
-    <Compile Include="PermanentTest.cs" />
+    <Compile Include="BankingTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BPlusTreeTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ChangeNotificationTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CollectionMultiRemoveTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CollectionTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ContextTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DictionaryMultiInsertTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DynamicPermanentTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ExclusiveLockTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GarbageCollectionTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ImmutableBankingTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="IndexedFileTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ParentNodesTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PermanentTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RevisionIdTest.cs" />
-    <Compile Include="RollbackAndUpdateTest.cs" />
-    <Compile Include="SnapshotIsolationTest.cs" />
-    <Compile Include="SnapshotIsolationTestCollection.cs" />
-    <Compile Include="SpawningTest.cs" />
+    <Compile Include="RevisionIdTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="RollbackAndUpdateTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SnapshotExclusiveTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SnapshotIsolationTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SnapshotIsolationTestCollection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SpawningTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ThreadingTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TypesVisualTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="UseCases\CollectionDataModelTest.cs" />
     <Compile Include="UseCases\ScalarSetCollectionDataModel.cs" />
     <Compile Include="UseCases\DictionaryDataModelTest.cs" />
@@ -93,7 +138,6 @@
     <Compile Include="UseCases\PlainDatamodelTest.cs" />
     <Compile Include="UseCases\RecursiveDataModelTest.cs" />
     <Compile Include="UseCases\ScalarCollectionDataModel.cs" />
-    <Compile Include="TypesVisualTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Execom.IOG.MongoStorage\Execom.IOG.MongoStorage.csproj">

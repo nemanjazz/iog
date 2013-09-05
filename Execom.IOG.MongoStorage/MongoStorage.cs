@@ -166,8 +166,10 @@ namespace Execom.IOG.MongoStorage
         public System.Collections.IEnumerable ListKeys()
         {   
             List<Guid> listKeys = new List<Guid>();
-            foreach (var item in collection.FindAll())            
-                listKeys.Add((Guid)item.GetElement("_id").Value);  
+            foreach (var item in collection.FindAll())
+            {
+                listKeys.Add((Guid)item.GetElement("_id").Value);
+            }
             return listKeys;
         }
 
