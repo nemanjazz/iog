@@ -149,7 +149,6 @@ namespace Execom.IOG.MongoStorage
         public bool Contains(Guid key)
         {
             var query = Query.EQ("_id", key);
-            BsonDocument old = collection.FindOne(query);
 
             if (collection.FindOne(query) != null)
             {
