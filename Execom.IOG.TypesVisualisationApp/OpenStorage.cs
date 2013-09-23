@@ -146,6 +146,35 @@ namespace Execom.IOG.TypesVisualisationApp
             }
             else if (parent.storageType.Equals("cassandra"))
             {
+                if (tbCluster.Text.Equals(""))
+                {
+                    lblCluster.ForeColor = Color.Red;
+                    isTextFieldsFilled = false;
+                    lblStatus.Text = "Please fill in the required information.";
+                }
+                else
+                    lblCluster.ForeColor = Color.Black;
+
+                if (tbKeyspace.Text.Equals(""))
+                {
+                    lblKeyspace.ForeColor = Color.Red;
+                    isTextFieldsFilled = false;
+                    lblStatus.Text = "Please fill in the required information.";
+                }
+                else
+                    lblKeyspace.ForeColor = Color.Black;
+
+                if (tbColumnFamily.Text.Equals(""))
+                {
+                    lblColumnFamily.ForeColor = Color.Red;
+                    isTextFieldsFilled = false;
+                    lblStatus.Text = "Please fill in the required information.";
+                }
+                else
+                    lblColumnFamily.ForeColor = Color.Black;
+
+                if (!isTextFieldsFilled)
+                    return false;
                 parent.setAquilesStorageInformation(tbCluster.Text,
                                                     tbKeyspace.Text,
                                                     tbColumnFamily.Text);
