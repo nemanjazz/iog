@@ -20,10 +20,24 @@ namespace Execom.IOG.TypesVisualisationApp
     {
         private static readonly string defaultHeaderValue = "IdxFs";
 
+        // Indexed file storage parameters
         private string filePath;
         private int clusterSize;
         private bool safeWrite;
         private string header;
+
+        // Mongo storage parameters
+        private string connParams;
+        private string collParams;
+        private string dbParams;
+        
+        // Aquiles storage parameters
+        private string cluster;
+        private string keyspace;
+        private string columnFamily;
+
+        private IKeyValueStorage<Guid, object> storage;
+        public string storageType = "index";
 
         public MainForm()
         {
@@ -59,18 +73,56 @@ namespace Execom.IOG.TypesVisualisationApp
             tbHeader.Text = this.header;
         }
 
-        private void btnOpenStorage_Click(object sender, EventArgs e)
+        public void setMongoStorageInformation(string connParams, string dbParams, string collParams)
         {
+            this.connParams = connParams;
+            this.dbParams = dbParams;
+            this.collParams = collParams;
+            tbConn.Text = connParams;
+            tbDb.Text = dbParams;
+            tbColl.Text = collParams;            
+        }
 
+        public void setAquilesStorageInformation(string cluster, string keyspace, string columnFamily)
+        {
+            this.cluster = cluster;
+            this.keyspace = keyspace;
+            this.columnFamily = columnFamily;
+            tbCluster.Text = cluster;
+            tbKeyspace.Text = keyspace;
+            tbColumnFamily.Text = columnFamily;
+        }
+
+        private void btnOpenStorage_Click(object sender, EventArgs e)
+        {            
             var dialog = new OpenStorage(this);
-            if (dialog.ShowDialog() == DialogResult.OK && filePath != null)
+            if (dialog.ShowDialog() == DialogResult.OK)
             {
                 gbCurrentStorage.Visible = true;
+                if (storageType.Equals("index"))
+                {
+                    mongoPanel.Visible = false;
+                    indexPanel.Visible = true;
+                    cassPanel.Visible = false;
+                }
+                if (storageType.Equals("mongo"))
+                {
+                    indexPanel.Visible = false;
+                    mongoPanel.Visible = true;
+                    cassPanel.Visible = false;
+                } 
+                if (storageType.Equals("cassandra"))
+                {
+                    indexPanel.Visible = false;
+                    mongoPanel.Visible = false;
+                    cassPanel.Visible = true;
+                }
                 lblNoStorage.Visible = false;
                 btnCloseStorage.Enabled = true;
                 btnOpenStorage.Enabled = false;
                 tbStatus.Text = "";
                 panStatus.Visible = false;
+                helpProvider1.SetHelpKeyword(this, "Visualization");
             }
 
         }
@@ -81,7 +133,7 @@ namespace Execom.IOG.TypesVisualisationApp
             lblNoStorage.Visible = true;
             btnCloseStorage.Enabled = false;
             btnOpenStorage.Enabled = true;
-            this.filePath = null;
+            storageType = "index";
             tbStatus.Text = "";
             panStatus.Visible = false;
         }
@@ -91,39 +143,51 @@ namespace Execom.IOG.TypesVisualisationApp
             disableControls();
             this.Cursor = Cursors.WaitCursor;
             Application.DoEvents();
-            
+
             try
             {
                 string gvContent = null;
                 string chosenTypeName = null;
                 //Opening the storage
-                using (FileStream file = new FileStream(filePath, FileMode.Open))
-                using (var storage = new IndexedFileStorage(file, clusterSize, safeWrite, header))
+                if (storageType.Equals("index"))
                 {
-                    string rootTypeName = Context.GetRootTypeNameFromStorage(storage);
-                    if (rbRootType.Checked)
+                    FileStream file = new FileStream(filePath, FileMode.Open);
+                    storage = new IndexedFileStorage(file, clusterSize, safeWrite, header);
+                }
+                if (storageType.Equals("mongo"))
+                {
+                    storage = new MongoStorage.MongoStorage(connParams, dbParams, collParams);
+                }
+                if (storageType.Equals("cassandra"))
+                {
+                    storage = new AquilesStorage.AquilesStorage(cluster, keyspace, columnFamily);
+                }
+
+                string rootTypeName = Context.GetRootTypeNameFromStorage(storage);
+
+                if (rbRootType.Checked)
+                {
+                    chosenTypeName = rootTypeName;
+                    gvContent = Context.GetGraphVizContentFromStorage(storage);
+                }
+                else
+                {
+                    //Opening the dialog for choosing a type.
+                    ChooseTypeForm chooseTypeForm = new ChooseTypeForm(Context.GetTypeVisualisationUnitsFromStorage(storage), rootTypeName);
+                    if (chooseTypeForm.ShowDialog() == DialogResult.OK)
                     {
-                        chosenTypeName = rootTypeName;
-                        gvContent = Context.GetGraphVizContentFromStorage(storage);
-                        
-                    }
-                    else
-                    {
-                        //Opening the dialog for choosing a type.
-                        ChooseTypeForm chooseTypeForm = new ChooseTypeForm(Context.GetTypeVisualisationUnitsFromStorage(storage), rootTypeName);
-                        if (chooseTypeForm.ShowDialog() == DialogResult.OK)
-                        {
-                            chosenTypeName = chooseTypeForm.CurrentType.Name;
-                            gvContent = Context.GetGraphVizContentFromStorage(chosenTypeName, storage);
-                        }
+                        chosenTypeName = chooseTypeForm.CurrentType.Name;
+                        gvContent = Context.GetGraphVizContentFromStorage(chosenTypeName, storage);
                     }
                 }
+
                 if (gvContent != null)
                 {
                     this.Cursor = Cursors.WaitCursor;
                     Application.DoEvents();
 
                     //creating the filename for the image.
+                    filePath = "..\\..\\img\\";
                     string fileLocation = filePath.Substring(0, filePath.LastIndexOf("\\") + 1);
                     string fileName = Path.GetFileNameWithoutExtension(filePath) + "_" + chosenTypeName;
                     string pngExtension = ".png";
@@ -138,18 +202,15 @@ namespace Execom.IOG.TypesVisualisationApp
                     //Calling dot.exe to generate the image.
                     var getStartProcessQuery = new GetStartProcessQuery();
                     var getProcessStartInfoQuery = new GetProcessStartInfoQuery();
-                    var registerLayoutPluginCommand = new RegisterLayoutPluginCommand(getProcessStartInfoQuery,getStartProcessQuery);
+                    var registerLayoutPluginCommand = new RegisterLayoutPluginCommand(getProcessStartInfoQuery, getStartProcessQuery);
                     var wrapper = new GraphVizWrapper.GraphVizWrapper(getStartProcessQuery, getProcessStartInfoQuery, registerLayoutPluginCommand);
 
                     byte[] output = wrapper.GenerateGraph(gvContent, Enums.GraphReturnType.Png);
                     File.WriteAllBytes(newFilePathPng, output);
-                    
-     
+
                     panStatus.Visible = true;
                     tbStatus.Text = newFilePathPng;
-
                 }
-                
             }
             catch (FileNotFoundException ex)
             {
@@ -167,14 +228,14 @@ namespace Execom.IOG.TypesVisualisationApp
             this.Cursor = Cursors.Default;
             Application.DoEvents();
 
-            }
+        }
 
         private void btnShow_Click(object sender, EventArgs e)
         {
-            if(!(tbStatus.Text.Equals("")))
+            if (!(tbStatus.Text.Equals("")))
                 Process.Start(tbStatus.Text);
 
-            
+
         }
 
         private void disableControls()
@@ -196,10 +257,6 @@ namespace Execom.IOG.TypesVisualisationApp
             btnCloseStorage.Enabled = true;
 
         }
-
-
-        
-
-        }
+    }
     
 }

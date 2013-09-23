@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.listBoxParents = new System.Windows.Forms.ListBox();
             this.btnOk = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
@@ -38,6 +39,9 @@
             this.lblCurrentType = new System.Windows.Forms.Label();
             this.btnBackToRoot = new System.Windows.Forms.Button();
             this.btnSearchType = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.helpProvider1 = new System.Windows.Forms.HelpProvider();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.SuspendLayout();
             // 
             // listBoxParents
@@ -48,6 +52,7 @@
             this.listBoxParents.Name = "listBoxParents";
             this.listBoxParents.Size = new System.Drawing.Size(161, 199);
             this.listBoxParents.TabIndex = 0;
+            this.toolTip1.SetToolTip(this.listBoxParents, "List of the parent types \r\nfor the current type");
             this.listBoxParents.KeyDown += new System.Windows.Forms.KeyEventHandler(this.listboxTypes_KeyDown);
             this.listBoxParents.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listboxTypes_MouseDoubleClick);
             // 
@@ -58,6 +63,7 @@
             this.btnOk.Size = new System.Drawing.Size(80, 23);
             this.btnOk.TabIndex = 2;
             this.btnOk.Text = "Create Image";
+            this.toolTip1.SetToolTip(this.btnOk, "Create image");
             this.btnOk.UseVisualStyleBackColor = true;
             this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
             // 
@@ -69,6 +75,7 @@
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 3;
             this.btnCancel.Text = "Cancel";
+            this.toolTip1.SetToolTip(this.btnCancel, "Cancel");
             this.btnCancel.UseVisualStyleBackColor = true;
             // 
             // lblParents
@@ -88,6 +95,7 @@
             this.listBoxChildren.Name = "listBoxChildren";
             this.listBoxChildren.Size = new System.Drawing.Size(161, 199);
             this.listBoxChildren.TabIndex = 4;
+            this.toolTip1.SetToolTip(this.listBoxChildren, "List of the children types\r\nfor the current type");
             this.listBoxChildren.KeyDown += new System.Windows.Forms.KeyEventHandler(this.listboxTypes_KeyDown);
             this.listBoxChildren.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listboxTypes_MouseDoubleClick);
             // 
@@ -127,6 +135,7 @@
             this.btnBackToRoot.Size = new System.Drawing.Size(78, 23);
             this.btnBackToRoot.TabIndex = 0;
             this.btnBackToRoot.Text = "Back to root";
+            this.toolTip1.SetToolTip(this.btnBackToRoot, "Set root type as \r\nthe current type");
             this.btnBackToRoot.UseVisualStyleBackColor = true;
             this.btnBackToRoot.Click += new System.EventHandler(this.btnBackToRoot_Click);
             // 
@@ -137,14 +146,29 @@
             this.btnSearchType.Size = new System.Drawing.Size(78, 23);
             this.btnSearchType.TabIndex = 1;
             this.btnSearchType.Text = "Search type";
+            this.toolTip1.SetToolTip(this.btnSearchType, "Search for a specific type");
             this.btnSearchType.UseVisualStyleBackColor = true;
             this.btnSearchType.Click += new System.EventHandler(this.btnSearchType_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(9, 257);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(90, 13);
+            this.label1.TabIndex = 8;
+            this.label1.Text = "Press \'F1\' for help";
+            // 
+            // helpProvider1
+            // 
+            this.helpProvider1.HelpNamespace = "..\\..\\help\\help.chm";
             // 
             // ChooseTypeForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(529, 279);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.btnSearchType);
             this.Controls.Add(this.btnBackToRoot);
             this.Controls.Add(this.lblCurrentType);
@@ -155,7 +179,10 @@
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.listBoxParents);
+            this.helpProvider1.SetHelpKeyword(this, "Opening storage file");
+            this.helpProvider1.SetHelpNavigator(this, System.Windows.Forms.HelpNavigator.KeywordIndex);
             this.Name = "ChooseTypeForm";
+            this.helpProvider1.SetShowHelp(this, true);
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Choose Type";
             this.ResumeLayout(false);
@@ -175,5 +202,8 @@
         private System.Windows.Forms.Label lblCurrentType;
         private System.Windows.Forms.Button btnBackToRoot;
         private System.Windows.Forms.Button btnSearchType;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.HelpProvider helpProvider1;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }

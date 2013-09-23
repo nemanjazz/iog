@@ -26,6 +26,7 @@ namespace Execom.IOG.TypesVisualisationApp
         public ChooseTypeForm(IDictionary<String, TypeVisualUnit> units, string rootTypeName)
         {
             InitializeComponent();
+            this.helpProvider1.SetHelpKeyword(this, "Creating image file");
             this.rootTypeName = rootTypeName;
             this.units = new Dictionary<String, TypeVisualUnit>(units);
             TypeVisualUtilities.GetChildrenAndParentsDictonaryOfTypes(this.units, out childrenDictionary, out parentsDictionary);

@@ -1,0 +1,33 @@
+[OPTIONS]
+Title=Untitled
+Compiled file=
+Error log file=
+Default topic=
+Language=0x0000 <unknown>
+Full text search stop list file=
+Contents file=Contents.hhc
+Index file=Index.hhk
+Binary TOC=No
+Auto index=No
+Binary Index=Yes
+Create CHI file=No
+Full-text search=Yes
+Display compile progress=Yes
+Display compile notes=Yes
+Default window=
+Enhanced decompilation=No
+Flat=No
+Compatibility=1.1 or later
+
+[ALIAS]
+IDH_vis=topics\vis.htm
+IDH_using=topics\using.htm
+IDH_introduction=topics\introduction.htm
+IDH_Contents=Contents.hhc
+
+[MAP]
+#define IDH_vis 4
+#define IDH_using 3
+#define IDH_introduction 2
+#define IDH_Contents 1
+

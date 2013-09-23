@@ -106,6 +106,9 @@
     <EmbeddedResource Include="SearchTypeDialog.resx">
       <DependentUpon>SearchTypeDialog.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -117,6 +120,14 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Execom.IOG.AquilesStorage\Execom.IOG.AquilesStorage.csproj">
+      <Project>{EF8A12A9-C12E-49A3-ACF6-A570EBB5C8B9}</Project>
+      <Name>Execom.IOG.AquilesStorage</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Execom.IOG.MongoStorage\Execom.IOG.MongoStorage.csproj">
+      <Project>{A04C4C9D-938A-4902-A619-D0C3D2C87509}</Project>
+      <Name>Execom.IOG.MongoStorage</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Execom.IOG\Execom.IOG.csproj">
       <Project>{C8D49483-4708-40C6-AA0E-4BF1BE704778}</Project>
       <Name>Execom.IOG</Name>
