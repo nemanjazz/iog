@@ -270,7 +270,7 @@
             this.tbConnectionParams.Name = "tbConnectionParams";
             this.tbConnectionParams.Size = new System.Drawing.Size(233, 20);
             this.tbConnectionParams.TabIndex = 10;
-            this.tbConnectionParams.Text = "mongodb://ws014:27017/test";
+            this.tbConnectionParams.Text = "mongodb://localhost";
             this.toolTip1.SetToolTip(this.tbConnectionParams, "Input connection parameters");
             // 
             // lblConn
