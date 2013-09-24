@@ -189,7 +189,7 @@ namespace Execom.IOG.TypesVisualisationApp
                     //creating the filename for the image.
                     filePath = "..\\..\\img\\";
                     string fileLocation = filePath.Substring(0, filePath.LastIndexOf("\\") + 1);
-                    string fileName = Path.GetFileNameWithoutExtension(filePath) + "_" + chosenTypeName;
+                    string fileName = Path.GetFileNameWithoutExtension(filePath) + storageType + "_" + chosenTypeName;
                     string pngExtension = ".png";
                     string newFilePathPng = fileLocation + fileName + pngExtension;
                     int occurance = 0;
