@@ -71,7 +71,7 @@ namespace Execom.IOG.MongoDB
         {
             // Initialize IOG storage in the MongoDB storage 
             // with connection parameters
-            var storage = new MongoStorage.MongoStorage("mongodb://ws014:27017/test", "test", "test");
+            var storage = new MongoStorage.MongoStorage("mongodb://localhost", "test", "test");
             storage.Clear();
 
             // Create an IOG context in memory which has the data model of IDataModel type
